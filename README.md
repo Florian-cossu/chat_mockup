@@ -6,7 +6,19 @@ Check this [codepen live demo](https://codepen.io/Florian-Cossu/pen/zYXbxXg)
 | -------------------------------- | --------------------------------- |
 | ![image](misc/large_preview.png) | ![image](misc/mobile_preview.png) |
 
-## JSON Input data example
+## JSON input data structure
+
+The json file contains several properties:*
+1. contact: set it's value to any contact name you want displayed inside the top bar
+2. pic_url: If you want to have a picture displayed as the contact profile picture you can just add an URL to the picture file as the value
+3. messages contains multiple properties.
+    - index: index that starts from 0,
+        - in/out property. It defines whether the messages enclosed in the array were sent or received,
+            - The elements of the array are defined as follow (migth be subjected to changes):
+                - message: value can be any message you want
+                - emoji: let you define whether someone reacted to the message using an emoji which will be displayed
+
+### example
 ```
 {
     "contact": "Florian",
