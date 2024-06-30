@@ -1,0 +1,276 @@
+:root {
+	--accent-color: #489ed9;
+	--accent-color-interact: #62b7d9;
+	--box-shadow: 0rem 0rem 1.5rem 0.8rem rgba(0, 0, 0, 0.2);
+	--box-shadow-small: 0rem 0rem 0.75rem 0.4rem rgba(0, 0, 0, 0.2);
+	--light-border: solid 0.05rem #00000050;
+	--transition-main: all 0.3s ease-in-out;
+	--light-grey: #00000020;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	height: 100vh;
+	outline: none;
+	font-family: sans-serif;
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0rem 0rem 1.5rem 0.8rem rgba(0, 0, 0, 0.2);
+	background: linear-gradient(149deg,
+			rgba(87, 113, 254, 1) 0%,
+			rgba(35, 158, 231, 1) 50%,
+			rgba(137, 211, 196, 1) 100%);
+}
+
+.container {
+	height: 80%;
+	width: 60%;
+	display: flex;
+	flex-flow: column;
+	border: solid #00000010;
+	border-radius: 0.5rem;
+	background-color: white;
+	overflow: hidden;
+	box-shadow: var(--box-shadow);
+}
+
+@media only screen and (max-width: 768px) {
+	.container {
+		width: 90%;
+		height: 90%;
+	}
+}
+
+.profilePic>img {
+	width: 2rem;
+	border-radius: 1rem;
+}
+
+.topBar {
+	align-items: center;
+	border-bottom: var(--light-border);
+	box-shadow: var(--box-shadow-small);
+}
+
+.topBar>p {
+	margin: 0;
+}
+
+.actionBar,
+.topBar {
+	display: flex;
+	flex-flow: row nowrap;
+	gap: 0.5rem;
+	padding: 0.8rem;
+	justify-content: center;
+	align-items: center;
+}
+
+.actionBar {
+	border-top: var(--light-border);
+}
+
+.contactAction {
+	flex-grow: 1;
+	display: flex;
+	flex-flow: row nowrap;
+	gap: 0.4rem;
+	justify-content: flex-end;
+}
+
+.contactAction>svg {
+	cursor: pointer;
+	transition: var(--transition-main);
+	padding: 0.6rem;
+	width: 1rem;
+	margin: 0;
+	justify-content: center;
+	align-items: center;
+	border-radius: 1rem;
+}
+
+.contactAction>svg:hover {
+	background-color: var(--light-grey);
+}
+
+.conversationBody {
+	display: flex;
+	flex-grow: 1;
+	flex-flow: column;
+	padding: 1rem;
+	gap: 0.5rem;
+	padding-top: 1.5rem;
+	overflow-y: auto;
+}
+
+input[type="text"] {
+	border-radius: 1rem;
+	border: 0;
+	background-color: var(--light-grey);
+	color: #00000070;
+	padding-left: 0.7rem;
+	flex-grow: 1;
+	height: 80%;
+	transition: var(--transition-main);
+}
+
+input[type="text"]:hover {
+	background-color: #bfbfbf;
+}
+
+input[type="text"]:focus {
+	border: 0;
+	outline: none;
+}
+
+.send,
+.attach,
+.screenshot {
+	display: flex;
+	padding: 0;
+	align-items: center;
+	justify-content: center;
+	width: 2rem;
+	height: 2rem;
+	border-radius: 100%;
+	border: 0;
+	cursor: pointer;
+	transition: var(--transition-main);
+}
+
+.send {
+	background-color: var(--accent-color);
+}
+
+.attach,
+.screenshot {
+	background-color: var(--light-grey);
+}
+
+.screenshot>svg {
+	width: 1.2rem;
+}
+
+.attach>svg {
+	width: 1.5rem;
+}
+
+.send>svg {
+	width: 1.2rem;
+}
+
+.attach:hover {
+	background-color: #bfbfbf;
+}
+
+.send:hover {
+	background-color: var(--accent-color-interact);
+}
+
+.screenshot:hover {
+	background-color: #5ddb51ad;
+}
+
+.profilePic {
+	width: 1rem;
+	height: 1rem;
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	justify-content: center;
+	background-color: green;
+	padding: 0.5rem;
+	margin: 0;
+	border-radius: 1rem;
+	overflow: hidden;
+}
+
+.profilePic>p {
+	margin: 0;
+	font-weight: bold;
+	font-size: 1.2rem;
+	color: white;
+}
+
+.inBubble,
+.outBubble {
+	max-width: 80%;
+	width: fit-content;
+	padding: 1rem;
+	border-radius: 1rem;
+	flex-grow: 0;
+	position: relative;
+}
+
+.inBubble>p,
+.outBubble>p {
+	margin: 0;
+	padding: 0;
+}
+
+.inBubble,
+.inBubble.messageStackFirst.messageStackLast {
+	background-color: var(--accent-color-interact);
+	border-top-left-radius: 0.15rem;
+}
+
+.outBubble,
+.outBubble.messageStackFirst.messageStackLast {
+	background-color: var(--light-grey);
+	border-bottom-right-radius: 0.15rem;
+	align-self: flex-end;
+}
+
+.outBubble.messageStackFirst:not(.outBubble.messageStackFirst.messageStackLast),
+.inBubble.messageStackFirst:not(.inBubble.messageStackFirst.messageStackLast) {
+	border-bottom-left-radius: 0.15rem;
+}
+
+.inBubble.messageStackFirst:not(.inBubble.messageStackFirst.messageStackLast) {
+	border-bottom-right-radius: 0.15rem;
+}
+
+.outBubble.messageStackBetween,
+.inBubble.messageStackBetween {
+	border-radius: 0.15rem;
+}
+
+.outBubble.messageStackLast:not(.outBubble.messageStackFirst.messageStackLast),
+.inBubble.messageStackLast:not(.inBubble.messageStackFirst.messageStackLast) {
+	border-top-left-radius: 0.15rem;
+	border-top-right-radius: 0.15rem;
+}
+
+.emojiReaction {
+	background-color: var(--accent-color-interact);
+	cursor: pointer;
+	width: 1.2rem;
+	height: 1.2rem;
+	line-height: 1rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 100%;
+	border: solid 0.25rem white;
+	transition: var(--transition-main);
+	font-size: 0.8rem;
+}
+
+.emojiReaction:hover {
+	background-color: #dfdfdf;
+}
+
+.inBubble>.emojiReaction {
+	position: absolute;
+	bottom: -0.7rem;
+	right: -0.7rem;
+}
+
+.outBubble>.emojiReaction {
+	position: absolute;
+	bottom: -0.7rem;
+	left: -0.7rem;
+}
