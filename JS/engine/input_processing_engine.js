@@ -58,7 +58,6 @@ function updatedJsonParse(json) {
 					}
 
 					// Check if there's a responds_to property
-					// Check if there's a responds_to property
 					if (messageData.responds_to) {
 						let [
 							respondsToIndex,
@@ -78,8 +77,8 @@ function updatedJsonParse(json) {
 						let messageMentionText = document.createElement("div");
 						messageMentionText.innerHTML =
 							(respondsToDirection == "in"
-								? `<p><span class="mentionnedSender">${json.contact}:</span> `
-								: "You: ") +
+								? `<p><span class="mentionnedSender">${json.contact}:</span><br/>`
+								: "You:<br/>") +
 							referencedMessageText +
 							"</p>";
 
