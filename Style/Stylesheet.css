@@ -161,7 +161,7 @@ input[type="text"]:focus {
 }
 
 .attach > svg {
-	width: 1.25rem;
+	width: 1.2rem;
 }
 
 .send > svg > g > polygon, .send > svg > g > line, .send > svg > g{
@@ -169,7 +169,7 @@ input[type="text"]:focus {
 }
 
 .send > svg {
-	width: 1.2rem;
+	width: 1rem;
 }
 
 .attach:hover {
@@ -205,6 +205,7 @@ input[type="text"]:focus {
 	color: white;
 }
 
+/* Conversation feed styling */
 .inBubble,
 .outBubble {
 	max-width: 80%;
