@@ -17,6 +17,10 @@ The json file contains several properties:*
             - The elements of the array are defined as follow (migth be subjected to changes):
                 - message: value can be any message you want
                 - emoji: let you define whether someone reacted to the message using an emoji which will be displayed
+                - (NEW) responds_to: lets you define if the message responds to another in order to display it accordingly. It is an array:
+                    - First is the messages property index
+                    - next comes the direction
+                    - finally the index of the message (starts from 0)
 
 ### example
 ```
@@ -44,10 +48,11 @@ The json file contains several properties:*
                 },
                 {
                     "message": "Good thx so much. Here's my chat mockup I've been working on. Check it out",
-                    "emoji": null
+                    "emoji": null,
+                    "responds_to": [0, "in", 1]
                 },
                 {
-                    "message": "Do you like this large version preview export?",
+                    "message": "Do you like this mobile version preview export?",
                     "emoji": "👍"
                 }
             ]

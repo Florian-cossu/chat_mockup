@@ -19,10 +19,13 @@ body {
 	align-items: center;
 	justify-content: center;
 	box-shadow: 0rem 0rem 1.5rem 0.8rem rgba(0, 0, 0, 0.2);
-	background: linear-gradient(149deg,
-			rgba(87, 113, 254, 1) 0%,
-			rgba(35, 158, 231, 1) 50%,
-			rgba(137, 211, 196, 1) 100%);
+	background: linear-gradient(
+		149deg,
+		rgba(87, 113, 254, 1) 0%,
+		rgba(35, 158, 231, 1) 50%,
+		rgba(137, 211, 196, 1) 100%
+	);
+	gap: 1rem;
 }
 
 .container {
@@ -44,7 +47,7 @@ body {
 	}
 }
 
-.profilePic>img {
+.profilePic > img {
 	width: 2rem;
 	border-radius: 1rem;
 }
@@ -55,7 +58,7 @@ body {
 	box-shadow: var(--box-shadow-small);
 }
 
-.topBar>p {
+.topBar > p {
 	margin: 0;
 }
 
@@ -81,7 +84,7 @@ body {
 	justify-content: flex-end;
 }
 
-.contactAction>svg {
+.contactAction > svg {
 	cursor: pointer;
 	transition: var(--transition-main);
 	padding: 0.6rem;
@@ -92,7 +95,7 @@ body {
 	border-radius: 1rem;
 }
 
-.contactAction>svg:hover {
+.contactAction > svg:hover {
 	background-color: var(--light-grey);
 }
 
@@ -150,15 +153,15 @@ input[type="text"]:focus {
 	background-color: var(--light-grey);
 }
 
-.screenshot>svg {
+.screenshot > svg {
 	width: 1.2rem;
 }
 
-.attach>svg {
+.attach > svg {
 	width: 1.5rem;
 }
 
-.send>svg {
+.send > svg {
 	width: 1.2rem;
 }
 
@@ -188,7 +191,7 @@ input[type="text"]:focus {
 	overflow: hidden;
 }
 
-.profilePic>p {
+.profilePic > p {
 	margin: 0;
 	font-weight: bold;
 	font-size: 1.2rem;
@@ -205,8 +208,8 @@ input[type="text"]:focus {
 	position: relative;
 }
 
-.inBubble>p,
-.outBubble>p {
+.inBubble > p,
+.outBubble > p {
 	margin: 0;
 	padding: 0;
 }
@@ -263,14 +266,50 @@ input[type="text"]:focus {
 	background-color: #dfdfdf;
 }
 
-.inBubble>.emojiReaction {
+.inBubble > .emojiReaction {
 	position: absolute;
 	bottom: -0.7rem;
 	right: -0.7rem;
 }
 
-.outBubble>.emojiReaction {
+.outBubble > .emojiReaction {
 	position: absolute;
 	bottom: -0.7rem;
 	left: -0.7rem;
+}
+
+/* Responded to message mention styling */
+.inBubble > a,
+.outBubble > a {
+	text-decoration: none;
+	color: unset;
+}
+
+.messageMention {
+	background-color: #ffffff6e;
+	padding: 0.5rem;
+	border-left: solid 0.3rem white;
+	margin-bottom: 0.5rem;
+}
+
+.inBubble:not([class*=" "]) > a > .messageMention {
+	border-top-right-radius: 0.5rem;
+}
+
+.outBubble:not([class*=" "]) > a > .messageMention {
+	border-top-left-radius: 0.5rem;
+}
+
+.messageStackFirst > a > .messageMention {
+	border-top-right-radius: 0.5rem;
+	border-top-left-radius: 0.5rem;
+}
+
+.messageMention > div > p {
+	margin: 0;
+}
+
+span.mentionnedSender {
+	font-weight: bold;
+	filter: opacity(0.6);
 }

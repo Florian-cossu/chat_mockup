@@ -36,6 +36,7 @@ function inputMessage() {
 function updatedJsonParse(json) {
 	let body = document.querySelector(".conversationBody");
 	body.innerHTML = "";
+	let messageMap = [];
 
 	for (let [key, value] of Object.entries(json.messages)) {
 		for (let direction of ["in", "out"]) {
@@ -43,6 +44,8 @@ function updatedJsonParse(json) {
 				value[direction].forEach((messageData, index) => {
 					let bubble = document.createElement("div");
 					bubble.classList.add(`${direction}Bubble`);
+					bubble.setAttribute("id", `${key}${direction}${index}`);
+					messageMap[key + direction + index] = messageData.message;
 
 					if (index === 0) {
 						bubble.classList.add("messageStackFirst");
@@ -52,6 +55,37 @@ function updatedJsonParse(json) {
 					}
 					if (index > 0 && index < value[direction].length - 1) {
 						bubble.classList.add("messageStackBetween");
+					}
+
+					// Check if there's a responds_to property
+					// Check if there's a responds_to property
+					if (messageData.responds_to) {
+						let [
+							respondsToIndex,
+							respondsToDirection,
+							respondsToMessageIndex
+						] = messageData.responds_to;
+						let referencedMessageId = `${respondsToIndex}${respondsToDirection}${respondsToMessageIndex}`;
+
+						let link = document.createElement("a");
+						link.href = `#${referencedMessageId}`;
+						link.setAttribute("id", `${key}${direction}${index}`);
+
+						let messageMention = document.createElement("div");
+						messageMention.classList.add("messageMention");
+
+						let referencedMessageText = messageMap[referencedMessageId];
+						let messageMentionText = document.createElement("div");
+						messageMentionText.innerHTML =
+							(respondsToDirection == "in"
+								? `<p><span class="mentionnedSender">${json.contact}:</span> `
+								: "You: ") +
+							referencedMessageText +
+							"</p>";
+
+						messageMention.appendChild(messageMentionText);
+						link.appendChild(messageMention);
+						bubble.appendChild(link);
 					}
 
 					let p = document.createElement("p");
