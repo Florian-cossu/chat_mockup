@@ -319,5 +319,4 @@ input[type="text"]:focus {
 
 span.mentionnedSender {
 	font-weight: bold;
-	filter: opacity(0.6);
 }

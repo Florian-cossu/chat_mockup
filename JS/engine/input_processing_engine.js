@@ -1,6 +1,5 @@
 // Function that takes the input data and modifies the top bar of the GUI
 function inputMessage() {
-	setRandomTheme();
 	let data = document.getElementById("inputData").value;
 	let profilePic = document.querySelector("#profilePicLetter");
 	let contact = document.querySelector("#contactName");
@@ -30,6 +29,7 @@ function inputMessage() {
 		updatedJsonParse(jsonData);
 	}
 	document.getElementById("inputData").value = "";
+	setRandomTheme();
 }
 
 // Function to parse the input JSON and generate the chat bubbles interface
@@ -74,6 +74,7 @@ function updatedJsonParse(json) {
 						messageMention.classList.add("messageMention");
 
 						let referencedMessageText = messageMap[referencedMessageId];
+						referencedMessageText = (referencedMessageText.length > 30 ? referencedMessageText.substr(0,30)+"..." : referencedMessageText );
 						let messageMentionText = document.createElement("div");
 						messageMentionText.innerHTML =
 							(respondsToDirection == "in"
