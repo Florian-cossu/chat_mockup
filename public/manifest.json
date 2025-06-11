@@ -1,0 +1,15 @@
+{
+    "id": "1",
+    "start_url": "/",
+    "name": "Chat Mockup",
+    "short_name": "Chat Mockup",
+    "description":
+      "Chat mockup is a small project to provide a way to share \"screenshots\" of a conversation allowing people to share conversations without having to worry about anonymisation.",
+    "prefer_related_applications": true,
+    "lang": "en",
+    "dir": "ltr",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#000000",
+    "scope": "/"
+  }
