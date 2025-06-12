@@ -11,5 +11,45 @@
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#000000",
-    "scope": "/"
+    "scope": "/",
+    "icons": [
+      {
+        "src": "/icons/icon-any-96x96.png",
+        "sizes": "96x96",
+        "type": "image/png",
+        "purpose": "any"
+      },
+      {
+        "src": "/icons/icon-any-144x144.png",
+        "sizes": "144x144",
+        "type": "image/png",
+        "purpose": "any"
+      },
+      {
+        "src": "/icons/icon-96x96.png",
+        "sizes": "96x96",
+        "type": "image/png",
+        "purpose": "maskable"
+      },
+      {
+        "src": "/icons/icon-any-144x144.png",
+        "sizes": "144x144",
+        "type": "image/png",
+        "purpose": "maskable"
+      }
+    ],
+    "screenshots": [
+      {
+        "src": "/screenshots/large_preview.png",
+        "sizes": "1920x1080",
+        "type": "image/png",
+        "form_factor": "wide"
+      },
+      {
+        "src": "/screenshots/mobile_preview.png",
+        "sizes": "505x873",
+        "type": "image/png",
+        "form_factor": "narrow"
+      }
+    ]
   }
