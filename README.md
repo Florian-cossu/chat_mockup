@@ -14,7 +14,6 @@
   </a>
 
   <h3 align="center">Chat Mockup</h3>
-
   <p align="center">
     A small next JS project to let people create an anonymised conversation screenshot freely for illustration or quoting purpose.
   </p>
