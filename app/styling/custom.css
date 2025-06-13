@@ -1,0 +1,5 @@
+.transitions {
+  transition: all;
+  transition-duration: .25s;
+  transition-timing-function: ease-in-out;
+}
