@@ -1,5 +1,24 @@
 .transitions {
   transition: all;
-  transition-duration: .25s;
+  transition-duration: .3s;
   transition-timing-function: ease-in-out;
+}
+
+#windowButtons > span > .windowAction {
+  opacity: 0;
+}
+
+#windowButtons:hover > span > .windowAction {
+  opacity: 1;
+}
+
+#messagingActions > span {
+  display: flex;
+  border-radius: calc(infinity * 1px);
+  width: calc(var(--spacing) * 7);
+  height: calc(var(--spacing) * 7);
+  padding: calc(var(--spacing) * 1);
+  cursor: pointer;
+  justify-content: center !important;
+  align-items: center !important;
 }

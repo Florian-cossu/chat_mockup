@@ -9,13 +9,13 @@ export default function ChatMockup() {
         <CardHeader className="flex flex-row m-0 p-0 h-fit items-center justify-end  border-b-1">
           <div className="flex flex-row gap-1.5 p-2" id="windowButtons">
             <span id="maximise" className="flex rounded-full w-4 h-4 bg-emerald-400 hover:bg-emerald-300 cursor-pointer transitions items-center justify-center">
-              <ChevronsUpDown className="w-3 h-3 rotate-45" />
+              <ChevronsUpDown className="w-3 h-3 rotate-45 windowAction transitions" />
             </span>
             <span id="minimise" className="flex rounded-full w-4 h-4 bg-amber-400 hover:bg-amber-300 cursor-pointer transitions items-center justify-center">
-              <Minus className="w-3 h-3" />
+              <Minus className="w-3 h-3 windowAction transitions" />
             </span>
             <span id="close" className="flex rounded-full w-4 h-4 bg-red-500 hover:bg-red-400 cursor-pointer transitions items-center justify-center">
-              <Plus className="w-3 h-3 rotate-45" />
+              <Plus className="w-3 h-3 rotate-45 windowAction transitions" />
             </span>
           </div>
         </CardHeader>
@@ -32,17 +32,17 @@ export default function ChatMockup() {
           />
           <p>Card Content</p>
         </CardContent>
-        <CardFooter className="flex flex-row m-0 p-2 h-fit items-center justify-between border-t-1">
-          <input type="text" className="bg-accent rounded-full"></input>
+        <CardFooter className="flex flex-row m-0 p-2 h-fit items-center justify-between border-t-1 gap-2">
+          <input type="text" className="bg-accent rounded-full grow h-7 px-3"></input>
           <div id="messagingActions" className="flex flex-row gap-2">
-            <span id="photo" className="bg-transparent hover:bg-accent rounded-full p-1 cursor-pointer">
-              <Camera className="w-6 h-6" />
+            <span id="photo" className="bg-transparent hover:bg-accent transitions">
+              <Camera className="w-5 h-5 justify-self-center" />
             </span>
-            <span id="attachment" className="bg-transparent hover:bg-accent rounded-full p-1 cursor-pointer">
-              <Paperclip className="w-6 h-6" />
+            <span id="attachment" className="bg-transparent hover:bg-accent transitions">
+              <Paperclip className="w-5 h-5 justify-self-center" />
             </span>
-            <span id="send" className="bg-sky-400 hover:bg-accent rounded-full p-1 cursor-pointer">
-              <Send className="w-6 h-6" />
+            <span id="send" className="bg-sky-500 hover:bg-sky-400 transitions">
+              <Send className="w-4 h-4 justify-self-center" />
             </span>
           </div>
         </CardFooter>
