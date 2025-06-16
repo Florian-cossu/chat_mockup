@@ -22,3 +22,9 @@
   justify-content: center !important;
   align-items: center !important;
 }
+
+/* Custom styling enforced on Lucide Icons */
+/* Battery Icon */
+#mobileStatusBarRight > svg.lucide.lucide-battery-medium.w-4.h-4 > path:nth-child(3), #mobileStatusBarRight > svg.lucide.lucide-battery-medium.w-4.h-4 > path:nth-child(1) {
+    stroke: #00ff3c;
+}

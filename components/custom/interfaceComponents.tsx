@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import ProfilePictureSelector from "./ProfilePictureSelector";
 import {
   Video,
@@ -18,7 +18,7 @@ import {
   Plus,
   Wifi,
   Signal,
-  BatteryMedium
+  BatteryMedium,
 } from "lucide-react";
 import {
   Popover,
@@ -35,7 +35,6 @@ import {
 import { usePreferences } from "@/contexts/preferencesContext";
 import { CardHeader } from "@components/ui/card";
 import { cn } from "@/app/functions/functions";
-import { Sign } from "crypto";
 
 export function ScreenshotCardHeader() {
   const { layout } = usePreferences();
@@ -93,21 +92,14 @@ export function ScreenshotCardHeader() {
           )}
           id="mobileStatusBar"
         >
-            <div
-                id="mobileStatusBarLeft"
-            >
-                <p className="text-sm">
-                    {formattedDate}
-                </p>
-            </div>
-            <div
-                className="flex flex-row gap-2"
-                id="mobileStatusBarRight"
-            >
-                <Wifi className="w-4 h-4"/>
-                <Signal className="w-4 h-4"/>
-                <BatteryMedium className="w-4 h-4"/>
-            </div>
+          <div id="mobileStatusBarLeft">
+            <p className="text-xs">{formattedDate}</p>
+          </div>
+          <div className="flex flex-row gap-2" id="mobileStatusBarRight">
+            <Wifi className="w-4 h-4" />
+            <Signal className="w-4 h-4" />
+            <BatteryMedium className="w-4 h-4" />
+          </div>
         </div>
         {/* Menu bar with contact info */}
         <TopMenuBar />
@@ -117,9 +109,20 @@ export function ScreenshotCardHeader() {
 }
 
 export function TopMenuBar() {
-  const { contactName, layout, setLayout } = usePreferences();
-
+  const { contactName, setContactName, layout, setLayout } = usePreferences();
   const layouts = ["auto", "mobile", "desktop"];
+
+  // hacky section to resize the input text because it cannot be updated dynamycally otherwise
+  const spanRef = useRef<HTMLSpanElement | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  useLayoutEffect(() => {
+    if (spanRef.current && inputRef.current) {
+      const spanWidth = spanRef.current.offsetWidth;
+      inputRef.current.style.width = `${spanWidth + 2}px`;
+    }
+  }, [contactName]);
+  //
 
   function returnIcon(type: string) {
     switch (type) {
@@ -149,12 +152,28 @@ export function TopMenuBar() {
       <div className="justify-between grow !w-full flex flex-row px-2 py-1">
         <div
           id="contactDetails"
-          className="flex flex-row justify-between items-center gap-2"
+          className="flex flex-row !min-w-fit items-center gap-2"
         >
           <div id="contactProfilePic">
             <ProfilePictureSelector />
           </div>
-          <div id="contactName">{contactName}</div>
+          <div className="relative">
+            <input
+              ref={inputRef}
+              type="text"
+              value={contactName}
+              placeholder="Contact Name"
+              className="text-foreground bg-transparent border-none outline-none transitions focus:underline hover:underline hover:decoration-sky-400"
+              onChange={(e) => setContactName(e.target.value)}
+            />
+            {/* Hidden span for measuring text width */}
+            <span
+              ref={spanRef}
+              className="invisible absolute top-0 left-0 whitespace-pre font-inherit"
+            >
+              {contactName || "Contact Name"}
+            </span>
+          </div>
         </div>
         <div
           id="contactQuickActions"

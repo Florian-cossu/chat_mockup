@@ -1,17 +1,16 @@
 "use client"
 
 // import Image from "next/image";
-import { Minus, ChevronsUpDown, Plus, Camera, Paperclip, Send } from "lucide-react";
-import { Card, CardContent, CardFooter, CardHeader } from "@components/ui/card";
-import { useState } from "react";
+import { Camera, Paperclip, Send } from "lucide-react";
+import { Card, CardContent, CardFooter } from "@components/ui/card";
 import MobileGestureBar from "@/components/custom/mobileComponents";
 import { ScreenshotCardHeader } from "@/components/custom/interfaceComponents";
+import { Github } from "lucide-react";
+import ChatMockupIcon from "@icons/icon-monochrome.svg"
 
 export default function ChatMockup() {
-  const [layout, setLayout] = useState<"mobile"|"desktop"|"auto">("auto");
-
   return (
-    <div className="flex flex-column m-0 p-0 w-[100vw] h-[100vh] items-center justify-items-center justify-center">
+    <div className="flex flex-col m-0 p-0 w-[100vw] h-[100vh] items-center justify-items-center justify-center gap-3">
       <Card className="w-4/5 m-0 p-0">
         <ScreenshotCardHeader />
         <CardContent className="p-0 m-0">
@@ -38,6 +37,13 @@ export default function ChatMockup() {
           <MobileGestureBar />
         </CardFooter>
       </Card>
+      <div id="watermark" className="bottom-1 flex flex-row items-center text-xs">
+        <p className="flex flex-row items-center">Generated with <a href="" className="flex flex-row ml-2 items-center">
+          &rarr; Chat Mockup
+          <ChatMockupIcon style={{width: ".8rem", height: ".8rem", marginLeft: ".5rem"}}/>
+          </a>
+        </p>
+      </div>
     </div>
   );
 }

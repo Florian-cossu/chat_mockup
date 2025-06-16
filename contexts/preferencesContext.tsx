@@ -25,10 +25,6 @@ export const PreferencesProvider = ({ children }: { children: ReactNode }) => {
   const [profilePicture, setProfilePicture] = useState<string | null>(null);
   const [layout, setLayout] = useState<"mobile"|"desktop"|"auto">("auto");
 
-  useEffect (() => {
-    console.log("Selected layout: ", layout);
-  }, [layout]);
-
   return (
     <PreferenceContext.Provider
       value={{

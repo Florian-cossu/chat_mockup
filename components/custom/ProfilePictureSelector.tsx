@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback } from "react";
 import { Pencil } from "lucide-react";
-import Cropper from "react-easy-crop";
+import Cropper, { Area } from "react-easy-crop";
 import {
   Dialog,
   DialogContent,
@@ -18,13 +18,12 @@ import { usePreferences } from "@/contexts/preferencesContext";
 export default function ProfilePictureSelector() {
   const { contactName, profilePicture, setProfilePicture } = usePreferences();
 
-  const [imageSrc, setImageSrc] = useState<string | null>(null);
-  const [showCropper, setShowCropper] = useState(false);
-  const [showChoice, setShowChoice] = useState(false);
+  const [showCropper, setShowCropper] = useState<boolean>(false);
+  const [showChoice, setShowChoice] = useState<boolean>(false);
 
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState<number>(1);
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
   const [rawImage, setRawImage] = useState<string | null>(null);
 
   const [urlInput, setUrlInput] = useState<string>("");
@@ -38,59 +37,58 @@ export default function ProfilePictureSelector() {
     return `hsl(${h}, 70%, 70%)`;
   }, [contactName]);
 
-const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-  if (e.target.files && e.target.files.length > 0) {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.addEventListener("load", () => {
-      setRawImage(reader.result as string);
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.addEventListener("load", () => {
+        setRawImage(reader.result as string);
+        setShowCropper(true);
+      });
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleUrlSubmit = () => {
+    if (urlInput) {
+      setRawImage(urlInput);
+      setShowChoice(false);
       setShowCropper(true);
-    });
-    reader.readAsDataURL(file);
-  }
-};
+    }
+  };
 
-const handleUrlSubmit = () => {
-  if (urlInput) {
-    setRawImage(urlInput);
-    setShowChoice(false);
-    setShowCropper(true);
-  }
-};
-
-
-  const onCropComplete = useCallback((_: any, croppedAreaPixels: any) => {
+  const onCropComplete = useCallback((_: Area, croppedAreaPixels: Area) => {
     setCroppedAreaPixels(croppedAreaPixels);
   }, []);
 
   const getCroppedImage = async () => {
-  if (!rawImage) return;
+    if (!rawImage || !croppedAreaPixels) return;
 
-  const image = new Image();
-  image.src = rawImage;
-  await new Promise((resolve) => (image.onload = resolve));
+    const image = new Image();
+    image.src = rawImage;
+    await new Promise((resolve) => (image.onload = resolve));
 
-  const canvas = document.createElement("canvas");
-  canvas.width = croppedAreaPixels.width;
-  canvas.height = croppedAreaPixels.height;
-  const ctx = canvas.getContext("2d")!;
-  ctx.drawImage(
-    image,
-    croppedAreaPixels.x,
-    croppedAreaPixels.y,
-    croppedAreaPixels.width,
-    croppedAreaPixels.height,
-    0,
-    0,
-    croppedAreaPixels.width,
-    croppedAreaPixels.height
-  );
-  const croppedDataUrl = canvas.toDataURL("image/png");
-  setProfilePicture(croppedDataUrl);
-  setShowCropper(false);
-  setRawImage(null);
-};
-
+    const canvas = document.createElement("canvas");
+    canvas.width = croppedAreaPixels.width;
+    canvas.height = croppedAreaPixels.height;
+    const ctx = canvas.getContext("2d")!;
+    ctx.drawImage(
+      image,
+      croppedAreaPixels.x,
+      croppedAreaPixels.y,
+      croppedAreaPixels.width,
+      croppedAreaPixels.height,
+      0,
+      0,
+      croppedAreaPixels.width,
+      croppedAreaPixels.height
+    );
+    const croppedDataUrl = canvas.toDataURL("image/png");
+    setProfilePicture(croppedDataUrl);
+    setShowCropper(false);
+    setShowChoice(false);
+    setRawImage(null);
+  };
 
   const profilePicSize = "w-8 h-8";
 
@@ -163,7 +161,7 @@ const handleUrlSubmit = () => {
           </DialogHeader>
           <div className="relative w-full h-96 bg-muted rounded">
             <Cropper
-              image={rawImage as string} 
+              image={rawImage as string}
               crop={crop}
               zoom={zoom}
               aspect={1}
@@ -183,10 +181,16 @@ const handleUrlSubmit = () => {
             />
           </div>
           <DialogFooter className="mt-4">
-            <Button variant="outline" onClick={() => setShowCropper(false)}>
+            <Button
+              variant="outline"
+              onClick={() => setShowCropper(false)}
+              className="cursor-pointer"
+            >
               Annuler
             </Button>
-            <Button onClick={getCroppedImage}>Crop and save</Button>
+            <Button onClick={getCroppedImage} className="cursor-pointer">
+              Crop and save
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
