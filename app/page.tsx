@@ -9,10 +9,11 @@ import { usePreferences } from "@/contexts/preferencesContext";
 import ChatMockupIcon from "@icons/icon-monochrome.svg";
 import { useIsMobile } from "@/hooks/isMobile";
 import { cn } from "@/lib/utils";
+import ChatConversationView from "@/components/custom/chatConversationView";
 
 export default function ChatMockup() {
 
-  const { color1, color2, layout } = usePreferences();
+  const { color1, color2, layout, conversation } = usePreferences();
   const isMobile = useIsMobile();
 
   function twStyleConstructor (layout: string) {
@@ -41,10 +42,10 @@ export default function ChatMockup() {
           <ScreenshotCardHeader />
           <CardContent className="p-0 m-0 grow">
             <div className="flex flex-row gap-1.5 p-2" id="topActionBar"></div>
-            <span className="bg-gradient-to-br from-[red] to-[blue] w-10 h-10">
-              h
-            </span>
-            <p>Card Content</p>
+            <ChatConversationView
+              conversation={conversation}
+              color1={color1}
+            />
           </CardContent>
           <CardFooter className="flex flex-col m-0 p-2 h-fit items-center justify-between border-t-1 gap-3">
             <div className="flex flex-row w-full gap-2 items-center justify-between">

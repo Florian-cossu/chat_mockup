@@ -1,3 +1,13 @@
+:root {
+  --green-stroke: #18ae3b;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --green-stroke: #00ff3c;
+  }
+}
+
 .transitions {
   transition: all .3s ease-in-out;
 }
@@ -24,5 +34,5 @@
 /* Custom styling enforced on Lucide Icons */
 /* Battery Icon */
 #mobileStatusBarRight > svg.lucide.lucide-battery-medium.w-4.h-4 > path:nth-child(3), #mobileStatusBarRight > svg.lucide.lucide-battery-medium.w-4.h-4 > path:nth-child(1) {
-    stroke: #00ff3c;
+    stroke: var(--green-stroke);
 }
