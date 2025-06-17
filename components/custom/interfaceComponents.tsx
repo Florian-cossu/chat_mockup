@@ -19,6 +19,7 @@ import {
   Wifi,
   Signal,
   BatteryMedium,
+  MessageSquareDot,
 } from "lucide-react";
 import {
   Popover,
@@ -99,8 +100,9 @@ export function ScreenshotCardHeader() {
           )}
           id="mobileStatusBar"
         >
-          <div id="mobileStatusBarLeft">
+          <div className="flex flex-row gap-2" id="mobileStatusBarLeft">
             <p className="text-xs">{formattedDate}</p>
+            <MessageSquareDot className="w-4 h-4" />
           </div>
           <div className="flex flex-row gap-2" id="mobileStatusBarRight">
             <Wifi className="w-4 h-4" />

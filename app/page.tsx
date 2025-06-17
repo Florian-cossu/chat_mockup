@@ -24,7 +24,7 @@ export default function ChatMockup() {
         case "auto":
           return "w-4/5 h-[80vh] md:w-4/5";
         case "mobile":
-          return "w-[25vw] h-[85vh]";
+          return "w-[420px] h-[800px]";
         case "desktop":
           return "w-4/5";
       }

@@ -16,7 +16,10 @@ export async function GET(req: NextRequest) {
     }
 
     // Only allow jpg/jpeg extensions — case-insensitive
-    if (!url.toLowerCase().endsWith(".jpg") && !url.toLowerCase().endsWith(".jpeg")) {
+    if (
+      !url.toLowerCase().endsWith(".jpg") &&
+      !url.toLowerCase().endsWith(".jpeg")
+    ) {
       return new Response("Only .jpg/.jpeg files allowed", { status: 400 });
     }
 
@@ -64,8 +67,8 @@ export async function GET(req: NextRequest) {
         "Cache-Control": "public, max-age=60",
       },
     });
-  } catch (err) {
-    if ((err as any).name === "AbortError") {
+  } catch (err: unknown) {
+    if (err instanceof Error && err.name === "AbortError") {
       return new Response("Upstream request timed out", { status: 504 });
     }
     console.error("Proxy error:", err);
