@@ -1,0 +1,28 @@
+.transitions {
+  transition: all .3s ease-in-out;
+}
+
+#windowButtons > span > .windowAction {
+  opacity: 0;
+}
+
+#windowButtons:hover > span > .windowAction {
+  opacity: 1;
+}
+
+#messagingActions > span {
+  display: flex;
+  border-radius: calc(infinity * 1px);
+  width: calc(var(--spacing) * 7);
+  height: calc(var(--spacing) * 7);
+  padding: calc(var(--spacing) * 1);
+  cursor: pointer;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+/* Custom styling enforced on Lucide Icons */
+/* Battery Icon */
+#mobileStatusBarRight > svg.lucide.lucide-battery-medium.w-4.h-4 > path:nth-child(3), #mobileStatusBarRight > svg.lucide.lucide-battery-medium.w-4.h-4 > path:nth-child(1) {
+    stroke: #00ff3c;
+}

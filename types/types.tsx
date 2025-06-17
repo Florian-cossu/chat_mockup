@@ -1,0 +1,1 @@
+export type LayoutType = "mobile" | "desktop" | "auto";
