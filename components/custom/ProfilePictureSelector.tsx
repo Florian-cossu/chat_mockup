@@ -51,13 +51,23 @@ export default function ProfilePictureSelector() {
     }
   };
 
-  const handleUrlSubmit = () => {
-    if (urlInput) {
-      setRawImage(urlInput);
+  const handleUrlSubmit = async () => {
+  if (urlInput) {
+    try {
+      const proxyUrl = `/api/proxy-image?url=${encodeURIComponent(urlInput)}`;
+      const res = await fetch(proxyUrl);
+      const blob = await res.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      setRawImage(blobUrl);
       setShowChoice(false);
       setShowCropper(true);
+    } catch (err) {
+      alert("Failed to fetch or sanitize image.");
+      console.error(err);
     }
-  };
+  }
+};
+
 
   const onCropComplete = useCallback((_: Area, croppedAreaPixels: Area) => {
     setCroppedAreaPixels(croppedAreaPixels);

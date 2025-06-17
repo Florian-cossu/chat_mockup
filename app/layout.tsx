@@ -12,10 +12,21 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <meta name="theme-color" content="#ffffff" />
+        {/*Favicon*/}
+        <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+
+        {/* Fallback favicon */}
+        <link
+          rel="icon"
+          href="/icons/icon-192x192.png"
+          type="image/png"
+          sizes="192x192"
+        />
+
+        {/* PWA properties */}
         <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#ffffff" />
         <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
-        <link rel="icon" href="/icons/icon-any.svg" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="Chat mockup" />
