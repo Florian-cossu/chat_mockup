@@ -9,11 +9,16 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="#">
+  <a href="https://fcossu.chat-mockup.vercel.app/">
     <img src="public/icons/icon-any.svg" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Chat Mockup</h3>
+  <p align="center">
+  <a href="https://fcossudev.chat-mockup.vercel.app/">Dev preview</a> 
+  &middot; 
+  <a href="https://fcossu.chat-mockup.vercel.app/">Production link</a>
+  </p>
   <p align="center">
     A small next JS project to let people create an anonymised conversation screenshot freely for illustration or quoting purpose.
   </p>
@@ -31,7 +36,7 @@
 - [Installation](#installation)
   - [Clone the repo](#clone-the-repo)
   - [Run project](#run-project)
-  - [PWA](#pwa)
+  <!-- - [PWA](#pwa) -->
 - [Contributing](#contributing)
 - [Roadmap](#roadmap)
 - [Acknowledgments](#acknowledgments)
@@ -82,14 +87,12 @@ git clone https://github.com/Florian-cossu/chat_mockup.git
 Make sure to install all the project dependancies:
 
 ```bash
-npm install
+pnpm install
 ```
 
 Once you're done you can start the project from the project's directory:
 
 ```bash
-npm run dev
-# or
 pnpm dev
 ```
 
@@ -97,7 +100,7 @@ pnpm dev
 
 <!-- PWA SECTION -->
 
-### PWA
+<!-- ### PWA
 
 This app is a PWA built with `next-pwa` (see [`app/manifest.json`](app/manifest.json)).
 
@@ -111,7 +114,7 @@ This app is a PWA built with `next-pwa` (see [`app/manifest.json`](app/manifest.
 > **Unregister the service worker:**
 > DevTools → `Application` tab → `Service Workers` → Click "Unregister"
 >
-> If you skip this, the browser might serve **stale cached content**, causing unexpected bugs.
+> If you skip this, the browser might serve **stale cached content**, causing unexpected bugs. -->
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -131,15 +134,15 @@ When contributing to the Chat Mockup project, always start by creating a branch 
 
 - A short, capitalized identifier for the feature (spaces replaced by underscores)
 
-- **For example if Florian cossu is working on Airtable stats**
+- **For example if Florian cossu is working on migrating the project to Next JS**
 
 ```
-FCOSSU-Airtable_stats
+FCOSSU-Screenshot
 ```
 
 2. Create your Feature Branch (`git checkout -b dev/FCOSSU-Nextjs_migration`)
 3. Commit your Changes (`git commit -m 'Add some new feature'`)
-4. Push to the **`dev`** Branch (`git push origin/dev dev/FCOSSU-Airtable_stats`)
+4. Push to the **`dev`** Branch (`git push origin/dev dev/FCOSSU-Nextjs_migration`)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -160,8 +163,6 @@ Here is a list of some of the sources used for the readme creation:
 - [Best-README-Template by othneildrew](https://github.com/othneildrew/Best-README-Template)
 - [Shields IO](https://shields.io/badges/static-badge)
 - [Simple icons](https://simpleicons.org/)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

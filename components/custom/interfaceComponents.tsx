@@ -37,6 +37,7 @@ import { usePreferences } from "@/contexts/preferencesContext";
 import { CardHeader } from "@components/ui/card";
 import { cn } from "@/app/functions/functions";
 import ColorPicker from "./colorPicker";
+import { useIsMobile } from "@/hooks/isMobile";
 
 export function ScreenshotCardHeader() {
   const { layout } = usePreferences();
@@ -156,6 +157,8 @@ export function TopMenuBar() {
     }
   }
 
+  const isMobile = useIsMobile();
+
   return (
     <>
       <div className="justify-between grow !w-full flex flex-row p-2">
@@ -196,50 +199,50 @@ export function TopMenuBar() {
               <EllipsisVertical className="w-5 h-5 cursor-pointer" />
             </PopoverTrigger>
             <PopoverContent className="text-xs">
-              <h3>Display</h3>
-              <div
-                id="layout"
-                className="flex flex-row cursor-pointer p-3 rounded items-center"
-              >
-                <ImageUpscale className="mr-2 w-5 h-5" />
-                <Select value={layout} onValueChange={setLayout}>
-                  <SelectTrigger className="w-[280px] cursor-pointer text-foreground rounded-sm">
-                    <SelectValue
-                      placeholder={
-                        layout ? returnIcon(layout) : "Select layout"
-                      }
-                    />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {layouts.map((value) => (
-                      <SelectItem key={value} value={value}>
-                        {returnIcon(value)}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <hr/>
+              {!isMobile && (
+                <>
+                  <h3>Display</h3>
+                  <div
+                    id="layout"
+                    className="flex flex-row cursor-pointer p-3 rounded items-center"
+                  >
+                    <ImageUpscale className="mr-2 w-5 h-5" />
+                    <Select value={layout} onValueChange={setLayout}>
+                      <SelectTrigger className="w-[280px] cursor-pointer text-foreground rounded-sm">
+                        <SelectValue
+                          placeholder={
+                            layout ? returnIcon(layout) : "Select layout"
+                          }
+                        />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {layouts.map((value) => (
+                          <SelectItem key={value} value={value}>
+                            {returnIcon(value)}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <hr />
+                </>
+              )}
               Theming
               <div
                 id="color1"
                 className="flex flex-row cursor-pointer p-3 rounded items-center"
               >
                 <p>1.</p>
-                <ColorPicker
-                  index={1}
-                />
+                <ColorPicker index={1} />
               </div>
               <div
                 id="color2"
                 className="flex flex-row cursor-pointer p-3 rounded items-center"
               >
                 <p>2.</p>
-                <ColorPicker
-                  index={2}
-                />
+                <ColorPicker index={2} />
               </div>
-              <hr className="my-2"/>
+              <hr className="my-2" />
               <h3>About</h3>
               <div
                 id="githubLink"

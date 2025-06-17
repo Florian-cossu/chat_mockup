@@ -12,21 +12,20 @@ import { cn } from "@/lib/utils";
 
 export default function ChatMockup() {
 
-  const { color1, color2, layout, setLayout } = usePreferences();
+  const { color1, color2, layout } = usePreferences();
   const isMobile = useIsMobile();
 
   function twStyleConstructor (layout: string) {
     if (isMobile) {
-      setLayout("mobile");
-      return "h-[85vh]";
+      return "h-[85dvh]";
     } else {
       switch (layout) {
         case "auto":
-          return "w-4/5 h-[80vh] md:w-4/5";
+          return "w-4/5 h-[80dvh] md:w-4/5";
         case "mobile":
           return "w-[420px] h-[800px]";
         case "desktop":
-          return "w-4/5";
+          return "w-4/5 h-[80dvh]";
       }
     }
   }
@@ -35,7 +34,7 @@ export default function ChatMockup() {
   return (
     <body
       className="antialiased bg-background flex flex-col"
-      style={{ backgroundImage: `linear-gradient(to bottom right, ${color1}, ${color2})` }}
+      style={{ backgroundImage: `linear-gradient(to bottom right, ${color1}, ${color2})`, height: isMobile ? "100dvh" : "unset", fontSize: isMobile ? ".8rem" : "unset" }}
     >
       <div className="flex flex-col m-0 p-0 w-[100vw] h-[100vh] items-center justify-items-center justify-center">
         <Card className={cn(`w-4/5 m-0 p-0 mb-6 gap-0`, twStyleConstructor(layout))}>
