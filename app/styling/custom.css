@@ -1,7 +1,5 @@
 .transitions {
-  transition: all;
-  transition-duration: .3s;
-  transition-timing-function: ease-in-out;
+  transition: all .3s ease-in-out;
 }
 
 #windowButtons > span > .windowAction {

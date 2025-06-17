@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useLayoutEffect, useRef } from "react";
+import React, { useLayoutEffect, useRef, useState, useEffect } from "react";
 import ProfilePictureSelector from "./ProfilePictureSelector";
 import {
   Video,
@@ -35,6 +35,7 @@ import {
 import { usePreferences } from "@/contexts/preferencesContext";
 import { CardHeader } from "@components/ui/card";
 import { cn } from "@/app/functions/functions";
+import ColorPicker from "./colorPicker";
 
 export function ScreenshotCardHeader() {
   const { layout } = usePreferences();
@@ -42,8 +43,14 @@ export function ScreenshotCardHeader() {
   let mobileComponentsStyle = "";
   let desktopComponentsStyle = "";
 
-  const date = new Date();
-  const formattedDate = `${date.getHours()}:${date.getMinutes()}`;
+  const [formattedDate, setFormattedDate] = useState<string>("");
+
+  useEffect(() => {
+    const date = new Date();
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    setFormattedDate(`${hours}:${minutes}`);
+  }, []);
 
   if (layout === "auto") {
     mobileComponentsStyle = "md:hidden";
@@ -149,7 +156,7 @@ export function TopMenuBar() {
 
   return (
     <>
-      <div className="justify-between grow !w-full flex flex-row px-2 py-1">
+      <div className="justify-between grow !w-full flex flex-row p-2">
         <div
           id="contactDetails"
           className="flex flex-row !min-w-fit items-center gap-2"
@@ -186,9 +193,10 @@ export function TopMenuBar() {
             <PopoverTrigger>
               <EllipsisVertical className="w-5 h-5 cursor-pointer" />
             </PopoverTrigger>
-            <PopoverContent>
+            <PopoverContent className="text-xs">
+              <h3>Display</h3>
               <div
-                id="versionNumber"
+                id="layout"
                 className="flex flex-row cursor-pointer p-3 rounded items-center"
               >
                 <ImageUpscale className="mr-2 w-5 h-5" />
@@ -209,6 +217,28 @@ export function TopMenuBar() {
                   </SelectContent>
                 </Select>
               </div>
+              <hr/>
+              Theming
+              <div
+                id="color1"
+                className="flex flex-row cursor-pointer p-3 rounded items-center"
+              >
+                <p>1.</p>
+                <ColorPicker
+                  index={1}
+                />
+              </div>
+              <div
+                id="color2"
+                className="flex flex-row cursor-pointer p-3 rounded items-center"
+              >
+                <p>2.</p>
+                <ColorPicker
+                  index={2}
+                />
+              </div>
+              <hr className="my-2"/>
+              <h3>About</h3>
               <div
                 id="githubLink"
                 className="flex flex-row cursor-pointer hover:bg-accent p-3 rounded items-center"
@@ -224,7 +254,7 @@ export function TopMenuBar() {
                 id="versionNumber"
                 className="flex flex-row cursor-pointer hover:bg-accent p-3 rounded items-center"
               >
-                <Info className="mr-2 w-4 h-4" /> Version 2
+                <Info className="mr-2 w-4 h-4" /> V.2.0
               </div>
             </PopoverContent>
           </Popover>

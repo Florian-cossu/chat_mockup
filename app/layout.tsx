@@ -1,24 +1,13 @@
-"use client"
-
-import { Geist, Geist_Mono } from "next/font/google";
 import "@styling/globals.css";
+import { getRandomTheme } from "@/data/themes";
 import { PreferencesProvider } from "@/contexts/preferencesContext";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const theme = getRandomTheme();
 
   return (
     <html lang="en">
@@ -30,16 +19,15 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="Chat mockup" />
-        <meta name="description" content="Use this tool to generate custom chat screenshots to share and publish." />
+        <meta
+          name="description"
+          content="Use this tool to generate custom chat screenshots to share and publish."
+        />
         <meta name="mobile-web-app-capable" content="yes" />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background flex flex-col`}
-      >
-        <PreferencesProvider>
+      <PreferencesProvider initialTheme={theme}>
           {children}
-        </PreferencesProvider>
-      </body>
+      </PreferencesProvider>
     </html>
   );
 }
