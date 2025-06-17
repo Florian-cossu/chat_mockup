@@ -14,6 +14,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
 import { usePreferences } from "@/contexts/preferencesContext";
+import { default as Img } from "next/image";
+
 
 export default function ProfilePictureSelector() {
   const { contactName, profilePicture, setProfilePicture } = usePreferences();
@@ -96,10 +98,12 @@ export default function ProfilePictureSelector() {
     <>
       <div className="relative inline-block">
         {profilePicture ? (
-          <img
+          <Img
             src={profilePicture}
             alt="Profile"
             className={`${profilePicSize} rounded-full object-cover`}
+            width={200}
+            height={200}
           />
         ) : (
           <div

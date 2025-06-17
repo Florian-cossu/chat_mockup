@@ -7,10 +7,30 @@ import MobileGestureBar from "@/components/custom/mobileComponents";
 import { ScreenshotCardHeader } from "@/components/custom/interfaceComponents";
 import { usePreferences } from "@/contexts/preferencesContext";
 import ChatMockupIcon from "@icons/icon-monochrome.svg";
+import { useIsMobile } from "@/hooks/isMobile";
+import { cn } from "@/lib/utils";
 
 export default function ChatMockup() {
 
-  const { color1, color2 } = usePreferences();
+  const { color1, color2, layout, setLayout } = usePreferences();
+  const isMobile = useIsMobile();
+
+  function twStyleConstructor (layout: string) {
+    if (isMobile) {
+      setLayout("mobile");
+      return "h-[85vh]";
+    } else {
+      switch (layout) {
+        case "auto":
+          return "w-4/5 h-[80vh] md:w-4/5";
+        case "mobile":
+          return "w-[25vw] h-[85vh]";
+        case "desktop":
+          return "w-4/5";
+      }
+    }
+  }
+
 
   return (
     <body
@@ -18,9 +38,9 @@ export default function ChatMockup() {
       style={{ backgroundImage: `linear-gradient(to bottom right, ${color1}, ${color2})` }}
     >
       <div className="flex flex-col m-0 p-0 w-[100vw] h-[100vh] items-center justify-items-center justify-center">
-        <Card className="w-4/5 m-0 p-0 mb-6">
+        <Card className={cn(`w-4/5 m-0 p-0 mb-6 gap-0`, twStyleConstructor(layout))}>
           <ScreenshotCardHeader />
-          <CardContent className="p-0 m-0">
+          <CardContent className="p-0 m-0 grow">
             <div className="flex flex-row gap-1.5 p-2" id="topActionBar"></div>
             <span className="bg-gradient-to-br from-[red] to-[blue] w-10 h-10">
               h

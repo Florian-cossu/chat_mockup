@@ -3,13 +3,12 @@
 import React, { useState } from "react";
 import { HexColorPicker } from "react-colorful";
 import colors from "tailwindcss/colors";
-import { Palette, X } from "lucide-react";
+import { Palette } from "lucide-react";
 import { usePreferences } from "@/contexts/preferencesContext";
 import {
   Dialog,
   DialogTrigger,
   DialogContent,
-  DialogClose,
 } from "../ui/dialog";
 import { DialogTitle } from "@radix-ui/react-dialog";
 
