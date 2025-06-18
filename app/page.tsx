@@ -1,6 +1,6 @@
 "use client";
 
-// import Image from "next/image";
+import { useState } from "react";
 import { Camera, Paperclip, Send } from "lucide-react";
 import { Card, CardContent, CardFooter } from "@components/ui/card";
 import MobileGestureBar from "@/components/custom/mobileComponents";
@@ -10,11 +10,14 @@ import ChatMockupIcon from "@icons/icon-monochrome.svg";
 import { useIsMobile } from "@/hooks/isMobile";
 import { cn } from "@/lib/utils";
 import ChatConversationView from "@/components/custom/chatConversationView";
+import { v4 as uuidv4 } from "uuid";
+import { ChatConversation, ChatMessage } from "@/types/types";
 
 export default function ChatMockup() {
 
-  const { color1, color2, layout, conversation } = usePreferences();
+  const { color1, color2, layout, conversation, setChatConversation } = usePreferences();
   const isMobile = useIsMobile();
+  const [inputText, setInputText] = useState("");
 
   function twStyleConstructor (layout: string) {
     if (isMobile) {
@@ -43,7 +46,6 @@ export default function ChatMockup() {
           <CardContent className="p-0 m-0 grow overflow-auto">
             <ChatConversationView
               conversation={conversation}
-              color1={color1}
             />
           </CardContent>
           <CardFooter className="flex flex-col m-0 p-2 h-fit items-center justify-between border-t-1 gap-3">
@@ -51,6 +53,24 @@ export default function ChatMockup() {
               <input
                 type="text"
                 className="bg-accent rounded-full grow min-w-0.5 h-7 px-3"
+                value={inputText != "" ? inputText : "" }
+                placeholder="Type a message..."
+                onChange={(e) => setInputText(e.target.value)}
+                onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        if (inputText.trim() === "") return;
+                        const newMessage: ChatMessage = {
+                          id: uuidv4(),
+                          direction: "out",
+                          text: inputText.trim(),
+                          timestamp: new Date().toISOString(),
+                          seen: false,
+                        };
+                        setChatConversation([...conversation, newMessage]);
+                        setInputText("");
+                      }
+                    }}
               ></input>
               <div id="messagingActions" className="flex flex-row gap-2">
                 <span
@@ -70,7 +90,21 @@ export default function ChatMockup() {
                   className="hover:brightness-110 transitions"
                   style={{backgroundColor: color1}}
                 >
-                  <Send className="w-4 h-4 justify-self-center drop-shadow-sm drop-shadow-black/20" />
+                  <Send 
+                    className="w-4 h-4 justify-self-center drop-shadow-sm drop-shadow-black/20"
+                    onClick={() => {
+                      if (inputText.trim() === "") return;
+                      const newMessage: ChatMessage = {
+                        id: uuidv4(),
+                        direction: "out",
+                        text: inputText.trim(),
+                        timestamp: new Date().toISOString(),
+                        seen: false,
+                      };
+                      setChatConversation([...conversation, newMessage]);
+                      setInputText("");
+                    }}
+                  />
                 </span>
               </div>
             </div>

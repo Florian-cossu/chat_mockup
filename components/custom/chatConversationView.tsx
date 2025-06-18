@@ -6,12 +6,10 @@ import ChatMessageBubble from "./chatMessageBubble";
 
 interface ChatConversationViewProps {
   conversation: ChatConversation;
-  color1: string;
 }
 
 export default function ChatConversationView({
   conversation,
-  color1,
 }: ChatConversationViewProps) {
   return (
     <div className="flex flex-col gap-2 p-4">
@@ -23,7 +21,6 @@ export default function ChatConversationView({
         return (
           <ChatMessageBubble
             key={msg.id}
-            color1={color1}
             message={msg}
             replyToMessage={replyTo}
           />
