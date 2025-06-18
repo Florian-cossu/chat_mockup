@@ -15,7 +15,7 @@ export default function ChatMessageBubble({
   message,
   replyToMessage,
 }: ChatMessageBubbleProps) {
-  const { color1, color2 } = usePreferences();
+  const { color1 } = usePreferences();
 
   return (
     <>

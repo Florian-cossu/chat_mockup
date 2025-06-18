@@ -11,7 +11,7 @@ import { useIsMobile } from "@/hooks/isMobile";
 import { cn } from "@/lib/utils";
 import ChatConversationView from "@/components/custom/chatConversationView";
 import { v4 as uuidv4 } from "uuid";
-import { ChatConversation, ChatMessage } from "@/types/types";
+import type { ChatMessage } from "@/types/types";
 
 export default function ChatMockup() {
 

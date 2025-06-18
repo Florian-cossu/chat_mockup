@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useLayoutEffect, useRef, useState, useEffect } from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import ProfilePictureSelector from "./ProfilePictureSelector";
 import {
   Video,
@@ -19,7 +19,6 @@ import {
   Wifi,
   Signal,
   BatteryMedium,
-  MessageSquareDot,
 } from "lucide-react";
 import { RandomIcons } from "./mobileComponents";
 import {
@@ -46,15 +45,6 @@ export function ScreenshotCardHeader() {
 
   let mobileComponentsStyle = "";
   let desktopComponentsStyle = "";
-
-  const [formattedDate, setFormattedDate] = useState<string>("");
-
-  useEffect(() => {
-    const date = new Date();
-    const hours = date.getHours().toString().padStart(2, "0");
-    const minutes = date.getMinutes().toString().padStart(2, "0");
-    setFormattedDate(`${hours}:${minutes}`);
-  }, []);
 
   if (layout === "auto") {
     mobileComponentsStyle = "md:hidden";
