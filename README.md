@@ -51,6 +51,15 @@
 
 Sometimes you want to share a screenshot from a conversation you just had with someone on a messaging app and don't want to waste time hiding names or entire discussion sections.
 
+<table>
+  <tr>
+    <td><img src="public/screenshots/large_preview.png" width="200"/></td>
+    <td><img src="public/screenshots/large_preview_2.png" width="200"/></td>
+    <td><img src="public/screenshots/mobile_preview.png" width="200"/></td>
+    <td><img src="public/screenshots/mobile_preview_2.png" width="200"/></td>
+  </tr>
+</table>
+
 Well you can just use this tool to just add the message you wish to display and simulate a display on a mobile or computer which will help you. You could even use it for communication purposes for example to illustrate a presentation for product.
 
 This project is a little challenge for me to improve my programming skills.
