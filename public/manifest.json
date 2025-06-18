@@ -1,0 +1,79 @@
+{
+    "id": "1",
+    "start_url": "/",
+    "name": "Chat Mockup",
+    "short_name": "Chat Mockup",
+    "description":
+      "Chat mockup is a small project to provide a way to share \"screenshots\" of a conversation allowing people to share conversations without having to worry about anonymisation.",
+    "prefer_related_applications": true,
+    "lang": "en",
+    "dir": "ltr",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#000000",
+    "scope": "/",
+    "icons": [
+      {
+        "src": "/icons/icon-any-96x96.png",
+        "sizes": "96x96",
+        "type": "image/png",
+        "purpose": "any"
+      },
+      {
+        "src": "/icons/icon-any-144x144.png",
+        "sizes": "144x144",
+        "type": "image/png",
+        "purpose": "any"
+      },
+      {
+        "src": "/icons/icon-any-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png",
+        "purpose": "any"
+      },
+      {
+        "src": "/icons/icon-96x96.png",
+        "sizes": "96x96",
+        "type": "image/png",
+        "purpose": "maskable"
+      },
+      {
+        "src": "/icons/icon-any-144x144.png",
+        "sizes": "144x144",
+        "type": "image/png",
+        "purpose": "maskable"
+      },
+      {
+        "src": "/icons/icon-any-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png",
+        "purpose": "maskable"
+      }
+    ],
+    "screenshots": [
+      {
+        "src": "/screenshots/large_preview.png",
+        "sizes": "3840x1872",
+        "type": "image/png",
+        "form_factor": "wide"
+      },
+      {
+        "src": "/screenshots/large_preview_2.png",
+        "sizes": "3840x1872",
+        "type": "image/png",
+        "form_factor": "wide"
+      },
+      {
+        "src": "/screenshots/mobile_preview.png",
+        "sizes": "748x1332",
+        "type": "image/png",
+        "form_factor": "narrow"
+      },
+      {
+        "src": "/screenshots/mobile_preview_2.png",
+        "sizes": "748x1332",
+        "type": "image/png",
+        "form_factor": "narrow"
+      }
+    ]
+  }

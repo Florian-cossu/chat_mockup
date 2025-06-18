@@ -1,0 +1,31 @@
+"use client";
+
+import React from "react";
+import { ChatConversation } from "@/types/types";
+import ChatMessageBubble from "./chatMessageBubble";
+
+interface ChatConversationViewProps {
+  conversation: ChatConversation;
+}
+
+export default function ChatConversationView({
+  conversation,
+}: ChatConversationViewProps) {
+  return (
+    <div className="flex flex-col gap-2 p-4">
+      {conversation.map((msg) => {
+        const replyTo = msg.repliesTo
+          ? conversation.find((m) => m.id === msg.repliesTo)
+          : undefined;
+
+        return (
+          <ChatMessageBubble
+            key={msg.id}
+            message={msg}
+            replyToMessage={replyTo}
+          />
+        );
+      })}
+    </div>
+  );
+}
