@@ -40,8 +40,7 @@ export default function ChatMockup() {
       <div className="flex flex-col m-0 p-0 w-[100vw] h-[100vh] items-center justify-items-center justify-center">
         <Card className={cn(`w-4/5 m-0 p-0 mb-6 gap-0`, twStyleConstructor(layout))}>
           <ScreenshotCardHeader />
-          <CardContent className="p-0 m-0 grow">
-            <div className="flex flex-row gap-1.5 p-2" id="topActionBar"></div>
+          <CardContent className="p-0 m-0 grow overflow-auto">
             <ChatConversationView
               conversation={conversation}
               color1={color1}

@@ -14,7 +14,7 @@ export default function ChatConversationView({
   color1,
 }: ChatConversationViewProps) {
   return (
-    <div className="flex flex-col gap-2 p-4 overflow-y-auto h-full">
+    <div className="flex flex-col gap-2 p-4">
       {conversation.map((msg) => {
         const replyTo = msg.repliesTo
           ? conversation.find((m) => m.id === msg.repliesTo)

@@ -21,6 +21,7 @@ import {
   BatteryMedium,
   MessageSquareDot,
 } from "lucide-react";
+import { RandomIcons } from "./mobileComponents";
 import {
   Popover,
   PopoverContent,
@@ -38,6 +39,7 @@ import { CardHeader } from "@components/ui/card";
 import { cn } from "@/app/functions/functions";
 import ColorPicker from "./colorPicker";
 import { useIsMobile } from "@/hooks/isMobile";
+import { useFormattedTime as formattedClock } from "./timeClock";
 
 export function ScreenshotCardHeader() {
   const { layout } = usePreferences();
@@ -67,7 +69,7 @@ export function ScreenshotCardHeader() {
 
   return (
     <>
-      <CardHeader className="flex flex-col m-0 p-0 gap-0 h-fit items-center border-b-1">
+      <CardHeader className="flex flex-col m-0 p-0 gap-0 h-fit items-center border-b-1 shadow-sm">
         <div
           className={cn(
             "flex flex-row gap-1.5 p-2 w-full border-b-1 justify-end pointer-events-auto",
@@ -94,6 +96,7 @@ export function ScreenshotCardHeader() {
             <Plus className="w-3 h-3 rotate-45 windowAction transitions" />
           </span>
         </div>
+        {/* Mobile notification bar */}
         <div
           className={cn(
             "flex flex-row p-2 w-full justify-between",
@@ -101,9 +104,9 @@ export function ScreenshotCardHeader() {
           )}
           id="mobileStatusBar"
         >
-          <div className="flex flex-row gap-2" id="mobileStatusBarLeft">
-            <p className="text-xs">{formattedDate}</p>
-            <MessageSquareDot className="w-4 h-4" />
+          <div className="flex flex-row gap-1 items-center" id="mobileStatusBarLeft">
+            <p className="text-xs">{formattedClock()}</p>
+            <RandomIcons />
           </div>
           <div className="flex flex-row gap-2" id="mobileStatusBarRight">
             <Wifi className="w-4 h-4" />
