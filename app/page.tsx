@@ -13,6 +13,7 @@ import ChatConversationView from "@/components/custom/chatConversationView";
 import { v4 as uuidv4 } from "uuid";
 import type { ChatMessage } from "@/types/types";
 import { getRandomTheme, PLACEHOLDER_COLOR } from "@/data/themes";
+import { getContrastColor } from "@/lib/fontColorAdjust";
 
 export default function ChatMockup() {
   const {
@@ -26,12 +27,17 @@ export default function ChatMockup() {
   } = usePreferences();
   const isMobile = useIsMobile();
   const [inputText, setInputText] = useState("");
+  const [contrastingTextColor, setContrastingTextColor] = useState("");
 
   useEffect(() => {
     const theme = getRandomTheme();
     setColor1(theme.color1);
     setColor2(theme.color2);
-  }, []);
+  }, [setColor1, setColor2]);
+
+  useEffect(() => {
+    setContrastingTextColor(getContrastColor(color2));
+  }, [color2]);
 
   function twStyleConstructor(layout: string) {
     if (isMobile) {
@@ -132,7 +138,11 @@ export default function ChatMockup() {
               <MobileGestureBar />
             </CardFooter>
           </Card>
-          <div id="watermark" className="flex flex-row items-center text-xs">
+          <div 
+            id="watermark" 
+            className="flex flex-row items-center text-xs"
+            style={{color: contrastingTextColor}}
+          >
             <p className="flex flex-row items-center">
               Generated with{" "}
               <a

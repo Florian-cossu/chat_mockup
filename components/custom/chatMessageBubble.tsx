@@ -1,10 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ChatMessage } from "@/types/types";
 import { CheckCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { usePreferences } from "@/contexts/preferencesContext";
+import { getContrastColor } from "@/lib/fontColorAdjust";
 
 interface ChatMessageBubbleProps {
   message: ChatMessage;
@@ -16,6 +17,11 @@ export default function ChatMessageBubble({
   replyToMessage,
 }: ChatMessageBubbleProps) {
   const { color1 } = usePreferences();
+  const [incomingColor, setIncomingColor] = useState("");
+
+  useEffect (() => {
+    setIncomingColor(getContrastColor(color1));
+  }, [color1]);
 
   return (
     <>
@@ -36,9 +42,15 @@ export default function ChatMessageBubble({
           </div>
         )}
 
-        <p className="whitespace-pre-wrap">{message.text}</p>
+        <p 
+          className="whitespace-pre-wrap"
+          style={{color: message.direction == "in" ? incomingColor : "black"}}
+        >{message.text}</p>
 
-        <div className="flex items-center justify-end gap-1 mt-1 text-xs opacity-70">
+        <div 
+          className="flex items-center justify-end gap-1 mt-1 text-xs opacity-70"
+          style={{color: message.direction == "in" ? incomingColor : "black"}}
+        >
           {message.seen && message.direction === "out" && <CheckCheck size={14} />}
           <span>{new Date(message.timestamp).toISOString().slice(11, 16)}</span>
         </div>
