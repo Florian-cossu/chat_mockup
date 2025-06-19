@@ -115,7 +115,7 @@ export default function ChatMockup() {
                   <span
                     id="send"
                     className="hover:brightness-110 transitions"
-                    style={{ backgroundColor: color1 }}
+                    style={{ backgroundColor: color1, color: contrastingTextColor }}
                   >
                     <Send
                       className="w-4 h-4 justify-self-center drop-shadow-sm drop-shadow-black/20"

@@ -15,9 +15,9 @@
 
   <h3 align="center">Chat Mockup</h3>
   <p align="center">
-  <a href="https://fcossudev.chat-mockup.vercel.app/">Dev preview</a> 
+  <a href="https://chat-mockup-fcossu-dev.vercel.app/">Dev preview</a> 
   &middot; 
-  <a href="https://fcossu.chat-mockup.vercel.app/">Production link</a>
+  <a href="https://chat-mockup-fcossu.vercel.app/">Production link</a>
   </p>
   <p align="center">
     A small next JS project to let people create an anonymised conversation screenshot freely for illustration or quoting purpose.
