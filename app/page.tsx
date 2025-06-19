@@ -33,7 +33,7 @@ export default function ChatMockup() {
     const theme = getRandomTheme();
     setColor1(theme.color1);
     setColor2(theme.color2);
-  }, []);
+  }, [setColor1, setColor2]);
 
   useEffect(() => {
     setContrastingTextColor(getContrastColor(color2));
