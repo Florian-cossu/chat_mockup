@@ -6,13 +6,6 @@ import {
   Video,
   Phone,
   Search,
-  EllipsisVertical,
-  Github,
-  Info,
-  MonitorSmartphone,
-  Smartphone,
-  Laptop,
-  ImageUpscale,
   Minus,
   ChevronsUpDown,
   Plus,
@@ -21,24 +14,11 @@ import {
   BatteryMedium,
 } from "lucide-react";
 import { RandomIcons } from "./mobileComponents";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@components/ui/popover";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { usePreferences } from "@/contexts/preferencesContext";
 import { CardHeader } from "@components/ui/card";
 import { cn } from "@/app/functions/functions";
-import ColorPicker from "./colorPicker";
-import { useIsMobile } from "@/hooks/isMobile";
 import { useFormattedTime as formattedClock } from "./timeClock";
+import MenuTopBar from "./menu";
 
 export function ScreenshotCardHeader() {
   const { layout } = usePreferences();
@@ -112,8 +92,7 @@ export function ScreenshotCardHeader() {
 }
 
 export function TopMenuBar() {
-  const { contactName, setContactName, layout, setLayout } = usePreferences();
-  const layouts = ["auto", "mobile", "desktop"];
+  const { contactName, setContactName } = usePreferences();
 
   // hacky section to resize the input text because it cannot be updated dynamycally otherwise
   const spanRef = useRef<HTMLSpanElement | null>(null);
@@ -125,32 +104,6 @@ export function TopMenuBar() {
       inputRef.current.style.width = `${spanWidth + 2}px`;
     }
   }, [contactName]);
-  //
-
-  function returnIcon(type: string) {
-    switch (type) {
-      case "auto":
-        return (
-          <>
-            <MonitorSmartphone /> Auto
-          </>
-        );
-      case "mobile":
-        return (
-          <>
-            <Smartphone /> Mobile
-          </>
-        );
-      case "desktop":
-        return (
-          <>
-            <Laptop /> Desktop
-          </>
-        );
-    }
-  }
-
-  const isMobile = useIsMobile();
 
   return (
     <>
@@ -187,75 +140,7 @@ export function TopMenuBar() {
           <Video className="w-5 h-5 cursor-pointer" />
           <Search className="w-5 h-5 cursor-pointer" />
           <Phone className="w-5 h-5 cursor-pointer" />
-          <Popover>
-            <PopoverTrigger>
-              <EllipsisVertical className="w-5 h-5 cursor-pointer" />
-            </PopoverTrigger>
-            <PopoverContent className="text-xs">
-              {!isMobile && (
-                <>
-                  <h3>Display</h3>
-                  <div
-                    id="layout"
-                    className="flex flex-row cursor-pointer p-3 rounded items-center"
-                  >
-                    <ImageUpscale className="mr-2 w-5 h-5" />
-                    <Select value={layout} onValueChange={setLayout}>
-                      <SelectTrigger className="w-[280px] cursor-pointer text-foreground rounded-sm">
-                        <SelectValue
-                          placeholder={
-                            layout ? returnIcon(layout) : "Select layout"
-                          }
-                        />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {layouts.map((value) => (
-                          <SelectItem key={value} value={value}>
-                            {returnIcon(value)}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <hr />
-                </>
-              )}
-              Theming
-              <div
-                id="color1"
-                className="flex flex-row cursor-pointer p-3 rounded items-center"
-              >
-                <p>1.</p>
-                <ColorPicker index={1} />
-              </div>
-              <div
-                id="color2"
-                className="flex flex-row cursor-pointer p-3 rounded items-center"
-              >
-                <p>2.</p>
-                <ColorPicker index={2} />
-              </div>
-              <hr className="my-2" />
-              <h3>About</h3>
-              <div
-                id="githubLink"
-                className="flex flex-row cursor-pointer hover:bg-accent p-3 rounded items-center"
-              >
-                <Github className="mr-2 w-4 h-4" />
-                <a href="https://github.com/Florian-cossu/chat_mockup">
-                  <span className="underline">
-                    &rarr; Chat Mockup on Github
-                  </span>
-                </a>
-              </div>
-              <div
-                id="versionNumber"
-                className="flex flex-row cursor-pointer hover:bg-accent p-3 rounded items-center"
-              >
-                <Info className="mr-2 w-4 h-4" /> V.2.0
-              </div>
-            </PopoverContent>
-          </Popover>
+          <MenuTopBar />
         </div>
       </div>
     </>

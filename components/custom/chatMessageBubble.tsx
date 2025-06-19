@@ -6,6 +6,7 @@ import { CheckCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { usePreferences } from "@/contexts/preferencesContext";
 import { getContrastColor } from "@/lib/fontColorAdjust";
+import { LocalTime } from "./localTime";
 
 interface ChatMessageBubbleProps {
   message: ChatMessage;
@@ -19,7 +20,7 @@ export default function ChatMessageBubble({
   const { color1 } = usePreferences();
   const [incomingColor, setIncomingColor] = useState("");
 
-  useEffect (() => {
+  useEffect(() => {
     setIncomingColor(getContrastColor(color1));
   }, [color1]);
 
@@ -42,20 +43,28 @@ export default function ChatMessageBubble({
           </div>
         )}
 
-        <p 
+        <p
           className="whitespace-pre-wrap"
-          style={{color: message.direction == "in" ? incomingColor : "black"}}
-        >{message.text}</p>
-
-        <div 
-          className="flex items-center justify-end gap-1 mt-1 text-xs opacity-70"
-          style={{color: message.direction == "in" ? incomingColor : "black"}}
+          style={{ color: message.direction == "in" ? incomingColor : "" }}
         >
-          {message.seen && message.direction === "out" && <CheckCheck size={14} />}
-          <span>{new Date(message.timestamp).toISOString().slice(11, 16)}</span>
+          {message.text}
+        </p>
+
+        <div
+          className="flex items-center justify-end gap-1 mt-1 text-xs opacity-70"
+          style={{ color: message.direction == "in" ? incomingColor : "" }}
+        >
+          {message.seen && message.direction === "out" && (
+            <CheckCheck size={14} />
+          )}
+          <span><LocalTime iso={message.timestamp} /></span>
         </div>
       </div>
-      {message.emoji && <span className="mt-[-1rem] px-2 w-fit h-fit z-10 rounded-[.9rem] bg-zinc-100 border-4 border-background cursor-pointer"><p className="text-shadow-md">{message.emoji}</p></span>}
+      {message.emoji && (
+        <span className="mt-[-1rem] px-2 w-fit h-fit z-10 rounded-[.9rem] bg-zinc-100 border-4 border-card cursor-pointer">
+          <p className="text-shadow-md">{message.emoji}</p>
+        </span>
+      )}
     </>
   );
 }
