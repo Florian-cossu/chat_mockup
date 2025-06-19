@@ -45,6 +45,8 @@ export const THEMES = [
   },
 ];
 
+export const PLACEHOLDER_COLOR = "#000";
+
 export function getRandomTheme() {
   const idx = Math.floor(Math.random() * THEMES.length);
   return THEMES[idx];
