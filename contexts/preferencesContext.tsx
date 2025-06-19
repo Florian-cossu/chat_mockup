@@ -33,7 +33,7 @@ const defaultConversation: ChatConversation = [
     id: "1",
     direction: "in",
     text: "Hey there! 👋 This is still a work in progress but check this out.",
-    timestamp: "2025-06-18T14:55:49.673Z",
+    timestamp: "2024-06-18T16:00:00.000Z",
     seen: true,
   },
   {

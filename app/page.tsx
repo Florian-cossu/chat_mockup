@@ -6,7 +6,6 @@ import { Card, CardContent, CardFooter } from "@components/ui/card";
 import MobileGestureBar from "@/components/custom/mobileComponents";
 import { ScreenshotCardHeader } from "@/components/custom/interfaceComponents";
 import { usePreferences } from "@/contexts/preferencesContext";
-import ChatMockupIcon from "@icons/icon-monochrome.svg";
 import { useIsMobile } from "@/hooks/isMobile";
 import { cn } from "@/lib/utils";
 import ChatConversationView from "@/components/custom/chatConversationView";
@@ -27,7 +26,8 @@ export default function ChatMockup() {
   } = usePreferences();
   const isMobile = useIsMobile();
   const [inputText, setInputText] = useState("");
-  const [contrastingTextColor, setContrastingTextColor] = useState("");
+  const [watermarkTextColor, setWatermarkTextColor] = useState("");
+  const [iconColor, setIconColor] = useState("");
 
   useEffect(() => {
     const theme = getRandomTheme();
@@ -36,8 +36,9 @@ export default function ChatMockup() {
   }, [setColor1, setColor2]);
 
   useEffect(() => {
-    setContrastingTextColor(getContrastColor(color2));
-  }, [color2]);
+    setWatermarkTextColor(getContrastColor(color2));
+    setIconColor(getContrastColor(color1));
+  }, [color1, color2]);
 
   function twStyleConstructor(layout: string) {
     if (isMobile) {
@@ -115,7 +116,7 @@ export default function ChatMockup() {
                   <span
                     id="send"
                     className="hover:brightness-110 transitions"
-                    style={{ backgroundColor: color1, color: contrastingTextColor }}
+                    style={{ backgroundColor: color1, color: iconColor }}
                   >
                     <Send
                       className="w-4 h-4 justify-self-center drop-shadow-sm drop-shadow-black/20"
@@ -140,26 +141,11 @@ export default function ChatMockup() {
           </Card>
           <div 
             id="watermark" 
-            className="flex flex-row items-center text-xs"
-            style={{color: contrastingTextColor}}
+            className="flex flex-row items-center text-xs gap-1"
+            style={{color: watermarkTextColor}}
           >
-            <p className="flex flex-row items-center">
-              Generated with{" "}
-              <a
-                href=""
-                className="flex flex-row ml-2 items-center transitions hover:underline hover:[&_svg]:text-sky-400 decoration-sky-400"
-              >
-                &rarr; Chat Mockup
-                <ChatMockupIcon
-                  style={{
-                    width: ".8rem",
-                    height: ".8rem",
-                    marginLeft: ".5rem",
-                    transition: "all .3s ease-in-out",
-                  }}
-                />
-              </a>
-            </p>
+            <p className="flex flex-row items-center"> 🌈 Generated with </p>
+            <p className="!font-mono italic underline">https://chat-mockup-fcossu.vercel.app/</p>
           </div>
         </div>
       </body>
