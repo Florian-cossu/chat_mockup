@@ -1,5 +1,4 @@
 import "@styling/globals.css";
-import { getRandomTheme } from "@/data/themes";
 import { PreferencesProvider } from "@/contexts/preferencesContext";
 
 export default function RootLayout({
@@ -7,7 +6,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const theme = getRandomTheme();
 
   return (
     <html lang="en">
@@ -36,7 +34,7 @@ export default function RootLayout({
         />
         <meta name="mobile-web-app-capable" content="yes" />
       </head>
-      <PreferencesProvider initialTheme={theme}>
+      <PreferencesProvider>
           {children}
       </PreferencesProvider>
     </html>

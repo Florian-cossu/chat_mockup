@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, ReactNode } from "react";
 import { ChatConversation, ChatMessage } from "@/types/types";
+import { PLACEHOLDER_COLOR } from "@/data/themes";
 
 export interface PreferencesContextType {
   contactName: string;
@@ -64,17 +65,16 @@ const PreferenceContext = createContext<PreferencesContextType | undefined>(unde
 
 export const PreferencesProvider = ({
   children,
-  initialTheme,
 }: {
   children: ReactNode;
-  initialTheme: { color1: string; color2: string };
 }) => {
+
   const [contactName, setContactName] = useState("Anonymous");
   const [profilePicture, setProfilePicture] = useState<string | null>(null);
   const [layout, setLayout] = useState<"mobile"|"desktop"|"auto">("auto");
 
-  const [color1, setColor1] = useState(initialTheme.color1);
-  const [color2, setColor2] = useState(initialTheme.color2);
+  const [color1, setColor1] = useState(PLACEHOLDER_COLOR);
+  const [color2, setColor2] = useState(PLACEHOLDER_COLOR);
   const [conversation, setChatConversation] = useState<ChatMessage[]>(defaultConversation);
 
 
