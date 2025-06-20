@@ -10,7 +10,7 @@ import {
   ChevronsUpDown,
   Plus,
 } from "lucide-react";
-import { MobileStatusBar, RandomIcons } from "./mobileComponents";
+import { MobileStatusBar } from "./mobileComponents";
 import { usePreferences } from "@/contexts/preferencesContext";
 import { CardHeader } from "@components/ui/card";
 import { cn } from "@/app/functions/functions";
@@ -19,17 +19,13 @@ import MenuTopBar from "./menu";
 export function ScreenshotCardHeader() {
   const { layout } = usePreferences();
 
-  let mobileComponentsStyle = "";
   let desktopComponentsStyle = "";
 
   if (layout === "auto") {
-    mobileComponentsStyle = "md:hidden";
     desktopComponentsStyle = "hidden md:flex";
   } else if (layout === "mobile") {
-    mobileComponentsStyle = "";
     desktopComponentsStyle = "hidden";
   } else if (layout === "desktop") {
-    mobileComponentsStyle = "hidden";
     desktopComponentsStyle = "";
   }
 

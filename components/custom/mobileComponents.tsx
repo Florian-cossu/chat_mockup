@@ -57,17 +57,13 @@ export function MobileStatusBar() {
   const { layout } = usePreferences();
 
   let mobileComponentsStyle = "";
-  let desktopComponentsStyle = "";
 
   if (layout === "auto") {
     mobileComponentsStyle = "md:hidden";
-    desktopComponentsStyle = "hidden md:flex";
   } else if (layout === "mobile") {
     mobileComponentsStyle = "";
-    desktopComponentsStyle = "hidden";
   } else if (layout === "desktop") {
     mobileComponentsStyle = "hidden";
-    desktopComponentsStyle = "";
   }
   return (
     <>

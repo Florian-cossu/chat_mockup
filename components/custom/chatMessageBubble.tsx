@@ -11,11 +11,13 @@ import { LocalTime } from "./localTime";
 interface ChatMessageBubbleProps {
   message: ChatMessage;
   replyToMessage?: ChatMessage;
+  className?: string;
 }
 
 export default function ChatMessageBubble({
   message,
   replyToMessage,
+  className,
 }: ChatMessageBubbleProps) {
   const { color1 } = usePreferences();
   const [incomingColor, setIncomingColor] = useState("");
@@ -29,7 +31,8 @@ export default function ChatMessageBubble({
       <div
         className={cn(
           "max-w-[70%] px-4 py-2 my-1 rounded-lg relative",
-          message.direction === "in" ? "self-start" : "self-end bg-muted"
+          message.direction === "in" ? "self-start" : "self-end bg-muted",
+          className
         )}
         style={{
           backgroundColor: message.direction === "in" ? color1 : "",
