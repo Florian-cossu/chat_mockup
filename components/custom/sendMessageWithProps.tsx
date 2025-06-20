@@ -13,10 +13,9 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { CheckCheck } from "lucide-react";
-import EmojiPicker from "emoji-picker-react";
+// import EmojiPicker from "emoji-picker-react";
 
 interface AdvancedMessageModalProps {
   open: boolean;
@@ -32,7 +31,7 @@ export default function AdvancedMessageModal({
   const [text, setText] = useState("");
   const [direction, setDirection] = useState<"out" | "in">("out");
   const [seen, setSeen] = useState(false);
-  const [reactions, setReactions] = useState("");
+//   const [reactions, setReactions] = useState("");
   const [isHovered, setIsHovered] = useState(false);
 
   const handleSend = () => {
@@ -44,11 +43,11 @@ export default function AdvancedMessageModal({
       text: text.trim(),
       timestamp: new Date().toISOString(),
       seen,
-      emoji: reactions
-        .split(",")
-        .map((r) => r.trim())
-        .filter((r) => r !== "")
-        .join(),
+    //   emoji: reactions
+    //     .split(",")
+    //     .map((r) => r.trim())
+    //     .filter((r) => r !== "")
+    //     .join(),
     };
 
     setChatConversation([...conversation, newMessage]);
