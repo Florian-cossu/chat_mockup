@@ -13,6 +13,7 @@ import { v4 as uuidv4 } from "uuid";
 import type { ChatMessage } from "@/types/types";
 import { getRandomTheme, PLACEHOLDER_COLOR } from "@/data/themes";
 import { getContrastColor } from "@/lib/fontColorAdjust";
+import AdvancedMessageModal from "@/components/custom/sendMessageWithProps";
 
 export default function ChatMockup() {
   const {
@@ -28,6 +29,8 @@ export default function ChatMockup() {
   const [inputText, setInputText] = useState("");
   const [watermarkTextColor, setWatermarkTextColor] = useState("");
   const [iconColor, setIconColor] = useState("");
+
+  const [showMessageWithPropsModal, setShowMessageWithPropsModal] = useState<boolean>(false);
 
   useEffect(() => {
     const theme = getRandomTheme();
@@ -172,19 +175,25 @@ export default function ChatMockup() {
                     <Send
                       className="mt-[.1rem] mr-[.1rem] w-4 h-4 justify-self-center drop-shadow-sm drop-shadow-black/20"
                       onClick={() => {
-                        if (inputText.trim() === "") return;
-                        const newMessage: ChatMessage = {
-                          id: uuidv4(),
-                          direction: "out",
-                          text: inputText.trim(),
-                          timestamp: new Date().toISOString(),
-                          seen: false,
-                        };
-                        setChatConversation([...conversation, newMessage]);
-                        setInputText("");
+                        if (inputText.trim() === "") {
+                          setShowMessageWithPropsModal(true);
+                        } else {
+                          const newMessage: ChatMessage = {
+                            id: uuidv4(),
+                            direction: "out",
+                            text: inputText.trim(),
+                            timestamp: new Date().toISOString(),
+                            seen: false,
+                          };
+                          setChatConversation([...conversation, newMessage]);
+                          setInputText("");
+                        }
                       }}
                     />
                   </span>
+                  {showMessageWithPropsModal && (
+                    <AdvancedMessageModal open={showMessageWithPropsModal} onClose={() => setShowMessageWithPropsModal(false)} />
+                  )}
                 </div>
               </div>
               <MobileGestureBar />
