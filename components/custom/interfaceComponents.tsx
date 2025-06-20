@@ -19,6 +19,7 @@ import { CardHeader } from "@components/ui/card";
 import { cn } from "@/app/functions/functions";
 import { useFormattedTime as formattedClock } from "./timeClock";
 import MenuTopBar from "./menu";
+import { WifiIcon } from "./wifiStatusIcon";
 
 export function ScreenshotCardHeader() {
   const { layout } = usePreferences();
@@ -137,6 +138,7 @@ export function TopMenuBar() {
           id="contactQuickActions"
           className="flex flex-row gap-3 items-center pointer-events-auto"
         >
+          <WifiIcon level={4} />
           <Video className="w-5 h-5 cursor-pointer" />
           <Search className="w-5 h-5 cursor-pointer" />
           <Phone className="w-5 h-5 cursor-pointer" />

@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from "react";
 import { usePreferences } from "@/contexts/preferencesContext";
-import Facebook from "@icons/facebook_icon.svg"
-import Slack from "@icons/slack_icon.svg"
-import Twitch from "@icons/twitch_icon.svg"
-import Instagram from "@icons/instagram_icon.svg"
-import Message from "@icons/sms_icon.svg"
-import SignalMessaging from "@icons/signal_icon.svg"
+import Facebook from "@icons/thirdPartyAppIcons/facebook_icon.svg"
+import Slack from "@icons/thirdPartyAppIcons/slack_icon.svg"
+import Twitch from "@icons/thirdPartyAppIcons/twitch_icon.svg"
+import Instagram from "@icons/thirdPartyAppIcons/instagram_icon.svg"
+import Message from "@icons/thirdPartyAppIcons/sms_icon.svg"
+import SignalMessaging from "@icons/thirdPartyAppIcons/signal_icon.svg"
 
 export default function MobileGestureBar() {
   const { layout } = usePreferences();
