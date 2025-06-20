@@ -32,7 +32,7 @@ const defaultConversation: ChatConversation = [
   {
     id: "1",
     direction: "in",
-    text: "Hey there! 👋 This is still a work in progress but check this out.",
+    text: "Hey there! 👋 This is still a work in progress but you can already test it.",
     timestamp: "2024-06-18T16:00:00.000Z",
     seen: true,
   },
@@ -46,8 +46,9 @@ const defaultConversation: ChatConversation = [
   {
     id: "3",
     direction: "in",
-    text: "Tip: Try switching themes or layouts from the menu!",
+    text: "🛟: Check the helpcenter out in the menu to have a features recap.",
     timestamp: "2025-06-18T14:55:49.673Z",
+    repliesTo: "2",
     seen: true,
     emoji: "🧑‍🎨",
   },
