@@ -9,31 +9,23 @@ import {
   Minus,
   ChevronsUpDown,
   Plus,
-  Wifi,
-  Signal,
-  BatteryMedium,
 } from "lucide-react";
-import { RandomIcons } from "./mobileComponents";
+import { MobileStatusBar } from "./mobileComponents";
 import { usePreferences } from "@/contexts/preferencesContext";
 import { CardHeader } from "@components/ui/card";
 import { cn } from "@/app/functions/functions";
-import { useFormattedTime as formattedClock } from "./timeClock";
 import MenuTopBar from "./menu";
 
 export function ScreenshotCardHeader() {
   const { layout } = usePreferences();
 
-  let mobileComponentsStyle = "";
   let desktopComponentsStyle = "";
 
   if (layout === "auto") {
-    mobileComponentsStyle = "md:hidden";
     desktopComponentsStyle = "hidden md:flex";
   } else if (layout === "mobile") {
-    mobileComponentsStyle = "";
     desktopComponentsStyle = "hidden";
   } else if (layout === "desktop") {
-    mobileComponentsStyle = "hidden";
     desktopComponentsStyle = "";
   }
 
@@ -67,23 +59,7 @@ export function ScreenshotCardHeader() {
           </span>
         </div>
         {/* Mobile notification bar */}
-        <div
-          className={cn(
-            "flex flex-row p-2 w-full justify-between",
-            mobileComponentsStyle
-          )}
-          id="mobileStatusBar"
-        >
-          <div className="flex flex-row gap-1 items-center" id="mobileStatusBarLeft">
-            <p className="text-xs">{formattedClock()}</p>
-            <RandomIcons />
-          </div>
-          <div className="flex flex-row gap-2" id="mobileStatusBarRight">
-            <Wifi className="w-4 h-4" />
-            <Signal className="w-4 h-4" />
-            <BatteryMedium className="w-4 h-4" />
-          </div>
-        </div>
+        <MobileStatusBar />
         {/* Menu bar with contact info */}
         <TopMenuBar />
       </CardHeader>

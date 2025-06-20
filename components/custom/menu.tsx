@@ -16,7 +16,7 @@ import {
   LifeBuoy,
 } from "lucide-react";
 
-import Github from "@icons/github_icon.svg"
+import Github from "@icons/thirdPartyAppIcons/github_icon.svg"
 
 import {
   Select,

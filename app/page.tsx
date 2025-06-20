@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useLayoutEffect } from "react";
 import { Camera, Paperclip, Send } from "lucide-react";
 import { Card, CardContent, CardFooter } from "@components/ui/card";
 import MobileGestureBar from "@/components/custom/mobileComponents";
@@ -40,6 +40,53 @@ export default function ChatMockup() {
     setIconColor(getContrastColor(color1));
   }, [color1, color2]);
 
+  // Auto scroll to bottom
+  const containerRef = useRef<HTMLDivElement>(null);
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  function smoothScrollTo(
+    element: HTMLElement,
+    targetScrollTop: number,
+    duration: number
+  ) {
+    const start = element.scrollTop;
+    const change = targetScrollTop - start;
+    const startTime = performance.now();
+
+    function animate(time: number) {
+      const elapsed = time - startTime;
+      const progress = Math.min(elapsed / duration, 1); // clamp to [0,1]
+      element.scrollTop = start + change * easeInOutQuad(progress);
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    }
+
+    function easeInOutQuad(t: number) {
+      return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  useLayoutEffect(() => {
+    const id = setTimeout(() => {
+      bottomRef.current?.scrollIntoView({ behavior: "auto" });
+    }, 50);
+    return () => clearTimeout(id);
+  }, []);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      smoothScrollTo(
+        containerRef.current,
+        containerRef.current.scrollHeight,
+        600
+      ); // 600ms scroll duration
+    }
+  }, [conversation]);
+  // End auto scroll to bottom
+
   function twStyleConstructor(layout: string) {
     if (isMobile) {
       return "h-[85dvh]";
@@ -73,8 +120,12 @@ export default function ChatMockup() {
             )}
           >
             <ScreenshotCardHeader />
-            <CardContent className="p-0 m-0 grow overflow-auto">
+            <CardContent
+              className="p-0 m-0 grow overflow-auto flex flex-col"
+              ref={containerRef}
+            >
               <ChatConversationView conversation={conversation} />
+              <div ref={bottomRef} />
             </CardContent>
             <CardFooter className="flex flex-col m-0 p-2 h-fit items-center justify-between border-t-1 gap-3">
               <div className="flex flex-row w-full gap-2 items-center justify-between">
@@ -139,13 +190,15 @@ export default function ChatMockup() {
               <MobileGestureBar />
             </CardFooter>
           </Card>
-          <div 
-            id="watermark" 
+          <div
+            id="watermark"
             className="flex flex-row items-center text-xs gap-1"
-            style={{color: watermarkTextColor}}
+            style={{ color: watermarkTextColor }}
           >
             <p className="flex flex-row items-center"> 🌈 Generated with </p>
-            <p className="!font-mono italic underline">https://chat-mockup-fcossu.vercel.app/</p>
+            <p className="!font-mono italic underline">
+              https://chat-mockup-fcossu.vercel.app/
+            </p>
           </div>
         </div>
       </body>
