@@ -8,7 +8,6 @@ import {
 
 import {
   EllipsisVertical,
-  Github,
   Info,
   MonitorSmartphone,
   Smartphone,
@@ -16,6 +15,8 @@ import {
   ImageUpscale,
   LifeBuoy,
 } from "lucide-react";
+
+import Github from "@icons/github_icon.svg"
 
 import {
   Select,
