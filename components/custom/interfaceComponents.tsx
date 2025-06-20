@@ -9,17 +9,12 @@ import {
   Minus,
   ChevronsUpDown,
   Plus,
-  Wifi,
-  Signal,
-  BatteryMedium,
 } from "lucide-react";
-import { RandomIcons } from "./mobileComponents";
+import { MobileStatusBar, RandomIcons } from "./mobileComponents";
 import { usePreferences } from "@/contexts/preferencesContext";
 import { CardHeader } from "@components/ui/card";
 import { cn } from "@/app/functions/functions";
-import { useFormattedTime as formattedClock } from "./timeClock";
 import MenuTopBar from "./menu";
-import { WifiIcon } from "./wifiStatusIcon";
 
 export function ScreenshotCardHeader() {
   const { layout } = usePreferences();
@@ -68,23 +63,7 @@ export function ScreenshotCardHeader() {
           </span>
         </div>
         {/* Mobile notification bar */}
-        <div
-          className={cn(
-            "flex flex-row p-2 w-full justify-between",
-            mobileComponentsStyle
-          )}
-          id="mobileStatusBar"
-        >
-          <div className="flex flex-row gap-1 items-center" id="mobileStatusBarLeft">
-            <p className="text-xs">{formattedClock()}</p>
-            <RandomIcons />
-          </div>
-          <div className="flex flex-row gap-2" id="mobileStatusBarRight">
-            <Wifi className="w-4 h-4" />
-            <Signal className="w-4 h-4" />
-            <BatteryMedium className="w-4 h-4" />
-          </div>
-        </div>
+        <MobileStatusBar />
         {/* Menu bar with contact info */}
         <TopMenuBar />
       </CardHeader>
@@ -138,7 +117,6 @@ export function TopMenuBar() {
           id="contactQuickActions"
           className="flex flex-row gap-3 items-center pointer-events-auto"
         >
-          <WifiIcon level={4} />
           <Video className="w-5 h-5 cursor-pointer" />
           <Search className="w-5 h-5 cursor-pointer" />
           <Phone className="w-5 h-5 cursor-pointer" />
