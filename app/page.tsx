@@ -119,7 +119,7 @@ export default function ChatMockup() {
                     style={{ backgroundColor: color1, color: iconColor }}
                   >
                     <Send
-                      className="w-4 h-4 justify-self-center drop-shadow-sm drop-shadow-black/20"
+                      className="mt-[.1rem] mr-[.1rem] w-4 h-4 justify-self-center drop-shadow-sm drop-shadow-black/20"
                       onClick={() => {
                         if (inputText.trim() === "") return;
                         const newMessage: ChatMessage = {

@@ -5,6 +5,7 @@ import Slack from "@icons/slack_icon.svg"
 import Twitch from "@icons/twitch_icon.svg"
 import Instagram from "@icons/instagram_icon.svg"
 import Message from "@icons/sms_icon.svg"
+import SignalMessaging from "@icons/signal_icon.svg"
 
 export default function MobileGestureBar() {
   const { layout } = usePreferences();
@@ -20,7 +21,7 @@ export default function MobileGestureBar() {
   );
 }
 
-const icons = [Twitch, Facebook, Instagram, Slack, Message]; // unique
+const icons = [Twitch, Facebook, Instagram, Slack, Message, SignalMessaging];
 
 export function RandomIcons() {
   const [selectedIcons, setSelectedIcons] = useState<React.ElementType[]>([]);
