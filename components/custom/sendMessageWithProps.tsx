@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { usePreferences } from "@/contexts/preferencesContext";
 import { v4 as uuidv4 } from "uuid";
 import type { ChatMessage } from "@/types/types";
@@ -13,8 +13,11 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { Calendar } from "@/components/ui/calendar";
 import { Textarea } from "@/components/ui/textarea";
-import { CheckCheck } from "lucide-react";
+import { Input } from "../ui/input";
+import { CheckCheck, ChevronDownIcon } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 // import EmojiPicker from "emoji-picker-react";
 
 interface AdvancedMessageModalProps {
@@ -31,23 +34,40 @@ export default function AdvancedMessageModal({
   const [text, setText] = useState("");
   const [direction, setDirection] = useState<"out" | "in">("out");
   const [seen, setSeen] = useState(false);
-//   const [reactions, setReactions] = useState("");
+  //   const [reactions, setReactions] = useState("");
   const [isHovered, setIsHovered] = useState(false);
+  const [openDatePicker, setOpenDatePicker] = React.useState(false);
+  const [date, setDate] = React.useState<Date | undefined>(new Date());
+  const [time, setTime] = useState("10:30:00");
+
+  useEffect(() => {
+  const currentDate = new Date();
+
+  const pad = (n: number) => n.toString().padStart(2, "0");
+  const currentTime = `${pad(currentDate.getHours())}:${pad(currentDate.getMinutes())}:${pad(currentDate.getSeconds())}`;
+  setTime(currentTime);
+}, []);
 
   const handleSend = () => {
     if (text.trim() === "") return;
+    
+    const mergedDate = date || new Date();
+    const [hours, minutes, seconds] = time.split(":").map(Number);
+    mergedDate.setHours(hours);
+    mergedDate.setMinutes(minutes);
+    mergedDate.setSeconds(seconds);
 
     const newMessage: ChatMessage = {
       id: uuidv4(),
       direction,
       text: text.trim(),
-      timestamp: new Date().toISOString(),
+      timestamp: mergedDate?.toISOString(),
       seen,
-    //   emoji: reactions
-    //     .split(",")
-    //     .map((r) => r.trim())
-    //     .filter((r) => r !== "")
-    //     .join(),
+      //   emoji: reactions
+      //     .split(",")
+      //     .map((r) => r.trim())
+      //     .filter((r) => r !== "")
+      //     .join(),
     };
 
     setChatConversation([...conversation, newMessage]);
@@ -61,7 +81,7 @@ export default function AdvancedMessageModal({
           <DialogTitle>Add a customized message</DialogTitle>
         </DialogHeader>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col p-2 gap-2">
           <Label>Message Text</Label>
           <Textarea
             value={text}
@@ -101,6 +121,55 @@ export default function AdvancedMessageModal({
               </div>
             </>
           )}
+          {/* Date selector */}
+          <div className="flex gap-4">
+            <div className="flex flex-col gap-3">
+              <Label htmlFor="date-picker" className="px-1">
+                Date
+              </Label>
+              <Popover open={openDatePicker} onOpenChange={setOpenDatePicker}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    id="date-picker"
+                    className="w-32 justify-between font-normal"
+                  >
+                    {date ? date.toLocaleDateString() : "Select date"}
+                    <ChevronDownIcon />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent
+                  className="w-auto overflow-hidden p-0"
+                  align="start"
+                >
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    captionLayout="dropdown"
+                    onSelect={(date) => {
+                      setDate(date);
+                      setOpenDatePicker(false);
+                    }}
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+            <div className="flex flex-col gap-3">
+              <Label htmlFor="time-picker" className="px-1">
+                Time
+              </Label>
+              <Input
+                type="time"
+                id="time-picker"
+                step="1"
+                defaultValue={time}
+                onChange={(e) => setTime(e.target.value)}
+                className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+
+              />
+            </div>
+          </div>
+
           {/* <Label>Reactions (comma separated)</Label>
           <EmojiPicker
             reactionsDefaultOpen={true}
@@ -110,7 +179,7 @@ export default function AdvancedMessageModal({
             /> */}
         </div>
 
-        <DialogFooter className="mt-4">
+        <DialogFooter className="mt-4 p-2">
           <Button
             variant="secondary"
             className="cursor-pointer transitions hover:bg-rose-400"

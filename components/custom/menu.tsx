@@ -14,6 +14,7 @@ import {
   Laptop,
   ImageUpscale,
   LifeBuoy,
+  MessageCircleX,
 } from "lucide-react";
 
 import Github from "@icons/thirdPartyAppIcons/github_icon.svg"
@@ -44,7 +45,7 @@ import { cn } from "@/lib/utils";
 export default function MenuTopBar() {
   const isMobile = useIsMobile();
 
-  const { layout, setLayout } = usePreferences();
+  const { layout, setLayout, setChatConversation } = usePreferences();
   const layouts = ["auto", "mobile", "desktop"];
 
   function returnIcon(type: string) {
@@ -131,6 +132,7 @@ export default function MenuTopBar() {
               <span className="underline">&rarr; Chat Mockup on Github</span>
             </a>
           </div>
+          {/* HELP CENTER SECTION */}
           <Sheet>
             <SheetTrigger
               id="helpCenter"
@@ -199,6 +201,14 @@ export default function MenuTopBar() {
               </div>
             </SheetContent>
           </Sheet>
+          <hr className="my-2" />
+          <span
+            id="resetConversation"
+            className="flex flex-row cursor-pointer hover:bg-accent hover:text-rose-500 p-3 rounded items-center transitions"
+            onClick={() => setChatConversation([])}
+          >
+            <MessageCircleX className="mr-2 w-4 h-4" /> Clear conversation
+          </span>
           <div
             id="versionNumber"
             className="flex flex-row cursor-pointer hover:bg-accent p-3 rounded items-center"
