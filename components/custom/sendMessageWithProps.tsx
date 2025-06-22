@@ -16,7 +16,15 @@ import { Label } from "@/components/ui/label";
 import { Calendar } from "@/components/ui/calendar";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "../ui/input";
-import { CheckCheck, ChevronDownIcon } from "lucide-react";
+import {
+  CheckCheck,
+  ChevronDownIcon,
+  DoorOpen,
+  MessageCircleCode,
+  MessageCircleX,
+  Send,
+  TextCursorInput,
+} from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 // import EmojiPicker from "emoji-picker-react";
 
@@ -41,17 +49,19 @@ export default function AdvancedMessageModal({
   const [time, setTime] = useState("10:30:00");
 
   useEffect(() => {
-  const currentDate = new Date();
+    const currentDate = new Date();
 
-  const pad = (n: number) => n.toString().padStart(2, "0");
-  const currentTime = `${pad(currentDate.getHours())}:${pad(currentDate.getMinutes())}:${pad(currentDate.getSeconds())}`;
-  setTime(currentTime);
-}, []);
+    const pad = (n: number) => n.toString().padStart(2, "0");
+    const currentTime = `${pad(currentDate.getHours())}:${pad(
+      currentDate.getMinutes()
+    )}:${pad(currentDate.getSeconds())}`;
+    setTime(currentTime);
+  }, []);
 
   const handleSend = () => {
     if (text.trim() === "") return;
-    
-    const mergedDate = date || new Date();
+
+    const mergedDate = date || new Date();
     const [hours, minutes, seconds] = time.split(":").map(Number);
     mergedDate.setHours(hours);
     mergedDate.setMinutes(minutes);
@@ -78,17 +88,25 @@ export default function AdvancedMessageModal({
     <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add a customized message</DialogTitle>
+          <DialogTitle className="flex flex-row gap-2 items-center">
+            <MessageCircleCode />
+            Add a customized message
+        </DialogTitle>
         </DialogHeader>
 
-        <div className="flex flex-col p-2 gap-2">
-          <Label>Message Text</Label>
-          <Textarea
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            rows={3}
-            placeholder="Your message..."
-          />
+        <div className="flex flex-col p-2 gap-4">
+          <div className="flex flex-col gap-2">
+            <Label>
+              <TextCursorInput />
+              Message Text
+            </Label>
+            <Textarea
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              rows={3}
+              placeholder="Your message..."
+            />
+          </div>
           <div className="flex flex-row">
             <Label>Direction</Label>
             <select
@@ -132,7 +150,7 @@ export default function AdvancedMessageModal({
                   <Button
                     variant="outline"
                     id="date-picker"
-                    className="w-32 justify-between font-normal"
+                    className="w-32 justify-between font-normal cursor-pointer"
                   >
                     {date ? date.toLocaleDateString() : "Select date"}
                     <ChevronDownIcon />
@@ -164,8 +182,7 @@ export default function AdvancedMessageModal({
                 step="1"
                 defaultValue={time}
                 onChange={(e) => setTime(e.target.value)}
-                className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
-
+                className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none cursor-pointer"
               />
             </div>
           </div>
@@ -179,12 +196,21 @@ export default function AdvancedMessageModal({
             /> */}
         </div>
 
-        <DialogFooter className="mt-4 p-2">
+        <DialogFooter className="mt-4 px-2">
+          <Button
+            variant="ghost"
+            className="cursor-pointer transitions hover:text-rose-500"
+            onClick={() => setChatConversation([])}
+          >
+            <MessageCircleX />
+            Reset conversation
+          </Button>
           <Button
             variant="secondary"
             className="cursor-pointer transitions hover:bg-rose-400"
             onClick={onClose}
           >
+            <DoorOpen />
             Cancel
           </Button>
           <Button
@@ -196,6 +222,7 @@ export default function AdvancedMessageModal({
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
+            <Send />
             Send
           </Button>
         </DialogFooter>
