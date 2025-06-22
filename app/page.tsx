@@ -136,7 +136,7 @@ export default function ChatMockup() {
                   type="text"
                   className="bg-accent rounded-full grow min-w-0.5 h-7 px-3"
                   value={inputText != "" ? inputText : ""}
-                  placeholder="Type a message..."
+                  placeholder="Type message or click send for custom message..."
                   onChange={(e) => setInputText(e.target.value)}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
