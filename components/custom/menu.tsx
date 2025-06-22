@@ -196,8 +196,22 @@ export default function MenuTopBar() {
                   </li>
                 </ul>
                 <HelpCenterTitle level="h1" text="Message in conversation" />
-                <p>Right now you are only able to send messages in and that&apos;s it by typing it in the text field and clicking the send icon.</p>
-                <p>More message input and edition will be added in the near future.</p>
+                <p>The app always starts with a preset conversation. You can open the menu to clear
+                  the conversation or press the send icon while your message input is empty which
+                  will open a pop up at the bottom of which you&apos;ll find a clear conversation button as well.
+                </p>
+                <HelpCenterTitle level="h2" text="Sending custom messages" />
+                <p>
+                  If your message input is empty and you press on send you will be able to send custom messages.
+                  Please find the detailed option of the popup window below:
+                </p>
+                <ul className="list-disc ml-4">
+                  <li>Message text: the actual content of the message.</li>
+                  <li>Direction: [SENT] (gray background) or [RECEIVED] (color .1 background).</li>
+                  <li>Read status: Only available for [SENT] messages this lets you decide wether the message was read or not.</li>
+                  <li>Date and time of the message: Leave for default (ie. your current one) or define custom one.</li>
+                </ul>
+
               </div>
             </SheetContent>
           </Sheet>
@@ -213,7 +227,7 @@ export default function MenuTopBar() {
             id="versionNumber"
             className="flex flex-row cursor-pointer hover:bg-accent p-3 rounded items-center"
           >
-            <Info className="mr-2 w-4 h-4" /> V.2.1
+            <Info className="mr-2 w-4 h-4" /> V.2.2
           </div>
         </PopoverContent>
       </Popover>
