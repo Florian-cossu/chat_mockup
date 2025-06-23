@@ -32,7 +32,7 @@ export default function ChatMessageBubble({
     const samePrev = previousDirection === direction;
     const sameNext = nextDirection === direction;
 
-    const parts = [];
+    const parts = ["rounded-tl-lg rounded-tr-lg rounded-bl-lg rounded-br-lg"];
 
     if (!samePrev) parts.push("mt-1");
     if (!samePrev && !sameNext) parts.push(`rounded-${direction == "in" ? "tl" : "br"}-xs`);
@@ -50,9 +50,9 @@ export default function ChatMessageBubble({
     <>
       <div
         className={cn(
-          "max-w-[70%] px-4 py-2 my-1 rounded-lg relative",
+          "max-w-[70%] px-4 py-2 my-1 relative",
           bubbleStyle,
-          direction === "in" ? "self-start" : "self-end bg-muted",
+          direction === "in" ? "self-start" : "self-end bg-current/20",
           className
         )}
         style={{
@@ -60,7 +60,7 @@ export default function ChatMessageBubble({
         }}
       >
         {replyToMessage && (
-          <div className="mb-1 px-2 py-1 text-sm rounded bg-background/90 border-l-3">
+          <div className="mb-1 px-2 py-1 text-sm rounded bg-background/60 border-background/80 border-l-3">
             <span className="block font-medium">
               <p className="font-bold">{replyToMessage.direction == "in" ? contactName : "You"}</p>
               {replyToMessage.text.slice(0, 40)}
