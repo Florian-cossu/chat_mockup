@@ -27,7 +27,7 @@ import {
   TextCursorInput,
 } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Select } from "../ui/select";
+
 // import EmojiPicker from "emoji-picker-react";
 
 interface AdvancedMessageModalProps {
