@@ -12,15 +12,35 @@ interface ChatMessageBubbleProps {
   message: ChatMessage;
   replyToMessage?: ChatMessage;
   className?: string;
+  previousDirection?: "in" | "out";
+  nextDirection?: "in" | "out";
 }
 
 export default function ChatMessageBubble({
   message,
   replyToMessage,
   className,
+  previousDirection,
+  nextDirection,
 }: ChatMessageBubbleProps) {
-  const { color1 } = usePreferences();
+  const { color1, contactName } = usePreferences();
   const [incomingColor, setIncomingColor] = useState("");
+  const direction = message.direction;
+
+  const bubbleStyle = (() => {
+
+    const samePrev = previousDirection === direction;
+    const sameNext = nextDirection === direction;
+
+    const parts = [];
+
+    if (!samePrev) parts.push("mt-1");
+    if (!samePrev && !sameNext) parts.push(`rounded-${direction == "in" ? "tl" : "br"}-xs`);
+    if (samePrev) parts.push(`rounded-${direction == "in" ? "tl" : "tr"}-xs`);
+    if (sameNext) parts.push(`rounded-${direction == "in" ? "bl" : "br"}-xs`);
+
+    return parts.join(" ");
+  })();
 
   useEffect(() => {
     setIncomingColor(getContrastColor(color1));
@@ -31,16 +51,18 @@ export default function ChatMessageBubble({
       <div
         className={cn(
           "max-w-[70%] px-4 py-2 my-1 rounded-lg relative",
-          message.direction === "in" ? "self-start" : "self-end bg-muted",
+          bubbleStyle,
+          direction === "in" ? "self-start" : "self-end bg-muted",
           className
         )}
         style={{
-          backgroundColor: message.direction === "in" ? color1 : "",
+          backgroundColor: direction === "in" ? color1 : "",
         }}
       >
         {replyToMessage && (
           <div className="mb-1 px-2 py-1 text-sm rounded bg-background/90 border-l-3">
             <span className="block font-medium">
+              <p className="font-bold">{replyToMessage.direction == "in" ? contactName : "You"}</p>
               {replyToMessage.text.slice(0, 40)}
             </span>
           </div>
@@ -48,19 +70,21 @@ export default function ChatMessageBubble({
 
         <p
           className="whitespace-pre-wrap"
-          style={{ color: message.direction == "in" ? incomingColor : "" }}
+          style={{ color: direction == "in" ? incomingColor : "" }}
         >
           {message.text}
         </p>
 
         <div
           className="flex items-center justify-end gap-1 mt-1 text-xs opacity-70"
-          style={{ color: message.direction == "in" ? incomingColor : "" }}
+          style={{ color: direction == "in" ? incomingColor : "" }}
         >
-          {message.seen && message.direction === "out" && (
+          {message.seen && direction === "out" && (
             <CheckCheck size={14} />
           )}
-          <span><LocalTime iso={message.timestamp} /></span>
+          <span>
+            <LocalTime iso={message.timestamp} />
+          </span>
         </div>
       </div>
       {message.emoji && (
