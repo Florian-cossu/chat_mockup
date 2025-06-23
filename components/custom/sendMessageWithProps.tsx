@@ -21,11 +21,13 @@ import {
   ChevronDownIcon,
   DoorOpen,
   MessageCircleCode,
+  MessageCircleReply,
   MessageCircleX,
   Send,
   TextCursorInput,
 } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Select } from "../ui/select";
 // import EmojiPicker from "emoji-picker-react";
 
 interface AdvancedMessageModalProps {
@@ -47,6 +49,7 @@ export default function AdvancedMessageModal({
   const [openDatePicker, setOpenDatePicker] = React.useState(false);
   const [date, setDate] = React.useState<Date | undefined>(new Date());
   const [time, setTime] = useState("10:30:00");
+  const [repliesTo, setRepliesTo] = useState("");
 
   useEffect(() => {
     const currentDate = new Date();
@@ -72,6 +75,7 @@ export default function AdvancedMessageModal({
       direction,
       text: text.trim(),
       timestamp: mergedDate?.toISOString(),
+      repliesTo: repliesTo ?? undefined,
       seen,
       //   emoji: reactions
       //     .split(",")
@@ -91,7 +95,7 @@ export default function AdvancedMessageModal({
           <DialogTitle className="flex flex-row gap-2 items-center">
             <MessageCircleCode />
             Add a customized message
-        </DialogTitle>
+          </DialogTitle>
         </DialogHeader>
 
         <div className="flex flex-col p-2 gap-4">
@@ -186,6 +190,25 @@ export default function AdvancedMessageModal({
               />
             </div>
           </div>
+          <Label>
+            <MessageCircleReply />
+            Replies to
+          </Label>
+          <select
+            value={repliesTo}
+            onChange={(e) => setRepliesTo(e.target.value as string)}
+            className="w-fit p-2 border rounded dark:bg-gray-800 cursor-pointer"
+          >
+            <option key="0" value="">Reply to?</option>
+            {conversation.map((message) => (
+              <option key={message.id} value={message.id}>
+                {message.direction == "in" ? "contact: " : "you: "}
+                {message.text.length > 30
+                  ? message.text.slice(0, 30) + "…"
+                  : message.text}
+              </option>
+            ))}
+          </select>
 
           {/* <Label>Reactions (comma separated)</Label>
           <EmojiPicker
