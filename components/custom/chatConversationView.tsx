@@ -3,6 +3,7 @@
 import React from "react";
 import { ChatConversation } from "@/types/types";
 import ChatMessageBubble from "./chatMessageBubble";
+import { sortByTimestamp } from "@/lib/utils";
 
 interface ChatConversationViewProps {
   conversation: ChatConversation;
@@ -13,7 +14,7 @@ export default function ChatConversationView({
 }: ChatConversationViewProps) {
   return (
     <div className="flex flex-col p-4">
-      {conversation.map((msg, index) => {
+      {sortByTimestamp(conversation).map((msg, index) => {
         const replyTo = msg.repliesTo
           ? conversation.find((m) => m.id === msg.repliesTo)
           : undefined;

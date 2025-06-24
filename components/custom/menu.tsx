@@ -228,7 +228,7 @@ export default function MenuTopBar() {
             id="versionNumber"
             className="flex flex-row cursor-pointer hover:bg-accent p-3 rounded items-center"
           >
-            <Info className="mr-2 w-4 h-4" /> V.2.3
+            <Info className="mr-2 w-4 h-4" /> V.2.
           </div>
         </PopoverContent>
       </Popover>

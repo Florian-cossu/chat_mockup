@@ -27,8 +27,8 @@ import {
   TextCursorInput,
 } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-
-// import EmojiPicker from "emoji-picker-react";
+import EmojiSelector from "./emojiPicker";
+import { sortByTimestamp } from "@/lib/utils";
 
 interface AdvancedMessageModalProps {
   open: boolean;
@@ -39,12 +39,12 @@ export default function AdvancedMessageModal({
   open,
   onClose,
 }: AdvancedMessageModalProps) {
-  const { conversation, setChatConversation, color1 } = usePreferences();
+  const { conversation, setChatConversation, color1, contactName } = usePreferences();
 
   const [text, setText] = useState("");
   const [direction, setDirection] = useState<"out" | "in">("out");
   const [seen, setSeen] = useState(false);
-  //   const [reactions, setReactions] = useState("");
+  const [selectedEmojis, setSelectedEmoji] = useState("");
   const [isHovered, setIsHovered] = useState(false);
   const [openDatePicker, setOpenDatePicker] = React.useState(false);
   const [date, setDate] = React.useState<Date | undefined>(new Date());
@@ -77,11 +77,11 @@ export default function AdvancedMessageModal({
       timestamp: mergedDate?.toISOString(),
       repliesTo: repliesTo ?? undefined,
       seen,
-      //   emoji: reactions
-      //     .split(",")
-      //     .map((r) => r.trim())
-      //     .filter((r) => r !== "")
-      //     .join(),
+      emoji: selectedEmojis
+        .split(",")
+        .map((r) => r.trim())
+        .filter((r) => r !== "")
+        .join(),
     };
 
     setChatConversation([...conversation, newMessage]);
@@ -90,7 +90,7 @@ export default function AdvancedMessageModal({
 
   return (
     <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
-      <DialogContent>
+      <DialogContent className="max-h-[80%] overflow-scroll">
         <DialogHeader>
           <DialogTitle className="flex flex-row gap-2 items-center">
             <MessageCircleCode />
@@ -199,10 +199,12 @@ export default function AdvancedMessageModal({
             onChange={(e) => setRepliesTo(e.target.value as string)}
             className="w-fit p-2 border rounded dark:bg-gray-800 cursor-pointer"
           >
-            <option key="0" value="">Reply to?</option>
-            {conversation.map((message) => (
+            <option key="0" value="">
+              Reply to?
+            </option>
+            {sortByTimestamp(conversation).map((message) => (
               <option key={message.id} value={message.id}>
-                {message.direction == "in" ? "contact: " : "you: "}
+                {message.direction == "in" ? `${contactName}: ` : "you: "}
                 {message.text.length > 30
                   ? message.text.slice(0, 30) + "…"
                   : message.text}
@@ -210,13 +212,11 @@ export default function AdvancedMessageModal({
             ))}
           </select>
 
-          {/* <Label>Reactions (comma separated)</Label>
-          <EmojiPicker
-            reactionsDefaultOpen={true}
-            onEmojiClick={(emoji) => {
-                setReactions(emoji.emoji);
-            }}
-            /> */}
+          <Label>Reactions</Label>
+          <EmojiSelector
+            selectedEmoji={selectedEmojis}
+            setSelectedEmoji={setSelectedEmoji}
+          />
         </div>
 
         <DialogFooter className="mt-4 px-2">
