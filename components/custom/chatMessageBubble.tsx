@@ -88,7 +88,7 @@ export default function ChatMessageBubble({
         </div>
       </div>
       {message.emoji && (
-        <span className="mt-[-1rem] px-2 w-fit h-fit z-10 rounded-[.9rem] bg-zinc-100 border-4 border-card cursor-pointer">
+        <span className={`mt-[-1rem] ${direction == "in" ? "" : "self-end"} px-2 w-fit h-fit z-10 rounded-[.9rem] bg-zinc-100 border-4 border-card cursor-pointer`}>
           <p className="text-shadow-md">{message.emoji}</p>
         </span>
       )}

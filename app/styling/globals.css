@@ -3,6 +3,11 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+.EmojiPickerReact {
+  --epr-emoji-size: 1.2rem !important;
+  --epr-emoji-gap: .6rem !important;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
