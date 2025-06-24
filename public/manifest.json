@@ -3,8 +3,7 @@
     "start_url": "/",
     "name": "Chat Mockup",
     "short_name": "Chat Mockup",
-    "description":
-      "Chat mockup is a small project to provide a way to share \"screenshots\" of a conversation allowing people to share conversations without having to worry about anonymisation.",
+    "description": "Create clean, realistic chat mockups to share conversations without revealing private info. Perfect for demos, presentations, and marketing visuals.",
     "prefer_related_applications": true,
     "lang": "en",
     "dir": "ltr",
@@ -53,25 +52,37 @@
     "screenshots": [
       {
         "src": "/screenshots/large_preview.png",
-        "sizes": "3840x1872",
+        "sizes": "2378x1508",
         "type": "image/png",
         "form_factor": "wide"
       },
       {
         "src": "/screenshots/large_preview_2.png",
-        "sizes": "3840x1872",
+        "sizes": "2378x1508",
+        "type": "image/png",
+        "form_factor": "wide"
+      },
+      {
+        "src": "/screenshots/large_preview_3.png",
+        "sizes": "2378x1508",
         "type": "image/png",
         "form_factor": "wide"
       },
       {
         "src": "/screenshots/mobile_preview.png",
-        "sizes": "748x1332",
+        "sizes": "750x1334",
         "type": "image/png",
         "form_factor": "narrow"
       },
       {
         "src": "/screenshots/mobile_preview_2.png",
-        "sizes": "748x1332",
+        "sizes": "750x1334",
+        "type": "image/png",
+        "form_factor": "narrow"
+      },
+      {
+        "src": "/screenshots/mobile_preview_3.png",
+        "sizes": "750x1334",
         "type": "image/png",
         "form_factor": "narrow"
       }

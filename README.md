@@ -49,20 +49,22 @@
 
 <!-- ![image](public/imgs/product_screenshot.png) -->
 
-Sometimes you want to share a screenshot from a conversation you just had with someone on a messaging app and don't want to waste time hiding names or entire discussion sections.
+Sharing a conversation snippet often means manually editing screenshots to hide names or irrelevant parts — a tedious and time-consuming task. **This tool lets you easily generate clean, realistic chat mockups:** simply enter the messages you want to display, and preview them as they would appear on mobile or desktop.
+
+This is ideal for sharing examples without revealing private information, or for creating polished visuals for product presentations, marketing materials, or communication demos.
 
 <table>
   <tr>
     <td><img src="public/screenshots/large_preview.png" width="200"/></td>
     <td><img src="public/screenshots/large_preview_2.png" width="200"/></td>
+    <td><img src="public/screenshots/large_preview_3.png" width="200"/></td>
     <td><img src="public/screenshots/mobile_preview.png" width="200"/></td>
     <td><img src="public/screenshots/mobile_preview_2.png" width="200"/></td>
+    <td><img src="public/screenshots/mobile_preview_3.png" width="200"/></td>
   </tr>
 </table>
 
-Well you can just use this tool to just add the message you wish to display and simulate a display on a mobile or computer which will help you. You could even use it for communication purposes for example to illustrate a presentation for product.
-
-This project is a little challenge for me to improve my programming skills.
+> **Note:** This project also serves as a personal challenge to sharpen my programming skills and experiment with new techniques.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -123,9 +125,10 @@ This app is a PWA built with `next-pwa` (see [`app/manifest.json`](app/manifest.
 > **Unregister the service worker:**
 > DevTools → `Application` tab → `Service Workers` → Click "Unregister"
 >
-> If you skip this, the browser might serve **stale cached content**, causing unexpected bugs. -->
+> If you skip this, the browser might serve **stale cached content**, causing unexpected bugs. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+-->
 
 <!-- CONTRIBUTING -->
 

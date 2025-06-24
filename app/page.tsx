@@ -43,6 +43,8 @@ export default function ChatMockup() {
     setIconColor(getContrastColor(color1));
   }, [color1, color2]);
 
+  if (!isMobile && layout == "mobile") {}
+
   // Auto scroll to bottom
   const containerRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -92,13 +94,13 @@ export default function ChatMockup() {
 
   function twStyleConstructor(layout: string) {
     if (isMobile) {
-      return "h-[85dvh]";
+      return "h-[85dvh] w-4/5";
     } else {
       switch (layout) {
         case "auto":
           return "w-4/5 h-[80dvh] md:w-4/5";
         case "mobile":
-          return "w-[420px] h-[800px]";
+          return "w-[42dvh] h-[85dvh]";
         case "desktop":
           return "w-4/5 h-[80dvh]";
       }
@@ -118,7 +120,7 @@ export default function ChatMockup() {
         <div className="flex flex-col m-0 p-0 w-[100vw] h-[100vh] items-center justify-items-center justify-center">
           <Card
             className={cn(
-              `w-4/5 m-0 p-0 mb-6 gap-0`,
+              `m-0 p-0 mb-6 gap-0`,
               twStyleConstructor(layout)
             )}
           >
