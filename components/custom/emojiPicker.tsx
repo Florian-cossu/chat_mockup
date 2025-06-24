@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from "react";
-import EmojiPicker, { Emoji } from "emoji-picker-react";
+import EmojiPicker from "emoji-picker-react";
 import { Button } from "../ui/button";
 import { HeartOff, Smile } from "lucide-react";
 import { usePreferences } from "@/contexts/preferencesContext";
