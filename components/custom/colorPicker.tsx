@@ -82,3 +82,50 @@ export default function ColorPicker({ index }: ColorPickerProps) {
     </div>
   );
 }
+
+type BasicColorPickerProps = {
+  color: string;
+  setColor: (color: string) => void;
+};
+
+export function BasicColorPicker({ color, setColor }: BasicColorPickerProps) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-wrap gap-2">
+        {TAILWIND_COLORS.map((c) => (
+          <button
+            key={c}
+            onClick={() => setColor(c)}
+            className="w-6 h-6 rounded-full border cursor-pointer hover:brightness-110 transition"
+            style={{ backgroundColor: c }}
+            aria-label={`Set color ${c}`}
+          />
+        ))}
+
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogTrigger asChild>
+            <button
+              className="w-6 h-6 rounded-full border flex items-center justify-center text-xs cursor-pointer hover:brightness-110 transition"
+              style={{
+                backgroundColor: `${color}33`, // Adds transparency
+                backgroundBlendMode: "multiply",
+              }}
+              aria-label="Open custom color picker"
+            >
+              <Palette className="w-4 h-4" />
+            </button>
+          </DialogTrigger>
+
+          <DialogContent className="max-w-xs p-4 rounded-md shadow-lg w-fit">
+            <div className="flex justify-between items-center mb-2">
+              <h3 className="text-lg font-semibold">Pick a color</h3>
+            </div>
+            <HexColorPicker color={color} onChange={setColor} />
+          </DialogContent>
+        </Dialog>
+      </div>
+    </div>
+  );
+}

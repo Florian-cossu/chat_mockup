@@ -211,6 +211,8 @@ export default function MenuTopBar() {
                   <li>Read status: Only available for [SENT] messages this lets you decide wether the message was read or not.</li>
                   <li>Date and time of the message: Leave for default (ie. your current one) or define custom one.</li>
                   <li>Replies to: Lets you choose whether you want your message to be replying to a given message.</li>
+                  <li>Reactions: Lets you define the reaction the message received.</li>
+                  <li>Bubble color override: Lets you add a custom color background to the message you&apos;re about to add. Font contrast will be automatically calculated.</li>
                 </ul>
 
               </div>
@@ -228,7 +230,7 @@ export default function MenuTopBar() {
             id="versionNumber"
             className="flex flex-row cursor-pointer hover:bg-accent p-3 rounded items-center"
           >
-            <Info className="mr-2 w-4 h-4" /> V.2.
+            <Info className="mr-2 w-4 h-4" /> V.2.4
           </div>
         </PopoverContent>
       </Popover>
