@@ -231,7 +231,7 @@ export default function AdvancedMessageModal({
 
           <Label>
             <PaintBucket />
-            Set bubble color override
+            Bubble color override
           </Label>
           <BasicColorPicker color={color} setColor={setOverrideColor} />
         </div>
