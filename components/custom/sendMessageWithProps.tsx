@@ -30,7 +30,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import EmojiSelector from "./emojiPicker";
 import { sortByTimestamp } from "@/lib/utils";
-import ColorPicker, { BasicColorPicker } from "./colorPicker";
+import { BasicColorPicker } from "./colorPicker";
 
 interface AdvancedMessageModalProps {
   open: boolean;

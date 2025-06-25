@@ -212,7 +212,7 @@ export default function MenuTopBar() {
                   <li>Date and time of the message: Leave for default (ie. your current one) or define custom one.</li>
                   <li>Replies to: Lets you choose whether you want your message to be replying to a given message.</li>
                   <li>Reactions: Lets you define the reaction the message received.</li>
-                  <li>Bubble color override: Let's you add a custom color background to the message you&apos;re about to add. Font contrast will be automatically calculated.</li>
+                  <li>Bubble color override: Lets you add a custom color background to the message you&apos;re about to add. Font contrast will be automatically calculated.</li>
                 </ul>
 
               </div>
