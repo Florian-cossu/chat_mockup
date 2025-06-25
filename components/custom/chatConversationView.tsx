@@ -4,6 +4,7 @@ import React from "react";
 import { ChatConversation } from "@/types/types";
 import ChatMessageBubble from "./chatMessageBubble";
 import { sortByTimestamp } from "@/lib/utils";
+import { getContrastColor } from "@/lib/fontColorAdjust";
 
 interface ChatConversationViewProps {
   conversation: ChatConversation;
@@ -33,6 +34,10 @@ export default function ChatConversationView({
             replyToMessage={replyTo}
             previousDirection={prevDir}
             nextDirection={nextDir}
+            forceColor={msg.forceColor ? msg.forceColor : undefined}
+            fontColor={
+              msg.forceColor ? getContrastColor(msg.forceColor) : undefined
+            }
           />
         );
       })}

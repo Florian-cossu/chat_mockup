@@ -8,6 +8,7 @@ export type ChatMessage = {
   seen: boolean;              // has it been seen / opened
   emoji?: string;             // optional reaction
   repliesTo?: string;         // optional ID of the message this replies to
+  forceColor?: string;
 };
 
 export type ChatConversation = ChatMessage[];

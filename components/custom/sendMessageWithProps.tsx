@@ -23,12 +23,14 @@ import {
   MessageCircleCode,
   MessageCircleReply,
   MessageCircleX,
+  PaintBucket,
   Send,
   TextCursorInput,
 } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import EmojiSelector from "./emojiPicker";
 import { sortByTimestamp } from "@/lib/utils";
+import ColorPicker, { BasicColorPicker } from "./colorPicker";
 
 interface AdvancedMessageModalProps {
   open: boolean;
@@ -39,7 +41,8 @@ export default function AdvancedMessageModal({
   open,
   onClose,
 }: AdvancedMessageModalProps) {
-  const { conversation, setChatConversation, color1, contactName } = usePreferences();
+  const { conversation, setChatConversation, color1, contactName } =
+    usePreferences();
 
   const [text, setText] = useState("");
   const [direction, setDirection] = useState<"out" | "in">("out");
@@ -50,6 +53,8 @@ export default function AdvancedMessageModal({
   const [date, setDate] = React.useState<Date | undefined>(new Date());
   const [time, setTime] = useState("10:30:00");
   const [repliesTo, setRepliesTo] = useState("");
+  const [color, setOverrideColor] = useState(color1);
+  const [colorOverride, setColorOverride] = useState(false);
 
   useEffect(() => {
     const currentDate = new Date();
@@ -60,6 +65,11 @@ export default function AdvancedMessageModal({
     )}:${pad(currentDate.getSeconds())}`;
     setTime(currentTime);
   }, []);
+
+  useEffect(() => {
+    setColorOverride(true);
+    console.log("Newcolor: ", color);
+  }, [color]);
 
   const handleSend = () => {
     if (text.trim() === "") return;
@@ -82,6 +92,7 @@ export default function AdvancedMessageModal({
         .map((r) => r.trim())
         .filter((r) => r !== "")
         .join(),
+      forceColor: colorOverride ? color : undefined,
     };
 
     setChatConversation([...conversation, newMessage]);
@@ -217,6 +228,12 @@ export default function AdvancedMessageModal({
             selectedEmoji={selectedEmojis}
             setSelectedEmoji={setSelectedEmoji}
           />
+
+          <Label>
+            <PaintBucket />
+            Set bubble color override
+          </Label>
+          <BasicColorPicker color={color} setColor={setOverrideColor} />
         </div>
 
         <DialogFooter className="mt-4 px-2">
