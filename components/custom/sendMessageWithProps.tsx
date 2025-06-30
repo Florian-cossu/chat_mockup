@@ -64,12 +64,8 @@ export default function AdvancedMessageModal({
       currentDate.getMinutes()
     )}:${pad(currentDate.getSeconds())}`;
     setTime(currentTime);
+    setColorOverride(false);
   }, []);
-
-  useEffect(() => {
-    setColorOverride(true);
-    console.log("Newcolor: ", color);
-  }, [color]);
 
   const handleSend = () => {
     if (text.trim() === "") return;
@@ -233,7 +229,7 @@ export default function AdvancedMessageModal({
             <PaintBucket />
             Bubble color override
           </Label>
-          <BasicColorPicker color={color} setColor={setOverrideColor} />
+          <BasicColorPicker color={color} setColor={setOverrideColor} forceOverride={setColorOverride}/>
         </div>
 
         <DialogFooter className="mt-4 px-2">
