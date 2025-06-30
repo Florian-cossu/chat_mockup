@@ -86,9 +86,10 @@ export default function ColorPicker({ index }: ColorPickerProps) {
 type BasicColorPickerProps = {
   color: string;
   setColor: (color: string) => void;
+  forceOverride: (value: boolean) => void;
 };
 
-export function BasicColorPicker({ color, setColor }: BasicColorPickerProps) {
+export function BasicColorPicker({ color, setColor, forceOverride }: BasicColorPickerProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -97,7 +98,10 @@ export function BasicColorPicker({ color, setColor }: BasicColorPickerProps) {
         {TAILWIND_COLORS.map((c) => (
           <button
             key={c}
-            onClick={() => setColor(c)}
+            onClick={() => {
+              setColor(c)
+              forceOverride(true);
+            }}
             className="w-6 h-6 rounded-full border cursor-pointer hover:brightness-110 transition"
             style={{ backgroundColor: c }}
             aria-label={`Set color ${c}`}
@@ -122,7 +126,10 @@ export function BasicColorPicker({ color, setColor }: BasicColorPickerProps) {
             <div className="flex justify-between items-center mb-2">
               <h3 className="text-lg font-semibold">Pick a color</h3>
             </div>
-            <HexColorPicker color={color} onChange={setColor} />
+            <HexColorPicker color={color} onChange={(c) => {
+              setColor(c);
+              forceOverride(true);
+              }} />
           </DialogContent>
         </Dialog>
       </div>
