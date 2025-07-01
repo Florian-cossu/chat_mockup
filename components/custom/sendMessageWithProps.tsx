@@ -17,6 +17,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "../ui/input";
 import {
+  Calendar1,
   CheckCheck,
   ChevronDownIcon,
   DoorOpen,
@@ -26,6 +27,7 @@ import {
   PaintBucket,
   Send,
   TextCursorInput,
+  Watch,
 } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import EmojiSelector from "./emojiPicker";
@@ -35,20 +37,23 @@ import { BasicColorPicker } from "./colorPicker";
 interface AdvancedMessageModalProps {
   open: boolean;
   onClose: () => void;
+  inputText?: string;
 }
 
 export default function AdvancedMessageModal({
   open,
   onClose,
+  inputText
 }: AdvancedMessageModalProps) {
   const { conversation, setChatConversation, color1, contactName } =
     usePreferences();
 
-  const [text, setText] = useState("");
+  const [text, setText] = useState(inputText ? inputText : "");
   const [direction, setDirection] = useState<"out" | "in">("out");
   const [seen, setSeen] = useState(false);
   const [selectedEmojis, setSelectedEmoji] = useState("");
   const [isHovered, setIsHovered] = useState(false);
+  const [isCheckHovered, setIsCheckHovered] = useState(false);
   const [openDatePicker, setOpenDatePicker] = React.useState(false);
   const [date, setDate] = React.useState<Date | undefined>(new Date());
   const [time, setTime] = useState("10:30:00");
@@ -140,10 +145,16 @@ export default function AdvancedMessageModal({
                   onChange={(e) => setSeen(e.target.checked)}
                   className="hidden"
                 />
-                <Label htmlFor="isMessageRead" className="cursor-pointer">
+                <Label 
+                  htmlFor="isMessageRead" 
+                  className="cursor-pointer transitions"
+                  style={{ color: isCheckHovered ? color1 : undefined }}
+                  onMouseEnter={() => setIsCheckHovered(true)}
+                  onMouseLeave={() => setIsCheckHovered(false)}
+                >
                   <CheckCheck
                     className="text-muted-foreground transitions cursor-pointer"
-                    style={{ color: seen ? color1 : "" }}
+                    style={{ color: seen ? color1 : isCheckHovered ? color1 : undefined }}
                   />
                   <p>{seen ? "Seen" : "Not seen"}</p>
                 </Label>
@@ -154,7 +165,7 @@ export default function AdvancedMessageModal({
           <div className="flex gap-4">
             <div className="flex flex-col gap-3">
               <Label htmlFor="date-picker" className="px-1">
-                Date
+                <Calendar1 className="w-4 h-4"/> Date
               </Label>
               <Popover open={openDatePicker} onOpenChange={setOpenDatePicker}>
                 <PopoverTrigger asChild>
@@ -185,7 +196,7 @@ export default function AdvancedMessageModal({
             </div>
             <div className="flex flex-col gap-3">
               <Label htmlFor="time-picker" className="px-1">
-                Time
+                <Watch className="w-4 h-4"/> Time
               </Label>
               <Input
                 type="time"
@@ -197,27 +208,32 @@ export default function AdvancedMessageModal({
               />
             </div>
           </div>
-          <Label>
-            <MessageCircleReply />
-            Replies to
-          </Label>
-          <select
-            value={repliesTo}
-            onChange={(e) => setRepliesTo(e.target.value as string)}
-            className="w-fit p-2 border rounded dark:bg-gray-800 cursor-pointer"
-          >
-            <option key="0" value="">
-              Reply to?
-            </option>
-            {sortByTimestamp(conversation).map((message) => (
-              <option key={message.id} value={message.id}>
-                {message.direction == "in" ? `${contactName}: ` : "you: "}
-                {message.text.length > 30
-                  ? message.text.slice(0, 30) + "…"
-                  : message.text}
-              </option>
-            ))}
-          </select>
+          {/* Reply to message section */}
+          { conversation.length > 0 && (
+            <>
+              <Label>
+                <MessageCircleReply className="w-4 h-4"/>
+                Replies to
+              </Label>
+              <select
+                value={repliesTo}
+                onChange={(e) => setRepliesTo(e.target.value as string)}
+                className="w-fit p-2 border rounded dark:bg-gray-800 cursor-pointer"
+              >
+                <option key="0" value="">
+                  Reply to?
+                </option>
+                {sortByTimestamp(conversation).map((message) => (
+                  <option key={message.id} value={message.id}>
+                    {message.direction == "in" ? `${contactName}: ` : "you: "}
+                    {message.text.length > 30
+                      ? message.text.slice(0, 30) + "…"
+                      : message.text}
+                  </option>
+                ))}
+              </select>
+            </>
+          )}
 
           <Label>Reactions</Label>
           <EmojiSelector
@@ -226,7 +242,7 @@ export default function AdvancedMessageModal({
           />
 
           <Label>
-            <PaintBucket />
+            <PaintBucket className="w-4 h-4"/>
             Bubble color override
           </Label>
           <BasicColorPicker color={color} setColor={setOverrideColor} forceOverride={setColorOverride}/>
