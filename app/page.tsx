@@ -177,24 +177,13 @@ export default function ChatMockup() {
                     <Send
                       className="mt-[.1rem] mr-[.1rem] w-4 h-4 justify-self-center drop-shadow-sm drop-shadow-black/20"
                       onClick={() => {
-                        if (inputText.trim() === "") {
-                          setShowMessageWithPropsModal(true);
-                        } else {
-                          const newMessage: ChatMessage = {
-                            id: uuidv4(),
-                            direction: "out",
-                            text: inputText.trim(),
-                            timestamp: new Date().toISOString(),
-                            seen: false,
-                          };
-                          setChatConversation([...conversation, newMessage]);
-                          setInputText("");
+                        setShowMessageWithPropsModal(true);
                         }
-                      }}
+                      }
                     />
                   </span>
                   {showMessageWithPropsModal && (
-                    <AdvancedMessageModal open={showMessageWithPropsModal} onClose={() => setShowMessageWithPropsModal(false)} />
+                    <AdvancedMessageModal open={showMessageWithPropsModal} inputText={inputText ? inputText : undefined } onClose={() => setShowMessageWithPropsModal(false)} />
                   )}
                 </div>
               </div>
