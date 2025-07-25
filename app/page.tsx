@@ -43,7 +43,18 @@ export default function ChatMockup() {
     setIconColor(getContrastColor(color1));
   }, [color1, color2]);
 
-  if (!isMobile && layout == "mobile") {}
+useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Reset chat using Ctrl/Command + R
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "r") {
+        event.preventDefault();
+        setChatConversation([]);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   // Auto scroll to bottom
   const containerRef = useRef<HTMLDivElement>(null);

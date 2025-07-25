@@ -63,7 +63,7 @@ export default function ChatMessageBubble({
     <>
       <div
         className={cn(
-          "max-w-[70%] px-4 py-2 my-1 relative",
+          "max-w-[70%] px-4 py-2 my-1 relative text-sm",
           bubbleStyle,
           direction === "in" ? "self-start" : "self-end bg-current/20",
           className
@@ -71,7 +71,7 @@ export default function ChatMessageBubble({
         style={bubbleStyles}
       >
         {replyToMessage && (
-          <div className="mb-1 px-2 py-1 text-sm rounded bg-background/60 border-background/80 border-l-3">
+          <div className="mb-1 px-2 py-1 text-xs rounded bg-background/60 border-background/80 border-l-3">
             <span className="block font-medium">
               <p className="font-bold">
                 {replyToMessage.direction == "in" ? contactName : "You"}
@@ -89,10 +89,10 @@ export default function ChatMessageBubble({
         </p>
 
         <div
-          className="flex items-center justify-end gap-1 mt-1 text-xs opacity-70"
+          className="flex items-center justify-end gap-1 mt-1 text-[.6rem] opacity-70"
           style={{ color: direction == "in" ? incomingColor : "" }}
         >
-          {message.seen && direction === "out" && <CheckCheck size={14} />}
+          {message.seen && direction === "out" && <CheckCheck size={10} />}
           <span>
             <LocalTime iso={message.timestamp} />
           </span>
