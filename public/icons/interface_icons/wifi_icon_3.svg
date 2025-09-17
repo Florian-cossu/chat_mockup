@@ -1,0 +1,10 @@
+<svg width="24mm" height="24mm" version="1.1" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+	<g transform="matrix(.77012 0 0 .77012 48.3 2.1925)" style="stroke-width:2">
+		<g transform="translate(-21.031)" style="stroke-width:2">
+			<g style="stroke-width:2">
+				<path d="m-26.115 3.524c-4.1746 0.01985-8.2719 1.1283-11.887 3.2158a24 17.559 0 0 0-0.0863 0.03462l11.973 15.172 11.997-15.203a24 17.559 0 0 0-0.0088-0.0036c-3.6448-2.1046-7.7791-3.2136-11.988-3.2158z" style="fill:none;paint-order:markers stroke fill;stroke-linecap:round;stroke-linejoin:round;stroke-width:2;stroke:#000"/>
+				<path d="m-26.145 7.1985c-3.4193 0.016258-6.7859 0.76406-9.879 2.1807l0.817 1.0351 9.1002 11.112 9.1002-11.112 0.82321-1.0433c-3.1188-1.4252-6.515-2.1706-9.9617-2.1725z" style="paint-order:markers stroke fill"/>
+			</g>
+		</g>
+	</g>
+</svg>
