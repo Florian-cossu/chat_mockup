@@ -62,15 +62,30 @@ export default function AdvancedMessageModal({
   const [colorOverride, setColorOverride] = useState(false);
 
   useEffect(() => {
-    const currentDate = new Date();
+  const currentDate = new Date();
 
-    const pad = (n: number) => n.toString().padStart(2, "0");
-    const currentTime = `${pad(currentDate.getHours())}:${pad(
-      currentDate.getMinutes()
-    )}:${pad(currentDate.getSeconds())}`;
-    setTime(currentTime);
+  if (conversation.length > 0) {
+      const lastMessage = sortByTimestamp(conversation)[conversation.length - 1];
+      if (lastMessage?.timestamp) {
+        const lastDate = new Date(lastMessage.timestamp);
+        setDate(lastDate);
+
+        const pad = (n: number) => n.toString().padStart(2, "0");
+        const lastTime = `${pad(lastDate.getHours())}:${pad(
+          lastDate.getMinutes()
+        )}:${pad(lastDate.getSeconds())}`;
+        setTime(lastTime);
+      }
+    } else {
+      const pad = (n: number) => n.toString().padStart(2, "0");
+      const currentTime = `${pad(currentDate.getHours())}:${pad(
+        currentDate.getMinutes()
+      )}:${pad(currentDate.getSeconds())}`;
+      setTime(currentTime);
+    }
+
     setColorOverride(false);
-  }, []);
+  }, [conversation]);
 
   const handleSend = () => {
     if (text.trim() === "") return;

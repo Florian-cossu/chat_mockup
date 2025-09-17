@@ -1,0 +1,32 @@
+<svg 
+	width="24mm"
+	height="24mm"
+	version="1.1"
+	viewBox="0 0 24 24"
+	xmlns="http://www.w3.org/2000/svg"
+>
+	<g transform="matrix(.93363 0 0 .93363 89.476 -55.658)">
+		<g transform="translate(58.514 -8.9158)">
+			<rect 
+				x="-147.56"
+				y="86.175"
+				width="12.12"
+				height="3.9064"
+				style="fill:#e07620;paint-order:markers stroke fill"
+			/>
+			<g transform="translate(-83.34)">
+				<rect 
+					transform="rotate(-90)" 
+					x="-91.095" 
+					y="-65.188" 
+					width="17.627" 
+					height="14.059" 
+					ry="3.3936" 
+					style="fill:none;paint-order:markers stroke fill;stroke-linecap:round;stroke-linejoin:round;stroke-width:2;stroke:currentColor"/>
+				<path 
+					d="m-60.067 71.673h3.816v1.2847h-3.8156z" 
+					style="fill:none;paint-order:markers stroke fill;stroke-linecap:round;stroke-linejoin:round;stroke-width:2;stroke:currentColor"/>
+			</g>
+		</g>
+	</g>
+</svg>

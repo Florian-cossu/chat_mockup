@@ -1,0 +1,21 @@
+<svg 
+	width="24mm" 
+	height="24mm" 
+	version="1.1" 
+	viewBox="0 0 24 24" 
+	xmlns="http://www.w3.org/2000/svg"
+>
+	<g transform="matrix(.93363 0 0 .93363 66.299 -63.982)">
+		<rect 
+			transform="rotate(-90)" 
+			x="-91.095" 
+			y="-65.188" 
+			width="17.627" 
+			height="14.059" 
+			ry="3.3936" 
+			style="fill:none;paint-order:markers stroke fill;stroke-linecap:round;stroke-linejoin:round;stroke-width:2;stroke:currentColor"/>
+		<path 
+			d="m-60.067 71.673h3.816v1.2847h-3.8156z" 
+			style="fill:none;paint-order:markers stroke fill;stroke-linecap:round;stroke-linejoin:round;stroke-width:2;stroke:currentColor"/>
+	</g>
+</svg>
