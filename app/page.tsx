@@ -24,6 +24,7 @@ export default function ChatMockup() {
     layout,
     conversation,
     setChatConversation,
+    showWatermark,
   } = usePreferences();
   const isMobile = useIsMobile();
   const [inputText, setInputText] = useState("");
@@ -54,7 +55,7 @@ useEffect(() => {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [setChatConversation]);
 
   // Auto scroll to bottom
   const containerRef = useRef<HTMLDivElement>(null);
@@ -128,7 +129,7 @@ useEffect(() => {
           fontSize: isMobile ? ".8rem" : "unset",
         }}
       >
-        <div className="flex flex-col m-0 p-0 w-[100vw] h-[100vh] items-center justify-items-center justify-center">
+        <div className="flex flex-col m-0 p-0 w-screen h-screen items-center justify-items-center justify-center">
           <Card
             className={cn(
               `m-0 p-0 mb-6 gap-0`,
@@ -143,7 +144,7 @@ useEffect(() => {
               <ChatConversationView conversation={conversation} />
               <div ref={bottomRef} />
             </CardContent>
-            <CardFooter className="flex flex-col m-0 p-2 h-fit items-center justify-between border-t-1 gap-3">
+            <CardFooter className="flex flex-col m-0 p-2 h-fit items-center justify-between border-t gap-3">
               <div className="flex flex-row w-full gap-2 items-center justify-between">
                 <input
                   type="text"
@@ -201,16 +202,20 @@ useEffect(() => {
               <MobileGestureBar />
             </CardFooter>
           </Card>
-          <div
-            id="watermark"
-            className="flex flex-row items-center text-xs gap-1"
-            style={{ color: watermarkTextColor }}
-          >
-            <p className="flex flex-row items-center"> 🌈 Generated with </p>
-            <p className="!font-mono italic underline">
-              https://chat-mockup-fcossu.vercel.app/
-            </p>
-          </div>
+          { showWatermark && (
+            <>
+              <div
+                id="watermark"
+                className="flex flex-row items-center text-xs gap-1"
+                style={{ color: watermarkTextColor }}
+              >
+                <p className="flex flex-row items-center"> 🌈 Generated with </p>
+                <p className="font-mono! italic underline">
+                  https://chat-mockup-fcossu.vercel.app/
+                </p>
+              </div>
+            </>
+          )}
         </div>
       </body>
     );
