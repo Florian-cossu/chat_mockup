@@ -1,5 +1,7 @@
 "use client";
 
+import { useRef } from "react";
+
 import {
   Popover,
   PopoverContent,
@@ -15,6 +17,10 @@ import {
   ImageUpscale,
   LifeBuoy,
   MessageCircleX,
+  FileUp,
+  FileDown,
+  EyeOff,
+  Eye,
 } from "lucide-react";
 
 import Github from "@icons/thirdPartyAppIcons/github_icon.svg"
@@ -41,12 +47,51 @@ import { usePreferences } from "@/contexts/preferencesContext";
 
 import ColorPicker from "./colorPicker";
 import { cn } from "@/lib/utils";
+import { Switch } from "../ui/switch";
+import { Label } from "../ui/label";
 
 export default function MenuTopBar() {
   const isMobile = useIsMobile();
 
-  const { layout, setLayout, setChatConversation } = usePreferences();
+  const { 
+    layout, 
+    setLayout, 
+    setChatConversation, 
+    showWatermark, 
+    setShowWatermark, 
+    importFromJSON, 
+    exportToJSON } = usePreferences();
+
   const layouts = ["auto", "mobile", "desktop"];
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleImportJSON = (file: File) => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      if (typeof reader.result === "string") {
+        importFromJSON(reader.result);
+      }
+    };
+
+    reader.readAsText(file);
+  };
+
+  const handleExportJSON = () => {
+    const blob = new Blob([exportToJSON()], {
+      type: "application/json",
+    });
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+
+    a.href = url;
+    a.download = "chat-mockup.json";
+    a.click();
+
+    URL.revokeObjectURL(url);
+  };
 
   function returnIcon(type: string) {
     switch (type) {
@@ -77,7 +122,7 @@ export default function MenuTopBar() {
         <PopoverTrigger>
           <EllipsisVertical className="w-5 h-5 cursor-pointer" />
         </PopoverTrigger>
-        <PopoverContent className="text-xs">
+        <PopoverContent className="text-xs max-h-[50vh] overflow-scroll">
           {!isMobile && (
             <>
               <h3>Display</h3>
@@ -87,7 +132,7 @@ export default function MenuTopBar() {
               >
                 <ImageUpscale className="mr-2 w-5 h-5" />
                 <Select value={layout} onValueChange={setLayout}>
-                  <SelectTrigger className="w-[280px] cursor-pointer text-foreground rounded-sm">
+                  <SelectTrigger className="w-70 cursor-pointer text-foreground rounded-sm">
                     <SelectValue
                       placeholder={
                         layout ? returnIcon(layout) : "Select layout"
@@ -106,7 +151,7 @@ export default function MenuTopBar() {
               <hr />
             </>
           )}
-          Theming
+          <h3 className="mt-2">Theming</h3>
           <div
             id="color1"
             className="flex flex-row cursor-pointer p-3 rounded items-center"
@@ -122,7 +167,7 @@ export default function MenuTopBar() {
             <ColorPicker index={2} />
           </div>
           <hr className="my-2" />
-          <h3>About</h3>
+          <h3 className="mt-2">About</h3>
           <div
             id="githubLink"
             className="flex flex-row cursor-pointer hover:bg-accent p-3 rounded items-center"
@@ -214,23 +259,77 @@ export default function MenuTopBar() {
                   <li>Reactions: Lets you define the reaction the message received.</li>
                   <li>Bubble color override: Lets you add a custom color background to the message you&apos;re about to add. Font contrast will be automatically calculated.</li>
                 </ul>
-
+                <HelpCenterTitle level="h2" text="Data import and export" />
+                <p>
+                  If you wish to save your work and edit it later you can use the menu button and scroll to the buttons
+                  labelled import and export chat as JSON.
+                </p>
               </div>
             </SheetContent>
           </Sheet>
           <hr className="my-2" />
-          <span
+          {/* MISCELLANEOUS SECTION */}
+          <div
+            id="importData"
+            className="flex flex-row cursor-pointer hover:bg-accent hover:text-sky-500 p-3 rounded items-center transitions"
+            onClick={() => fileInputRef.current?.click()}
+          >
+            <FileUp className="mr-2 w-4 h-4" /><p>Import saved chat JSON</p>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="application/json"
+              hidden
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+
+                handleImportJSON(file);
+                e.currentTarget.value = "";
+              }}
+            />
+          </div>
+          <div
+            id="exportData"
+            className="flex flex-row cursor-pointer hover:bg-accent hover:text-emerald-500 p-3 rounded items-center transitions"
+            onClick={handleExportJSON}
+          >
+            <FileDown className="mr-2 w-4 h-4" /><p>Save current chat as JSON</p>
+          </div>
+          <div
             id="resetConversation"
             className="flex flex-row cursor-pointer hover:bg-accent hover:text-rose-500 p-3 rounded items-center transitions"
             onClick={() => setChatConversation([])}
           >
-            <MessageCircleX className="mr-2 w-4 h-4" /> Clear conversation
-          </span>
+            <MessageCircleX className="mr-2 w-4 h-4" /><p>Clear chat</p>
+          </div>
+          <div
+            id="showWatermark"
+            className="flex flex-row cursor-pointer hover:bg-accent hover:text-amber-400 p-3 rounded items-center transitions gap-2 text-xs font-normal"
+          >
+            <div className="flex items-center gap-2">
+              {showWatermark ? (
+                <Eye className="w-4 h-4" />
+              ) : (
+                <EyeOff className="w-4 h-4" />
+              )}
+              <Label htmlFor="watermark-switch" className="cursor-pointer text-xs font-normal">
+                Show watermark
+              </Label>
+            </div>
+
+            <Switch
+              id="watermark-switch"
+              checked={showWatermark}
+              onCheckedChange={setShowWatermark}
+              className="cursor-pointer data-[state=checked]:bg-amber-400"
+            />
+          </div>
           <div
             id="versionNumber"
             className="flex flex-row cursor-pointer hover:bg-accent p-3 rounded items-center"
           >
-            <Info className="mr-2 w-4 h-4" /> V.2.4
+            <Info className="mr-2 w-4 h-4" /><p>V.2.4</p>
           </div>
         </PopoverContent>
       </Popover>
@@ -249,10 +348,12 @@ export function HelpCenterTitle({
 
   const style =
     level === "h1"
-      ? "text-xl text-sky-300"
+      ? "text-xl text-sky-300 uppercase"
       : level === "h2"
       ? "text-lg text-sky-500"
+      : level === "h3"
+      ? "text-lg text-sky-600 italic"
       : "text-base text-sky-700";
 
-  return <Tag className={cn(style, "uppercase font-bold")}>{text}</Tag>;
+  return <Tag className={cn(style, "font-bold")}>{text}</Tag>;
 }

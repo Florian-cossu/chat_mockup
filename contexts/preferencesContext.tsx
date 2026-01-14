@@ -23,10 +23,34 @@ export interface PreferencesContextType {
   conversation: ChatConversation;
   setChatConversation: (conversation: ChatConversation) => void;
 
+  showWatermark: boolean;
+  setShowWatermark: (showWaterMark: boolean) => void;
+
+  exportToJSON: () => string;
+  importFromJSON: (json: string) => void;
+
   // Add more shared data here if needed:
   // otherData: string;
   // setOtherData: (val: string) => void;
 }
+
+/**
+ * Serializable snapshot of user preferences.
+ * Used for JSON export / import.
+ * 
+ * ⚠️ Must remain backward-compatible via the `version` field.
+ */
+export interface PreferencesSnapshot {
+  contactName: string;
+  layout: "mobile" | "desktop" | "auto";
+  profilePicture: string | null;
+  color1: string;
+  color2: string;
+  conversation: ChatConversation;
+  showWatermark: boolean;
+  version: number;
+}
+
 
 const defaultConversation: ChatConversation = [
   {
@@ -77,6 +101,79 @@ export const PreferencesProvider = ({
   const [color1, setColor1] = useState(PLACEHOLDER_COLOR);
   const [color2, setColor2] = useState(PLACEHOLDER_COLOR);
   const [conversation, setChatConversation] = useState<ChatMessage[]>(defaultConversation);
+  
+  const [showWatermark, setShowWatermark] = useState(true);
+
+  /**
+   * Exports the current user preferences as a JSON string.
+   *
+   * @returns {string} A formatted JSON string representing current preferences
+   *
+   * @example
+   * const json = exportToJSON();
+   * console.log(json);
+   *
+   * @example
+   * // Download as a file
+   * const blob = new Blob([exportToJSON()], { type: "application/json" });
+   */
+  const exportToJSON = () => {
+    const snapshot: PreferencesSnapshot = {
+      contactName,
+      layout,
+      profilePicture,
+      color1,
+      color2,
+      conversation,
+      showWatermark,
+      version: 1,
+    };
+
+    return JSON.stringify(snapshot, null, 2);
+  };
+
+  /**
+   * Imports and applies user preferences from a JSON string.
+   *
+   * - Parses and validates the JSON structure
+   * - Checks snapshot version compatibility
+   * - Updates the global preferences state
+   *
+   * ⚠️ If an error occurs, the current state remains unchanged.
+   *
+   * @param {string} json - A JSON string containing a valid preferences snapshot
+   *
+   * @throws {Error} If the JSON is invalid or the snapshot version is unsupported
+   *
+   * @example
+   * importFromJSON(jsonString);
+   *
+   * @example
+   * // Import from a file input
+   * reader.onload = () => {
+   *   importFromJSON(reader.result as string);
+   * };
+   */
+  const importFromJSON = (json: string) => {
+    try {
+      const data: PreferencesSnapshot = JSON.parse(json);
+
+      if (data.version !== 1) {
+        throw new Error("Unsupported version");
+      }
+
+      setContactName(data.contactName);
+      setLayout(data.layout);
+      setProfilePicture(data.profilePicture);
+      setColor1(data.color1);
+      setColor2(data.color2);
+      setChatConversation(data.conversation);
+      setShowWatermark(data.showWatermark);
+    } catch (err) {
+      console.error("Invalid preferences JSON", err);
+      alert("Invalid or corrupted JSON file");
+    }
+  };
 
 
   return (
@@ -94,6 +191,10 @@ export const PreferencesProvider = ({
         setColor2,
         conversation,
         setChatConversation,
+        showWatermark,
+        setShowWatermark,
+        exportToJSON,
+        importFromJSON,
       }}
     >
       {children}

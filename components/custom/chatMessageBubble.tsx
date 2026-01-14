@@ -27,7 +27,7 @@ export default function ChatMessageBubble({
   forceColor,
   fontColor,
 }: ChatMessageBubbleProps) {
-  const { color1, contactName } = usePreferences();
+  const { color1, contactName, layout } = usePreferences();
   const [incomingColor, setIncomingColor] = useState("");
   const direction = message.direction;
 
@@ -55,6 +55,10 @@ export default function ChatMessageBubble({
     return parts.join(" ");
   })();
 
+  const baseTextSize = layout == "mobile"
+    ? "text-xs"
+    : "text-xs sm:text-sm";
+
   useEffect(() => {
     setIncomingColor(getContrastColor(color1));
   }, [color1]);
@@ -63,8 +67,9 @@ export default function ChatMessageBubble({
     <>
       <div
         className={cn(
-          "max-w-[70%] px-4 py-2 my-1 relative text-sm",
+          "max-w-[70%] px-4 py-2 my-1 relative",
           bubbleStyle,
+          baseTextSize,
           direction === "in" ? "self-start" : "self-end bg-current/20",
           className
         )}
@@ -100,7 +105,7 @@ export default function ChatMessageBubble({
       </div>
       {message.emoji && (
         <span
-          className={`mt-[-1rem] ${
+          className={`-mt-4 ${
             direction == "in" ? "" : "self-end"
           } px-2 w-fit h-fit z-10 rounded-[.9rem] bg-zinc-100 border-4 border-card cursor-pointer`}
         >
