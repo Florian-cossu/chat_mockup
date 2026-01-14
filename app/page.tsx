@@ -203,18 +203,16 @@ useEffect(() => {
             </CardFooter>
           </Card>
           { showWatermark && (
-            <>
-              <div
-                id="watermark"
-                className="flex flex-row items-center text-xs gap-1"
-                style={{ color: watermarkTextColor }}
-              >
-                <p className="flex flex-row items-center"> 🌈 Generated with </p>
-                <p className="font-mono! italic underline">
-                  https://chat-mockup-fcossu.vercel.app/
-                </p>
-              </div>
-            </>
+            <div
+              id="watermark"
+              className="flex flex-row items-center text-xs gap-1"
+              style={{ color: watermarkTextColor }}
+            >
+              <p className="flex flex-row items-center"> 🌈 Generated with </p>
+              <p className="font-mono! italic underline">
+                https://chat-mockup-fcossu.vercel.app/
+              </p>
+            </div>
           )}
         </div>
       </body>

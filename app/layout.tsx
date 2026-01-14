@@ -2,17 +2,22 @@ import "@styling/globals.css";
 import { PreferencesProvider } from "@/contexts/preferencesContext";
 import type { Metadata } from "next";
 
+const siteTitle = "Chat Mockup";
+const siteDescription = "Create realistic chat mockups easily for presentations and demos.";
+const siteUrl = "https://chat-mockup-fcossu.vercel.app";
+const ogImageUrl = `${siteUrl}/og-image2.png`;
+
 export const metadata: Metadata = {
-  title: "Chat Mockup",
+  title: siteTitle,
 
   openGraph: {
-    title: "Chat Mockup",
-    description: "Create realistic chat mockups easily for presentations and demos.",
-    url: "https://chat-mockup-fcossu.vercel.app",
-    siteName: "Chat Mockup",
+    title: siteTitle,
+    description: siteDescription,
+    url: siteUrl,
+    siteName: siteTitle,
     images: [
       {
-        url: "https://chat-mockup-fcossu.vercel.app/og-image2.png",
+        url: ogImageUrl,
         width: 1200,
         height: 630,
         alt: "Chat Mockup preview",
@@ -24,11 +29,9 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "Chat Mockup",
-    description: "Create realistic chat mockups easily for presentations and demos.",
-    images: [
-      "https://chat-mockup-fcossu.vercel.app/og-image2.png",
-    ],
+    title: siteTitle,
+    description: siteDescription,
+    images: [ogImageUrl],
   },
 };
 
@@ -39,7 +42,7 @@ export default function RootLayout({
 }>) {
 
   return (
-    <html>
+    <html lang="en">
       <head>
         {/*Favicon*/}
         <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />

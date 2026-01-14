@@ -306,7 +306,6 @@ export default function MenuTopBar() {
           <div
             id="showWatermark"
             className="flex flex-row cursor-pointer hover:bg-accent hover:text-amber-400 p-3 rounded items-center transitions gap-2 text-xs font-normal"
-            onClick={() => setShowWatermark(!showWatermark)}
           >
             <div className="flex items-center gap-2">
               {showWatermark ? (
