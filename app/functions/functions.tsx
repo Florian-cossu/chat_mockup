@@ -14,41 +14,27 @@ export function formatBytes(bytes: number, decimals = 2): string {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
 }
 
+const MS_PER_DAY = 86400000;
+const MS_PER_HOUR = 3600000;
+const MS_PER_MINUTE = 60000;
+const MS_PER_SECOND = 1000;
+
 export function getTimestampDiffs(date1: string | Date, date2: string | Date) {
   const dateOne = new Date(date1);
   const dateTwo = new Date(date2);
   
   if (isNaN(dateOne.getTime()) || isNaN(dateTwo.getTime())) {
-    throw new Error('Dates invalides');
+    throw new Error('Invalid dates');
   }
   
   const diffMs = Math.abs(dateOne.getTime() - dateTwo.getTime());
   
   return {
-    days: Math.floor(diffMs / 86400000),
-    hours: Math.floor((diffMs % 86400000) / 3600000), 
-    minutes: Math.floor(((diffMs % 86400000) % 3600000) / 60000),
-    seconds: Math.floor((((diffMs % 86400000) % 3600000) % 60000) / 1000),
-    totalMinutes: Math.floor(diffMs / 60000),
-    totalMs: diffMs
-  };
-}
-
-export function getTimestampDiffsDuration(date1: string | Date, date2: string | Date) {
-  const dateOne = new Date(date1);
-  const dateTwo = new Date(date2);
-  
-  // Vérification de validité des dates
-  if (isNaN(dateOne.getTime()) || isNaN(dateTwo.getTime())) {
-    throw new Error('Dates invalides');
-  }
-  
-  const diffMs = Math.abs(dateOne.getTime() - dateTwo.getTime());
-  
-  return {
-    days: Math.floor(diffMs / 86400000),
-    hours: Math.floor((diffMs % 86400000) / 3600000), 
-    minutes: Math.floor(((diffMs % 86400000) % 3600000) / 60000),
-    seconds: Math.floor((((diffMs % 86400000) % 3600000) % 60000) / 1000)
+    days: Math.floor(diffMs / MS_PER_DAY),
+    hours: Math.floor((diffMs % MS_PER_DAY) / MS_PER_HOUR),
+    minutes: Math.floor((diffMs % MS_PER_HOUR) / MS_PER_MINUTE),
+    seconds: Math.floor((diffMs % MS_PER_MINUTE) / MS_PER_SECOND),
+    totalMinutes: Math.floor(diffMs / MS_PER_MINUTE),
+    totalMs: diffMs,
   };
 }

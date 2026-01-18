@@ -183,7 +183,7 @@ export const PreferencesProvider = ({
       setShowWatermark(Boolean(data.showWatermark));
     } catch (err) {
       console.error("Invalid preferences JSON", err);
-      alert("Invalid or corrupted JSON file");
+      throw new Error("Invalid or corrupted JSON file");
     }
   };
 

@@ -297,7 +297,7 @@ export default function MenuTopBar() {
                 <p>You can also press Ctrl or Cmd + Shift + R to reset the conversation</p>
                 <HelpCenterTitle level="h2" text="Sending custom messages" />
                 <p>
-                  Press on send to send messages for which you'll be able control several properties.
+                  Press on send to send messages for which you&apos;ll be able control several properties.
                   Please find the detailed option of the popup window below:
                 </p>
                 <ul className="list-disc ml-4">
