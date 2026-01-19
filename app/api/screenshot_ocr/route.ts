@@ -171,7 +171,7 @@ export async function POST(req: NextRequest) {
       const error = await geminiResponse.text();
       console.error(error);
       return NextResponse.json(
-        { error: "Gemini API error", details: error },
+        { error: "Gemini API error", details: error, status: geminiResponse.status },
         { status: 500 }
       );
     }
