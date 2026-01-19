@@ -116,8 +116,8 @@ export const PreferencesProvider = ({
   };
 
   useEffect(() => {
-    const savedLayout = localStorage.getItem("layout-preference") as "mobile" | "desktop" | "auto" | null;
-    if (savedLayout) {
+    const savedLayout = localStorage.getItem("layout-preference");
+    if (savedLayout === "mobile" || savedLayout === "desktop" || savedLayout === "auto") {
       setLayoutState(savedLayout);
     }
   }, []);

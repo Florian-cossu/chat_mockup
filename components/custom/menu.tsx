@@ -188,6 +188,8 @@ export default function MenuTopBar() {
             <Moon /> Dark
           </>
         );
+      default: 
+        return null;
     }
   }
 
@@ -211,6 +213,8 @@ export default function MenuTopBar() {
             <Laptop /> Desktop
           </>
         );
+      default:
+        return null;
     }
   }
 
@@ -226,7 +230,7 @@ export default function MenuTopBar() {
               <h3
                 className="font-bold uppercase text-sm"
                 style={{
-                  color: `${color1}`
+                  color: color1
                 }}
               >Display</h3>
               <div
@@ -257,7 +261,7 @@ export default function MenuTopBar() {
           <h3
             className="font-bold uppercase text-sm mt-2"
             style={{
-              color: `${color1}`
+              color: color1
             }}
           >Theming</h3>
           <div
@@ -303,7 +307,7 @@ export default function MenuTopBar() {
           <h3
             className="font-bold uppercase text-sm mt-2"
             style={{
-              color: `${color1}`
+              color: color1
             }}
           >Data</h3>
           <Dialog>
@@ -392,7 +396,7 @@ export default function MenuTopBar() {
           <h3
             className="font-bold uppercase text-sm mt-2"
             style={{
-              color: `${color1}`
+              color: color1
             }}
           >About</h3>
           <div
@@ -547,30 +551,37 @@ export function HelpCenterTitle({
 }) {
   const Tag = level;
 
-  const defaultStyle =
-    level === "h1"
-      ? "text-xl text-sky-300 uppercase"
-      : level === "h2"
-        ? "text-lg text-sky-500"
-        : level === "h3"
-          ? "text-lg text-sky-600 italic"
-          : "text-base text-sky-700";
+  const levelStyles = {
+    h1: "text-xl uppercase",
+    h2: "text-lg",
+    h3: "text-lg italic",
+  };
+
+  const defaultColorStyles = {
+    h1: "text-sky-300",
+    h2: "text-sky-500",
+    h3: "text-sky-600",
+  };
 
   const dynamicStyle = color
     ? {
-      color: color,
-      filter:
-        level === "h1"
-          ? "brightness(1.2)"
-          : level === "h3"
+        color: color,
+        filter:
+          level === "h1"
+            ? "brightness(1.2)"
+            : level === "h3"
             ? "brightness(0.7)"
             : "none",
-    }
+      }
     : {};
 
   return (
     <Tag
-      className={cn(!color && defaultStyle, "font-bold", color && level === "h1" && "text-xl uppercase", color && level === "h2" && "text-lg", color && level === "h3" && "text-lg italic")}
+      className={cn(
+        "font-bold",
+        levelStyles[level],
+        !color && defaultColorStyles[level]
+      )}
       style={dynamicStyle}
     >
       {text}
