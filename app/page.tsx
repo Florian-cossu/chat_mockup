@@ -142,7 +142,7 @@ useEffect(() => {
               <ChatConversationView conversation={conversation} />
               <div ref={bottomRef} />
             </CardContent>
-            <CardFooter className="flex flex-col m-0 p-2 h-fit items-center justify-between border-t gap-3">
+            <CardFooter className="flex flex-col m-0 !p-4 h-fit items-center justify-between border-t gap-3">
               <div className="flex flex-row w-full gap-2 items-center justify-between">
                 <input
                   type="text"

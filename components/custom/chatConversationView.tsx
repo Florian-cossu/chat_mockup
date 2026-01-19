@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useMemo } from "react";
 import { ChatConversation } from "@/types/types";
 import ChatMessageBubble from "./chatMessageBubble";
 import { sortByTimestamp } from "@/lib/utils";
@@ -14,12 +14,14 @@ export default function ChatConversationView({
   conversation,
 }: ChatConversationViewProps) {
   const sortedConversation = sortByTimestamp(conversation);
+  const messageMap = useMemo(() => new Map(conversation.map(msg => [msg.id, msg])), [conversation]);
   
   return (
     <div className="flex flex-col p-4">
       {sortedConversation.map((msg, index) => {
-        const replyTo = msg.repliesTo
-          ? conversation.find((m) => m.id === msg.repliesTo)
+
+        const replyTo = msg.repliesTo 
+          ? messageMap.get(msg.repliesTo) 
           : undefined;
           
         const prevMessage = index > 0 ? sortedConversation[index - 1] : undefined;

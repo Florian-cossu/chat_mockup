@@ -62,7 +62,7 @@ export default function DateSeparator({
 
   return (
     <div className={cn("flex justify-center my-2", className)}>
-      <span className="px-3 py-1 text-xs text-gray-500 bg-gray-100 rounded-full">
+      <span className="px-3 py-1 text-xs text-gray-500 dark:text-white/40 bg-gray-100 dark:bg-accent rounded-full">
         {formatDateSeparator(date)}
       </span>
     </div>

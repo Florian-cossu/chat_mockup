@@ -70,7 +70,7 @@ export default function MenuTopBar() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const screenshotInput = useRef<HTMLInputElement | null>(null);
 
-  const [isAwaitingLlmResponse, setIsAwawaitingLlmResponse] = useState(false)
+  const [isAwaitingLlmResponse, setIsAwaitingLlmResponse] = useState(false)
 
   const handleScreenshot = async (file: File) => {
     if (!file.type.startsWith("image/")) {
@@ -81,7 +81,7 @@ export default function MenuTopBar() {
     const formData = new FormData();
     formData.append("file", file);
 
-    setIsAwawaitingLlmResponse(true);
+    setIsAwaitingLlmResponse(true);
 
     const promise = (async () => {
       const res = await fetch("/api/screenshot_ocr", {
@@ -109,9 +109,10 @@ export default function MenuTopBar() {
 
     try {
       await promise;
-    } catch {
+    } catch (e) {
+      console.error(e)
     } finally {
-      setIsAwawaitingLlmResponse(false);
+      setIsAwaitingLlmResponse(false);
     }
   };
 
@@ -120,7 +121,11 @@ export default function MenuTopBar() {
 
     reader.onload = () => {
       if (typeof reader.result === "string") {
-        importFromJSON(reader.result);
+        try {
+          importFromJSON(reader.result);
+        } catch (e) {
+          console.error(e)
+        }
       }
     };
 

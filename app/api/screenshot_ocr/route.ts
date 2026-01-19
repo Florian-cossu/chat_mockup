@@ -17,6 +17,13 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    if (!LLM_API_KEY) {
+      return NextResponse.json(
+        { error: "Invalid or missing Gemini API key" },
+        { status: 400 }
+      );
+    }
+
     const theme = getRandomTheme();
     const color1 = theme.color1;
     const color2 = theme.color2
@@ -39,8 +46,8 @@ export async function POST(req: NextRequest) {
       "contactName": string | null,
       "layout": "auto",
       "profilePicture": null,
-      "color1": ${color1},
-      "color2": ${color2},
+      "color1": "${color1}",
+      "color2": "${color2}",
       "conversation": [
         {
           "id": string,
@@ -184,7 +191,8 @@ export async function POST(req: NextRequest) {
     try {
       const parsed = JSON.parse(outputText);
       return NextResponse.json(parsed);
-    } catch {
+    } catch (e) {
+      console.error("Failed to parse LLM response:", e);
       return NextResponse.json(
         { error: "Failed to parse LLM response", raw: outputText },
         { status: 500 }
