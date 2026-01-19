@@ -22,7 +22,6 @@ export default function ChatMockup() {
     color2,
     setColor1,
     setColor2,
-    theme,
     layout,
     conversation,
     setChatConversation,
