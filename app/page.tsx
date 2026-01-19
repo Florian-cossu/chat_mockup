@@ -14,6 +14,7 @@ import type { ChatMessage } from "@/types/types";
 import { getRandomTheme, PLACEHOLDER_COLOR } from "@/data/themes";
 import { getContrastColor } from "@/lib/fontColorAdjust";
 import AdvancedMessageModal from "@/components/custom/sendMessageWithProps";
+import { Toaster } from "@/components/ui/sonner";
 
 export default function ChatMockup() {
   const {
@@ -46,7 +47,6 @@ export default function ChatMockup() {
 
 useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      // Reset chat using Ctrl/Command + R
       if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "r") {
         event.preventDefault();
         setChatConversation([]);
@@ -57,7 +57,6 @@ useEffect(() => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [setChatConversation]);
 
-  // Auto scroll to bottom
   const containerRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -99,20 +98,19 @@ useEffect(() => {
         containerRef.current,
         containerRef.current.scrollHeight,
         600
-      ); // 600ms scroll duration
+      );
     }
   }, [conversation]);
-  // End auto scroll to bottom
 
   function twStyleConstructor(layout: string) {
     if (isMobile) {
-      return "h-[85dvh] w-4/5";
+      return "h-[87dvh] w-4/5";
     } else {
       switch (layout) {
         case "auto":
           return "w-4/5 h-[80dvh] md:w-4/5";
         case "mobile":
-          return "w-[42dvh] h-[85dvh]";
+          return "w-[42dvh] h-[87dvh]";
         case "desktop":
           return "w-4/5 h-[80dvh]";
       }
@@ -144,7 +142,7 @@ useEffect(() => {
               <ChatConversationView conversation={conversation} />
               <div ref={bottomRef} />
             </CardContent>
-            <CardFooter className="flex flex-col m-0 p-2 h-fit items-center justify-between border-t gap-3">
+            <CardFooter className="flex flex-col m-0 !p-4 h-fit items-center justify-between border-t gap-3">
               <div className="flex flex-row w-full gap-2 items-center justify-between">
                 <input
                   type="text"
@@ -215,6 +213,7 @@ useEffect(() => {
             </div>
           )}
         </div>
+        <Toaster />
       </body>
     );
   } else {

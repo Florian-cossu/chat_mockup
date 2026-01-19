@@ -4,6 +4,15 @@ import React, { createContext, useContext, useState, ReactNode } from "react";
 import { ChatConversation, ChatMessage } from "@/types/types";
 import { PLACEHOLDER_COLOR } from "@/data/themes";
 
+
+export function normalizeConversation(conversation: ChatConversation): ChatConversation {
+  return conversation.map(msg => ({
+    ...msg,
+    repliesTo: msg.repliesTo || undefined,
+    emoji: msg.emoji || undefined,
+  }));
+}
+
 export interface PreferencesContextType {
   contactName: string;
   setContactName: (name: string) => void;
@@ -51,27 +60,26 @@ export interface PreferencesSnapshot {
   version: number;
 }
 
-
 const defaultConversation: ChatConversation = [
   {
     id: "1",
     direction: "in",
     text: "Hey there! 👋 This is still a work in progress but you can already test it.",
-    timestamp: "2024-06-18T16:00:00.000Z",
+    timestamp: "2025-06-18T16:01:00.000Z",
     seen: true,
   },
   {
     id: "2",
     direction: "in",
     text: "Welcome to your chat mockup. You can click the profile picture or name to change them!",
-    timestamp: "2025-06-18T14:55:49.673Z",
+    timestamp: "2025-06-18T16:05:49.673Z",
     seen: true,
   },
   {
     id: "3",
     direction: "in",
-    text: "🛟: Check the helpcenter out in the menu to have a features recap.",
-    timestamp: "2025-06-18T14:55:49.673Z",
+    text: "🛟: Check the helpcenter out in the menu ↗️ to have a features recap.",
+    timestamp: "2025-06-18T16:12:49.673Z",
     repliesTo: "2",
     seen: true,
     emoji: "🧑‍🎨",
@@ -80,7 +88,7 @@ const defaultConversation: ChatConversation = [
     id: "4",
     direction: "out",
     text: "Cool, thanks! 😄",
-    timestamp: "2025-06-18T14:55:49.673Z",
+    timestamp: "2025-06-18T16:55:49.673Z",
     repliesTo: "3",
     seen: true,
   },
@@ -156,25 +164,28 @@ export const PreferencesProvider = ({
    */
   const importFromJSON = (json: string) => {
     try {
-      const data: PreferencesSnapshot = JSON.parse(json);
+      const data = JSON.parse(json) as PreferencesSnapshot;
+
+      if (typeof data !== "object" || data === null) {
+        throw new Error("Invalid JSON root");
+      }
 
       if (data.version !== 1) {
         throw new Error("Unsupported version");
       }
 
-      setContactName(data.contactName);
-      setLayout(data.layout);
-      setProfilePicture(data.profilePicture);
-      setColor1(data.color1);
-      setColor2(data.color2);
-      setChatConversation(data.conversation);
-      setShowWatermark(data.showWatermark);
+      setContactName(data.contactName ?? "Anonymous");
+      setLayout(data.layout ?? "auto");
+      setProfilePicture(data.profilePicture ?? null);
+      setColor1(data.color1 ?? PLACEHOLDER_COLOR);
+      setColor2(data.color2 ?? PLACEHOLDER_COLOR);
+      setChatConversation(normalizeConversation(data.conversation ?? []));
+      setShowWatermark(Boolean(data.showWatermark));
     } catch (err) {
       console.error("Invalid preferences JSON", err);
-      alert("Invalid or corrupted JSON file");
+      throw new Error("Invalid or corrupted JSON file");
     }
   };
-
 
   return (
     <PreferenceContext.Provider

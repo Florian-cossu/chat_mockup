@@ -7,13 +7,16 @@ import { cn } from "@/lib/utils";
 import { usePreferences } from "@/contexts/preferencesContext";
 import { getContrastColor } from "@/lib/fontColorAdjust";
 import { LocalTime } from "./localTime";
+import { getTimestampDiffs } from "@/app/functions/functions";
 
 interface ChatMessageBubbleProps {
   message: ChatMessage;
   replyToMessage?: ChatMessage;
   className?: string;
   previousDirection?: "in" | "out";
+  previousTimeStamp?: string;
   nextDirection?: "in" | "out";
+  nextTimestamp?: string;
   forceColor?: string;
   fontColor?: string;
 }
@@ -23,7 +26,9 @@ export default function ChatMessageBubble({
   replyToMessage,
   className,
   previousDirection,
+  previousTimeStamp,
   nextDirection,
+  nextTimestamp,
   forceColor,
   fontColor,
 }: ChatMessageBubbleProps) {
@@ -42,17 +47,37 @@ export default function ChatMessageBubble({
 
   const bubbleStyle = (() => {
     const samePrev = previousDirection === direction;
+    const timeDiffWithPrev = previousTimeStamp 
+      ? getTimestampDiffs(message.timestamp, previousTimeStamp).totalMinutes 
+      : Infinity;
+    
     const sameNext = nextDirection === direction;
+    const timeDiffWithNext = nextTimestamp 
+      ? getTimestampDiffs(message.timestamp, nextTimestamp).totalMinutes 
+      : Infinity;
 
-    const parts = ["rounded-tl-lg rounded-tr-lg rounded-bl-lg rounded-br-lg"];
-
-    if (!samePrev) parts.push("mt-1");
-    if (!samePrev && !sameNext)
-      parts.push(`rounded-${direction == "in" ? "tl" : "br"}-xs`);
-    if (samePrev) parts.push(`rounded-${direction == "in" ? "tl" : "tr"}-xs`);
-    if (sameNext) parts.push(`rounded-${direction == "in" ? "bl" : "br"}-xs`);
-
-    return parts.join(" ");
+    const isGroupedWithPrev = samePrev && timeDiffWithPrev < 5;
+    const isGroupedWithNext = sameNext && timeDiffWithNext < 5;
+    
+    let classes = "rounded-tl-lg rounded-tr-lg rounded-bl-lg rounded-br-lg";
+    
+    if (!isGroupedWithPrev) {
+      classes += " mt-3";
+    }
+    
+    if (isGroupedWithPrev) {
+      classes += ` rounded-${direction === "in" ? "tl" : "tr"}-xs`;
+    }
+    
+    if (isGroupedWithNext) {
+      classes += ` rounded-${direction === "in" ? "bl" : "br"}-xs`;
+    }
+    
+    if (!isGroupedWithPrev && !isGroupedWithNext) {
+      classes += ` rounded-${direction === "in" ? "tl" : "br"}-xs`;
+    }
+    
+    return classes;
   })();
 
   const baseTextSize = layout == "mobile"
@@ -67,7 +92,7 @@ export default function ChatMessageBubble({
     <>
       <div
         className={cn(
-          "max-w-[70%] px-4 py-2 my-1 relative",
+          "max-w-[87%] px-4 py-2 my-[.08rem] relative",
           bubbleStyle,
           baseTextSize,
           direction === "in" ? "self-start" : "self-end bg-current/20",

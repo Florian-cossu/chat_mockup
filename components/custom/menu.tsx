@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import {
   Popover,
@@ -21,6 +21,8 @@ import {
   FileDown,
   EyeOff,
   Eye,
+  ImageUp,
+  LoaderPinwheel,
 } from "lucide-react";
 
 import Github from "@icons/thirdPartyAppIcons/github_icon.svg"
@@ -49,6 +51,7 @@ import ColorPicker from "./colorPicker";
 import { cn } from "@/lib/utils";
 import { Switch } from "../ui/switch";
 import { Label } from "../ui/label";
+import { toast } from "sonner";
 
 export default function MenuTopBar() {
   const isMobile = useIsMobile();
@@ -65,13 +68,64 @@ export default function MenuTopBar() {
   const layouts = ["auto", "mobile", "desktop"];
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const screenshotInput = useRef<HTMLInputElement | null>(null);
+
+  const [isAwaitingLlmResponse, setIsAwaitingLlmResponse] = useState(false)
+
+  const handleScreenshot = async (file: File) => {
+    if (!file.type.startsWith("image/")) {
+      toast.error("Invalid file type");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    setIsAwaitingLlmResponse(true);
+
+    const promise = (async () => {
+      const res = await fetch("/api/screenshot_ocr", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to parse screenshot");
+      }
+
+      const data = await res.json();
+
+      importFromJSON(JSON.stringify(data));
+
+      return data; // important pour le toast success
+    })();
+
+    toast.promise(promise, {
+      loading: "Analysing screenshot…",
+      success: "Imported chat from screenshot",
+      error: (err) =>
+        err instanceof Error ? err.message : "There was an error while parsing the screenshot",
+    });
+
+    try {
+      await promise;
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setIsAwaitingLlmResponse(false);
+    }
+  };
 
   const handleImportJSON = (file: File) => {
     const reader = new FileReader();
 
     reader.onload = () => {
       if (typeof reader.result === "string") {
-        importFromJSON(reader.result);
+        try {
+          importFromJSON(reader.result);
+        } catch (e) {
+          console.error(e)
+        }
       }
     };
 
@@ -189,7 +243,7 @@ export default function MenuTopBar() {
             <SheetContent className="gap-0 p-4 h-full overflow-auto">
               <SheetHeader>
                 <SheetTitle className="flex flex-row items-center uppercase">
-                  <LifeBuoy className="mr-2 w-4 h-4" />
+                  <LifeBuoy className="mr-2 w-8 h-8" />
                   <p>Welcome to chat mockup</p>
                 </SheetTitle>
               </SheetHeader>
@@ -231,12 +285,12 @@ export default function MenuTopBar() {
                 <p>Customise who you are supposedly talking to by either:</p>
                 <ul className="list-disc ml-4">
                   <li>
-                    Customisable contact profile picture by clicking on it. You can either choose
+                    Choosing the contact profile picture by clicking on it. You can either choose
                     a supported image URL or import from your device.
                     You&apos;ll be prompted to crop the picture each time.
                   </li>
                   <li>
-                    Customisable contact username. Click on the username to
+                    Customising contact username. Click on the username to
                     update it.
                   </li>
                 </ul>
@@ -245,9 +299,10 @@ export default function MenuTopBar() {
                   the conversation or press the send icon while your message input is empty which
                   will open a pop up at the bottom of which you&apos;ll find a clear conversation button as well.
                 </p>
+                <p>You can also press Ctrl or Cmd + Shift + R to reset the conversation</p>
                 <HelpCenterTitle level="h2" text="Sending custom messages" />
                 <p>
-                  If your message input is empty and you press on send you will be able to send custom messages.
+                  Press on send to send messages for which you&apos;ll be able control several properties.
                   Please find the detailed option of the popup window below:
                 </p>
                 <ul className="list-disc ml-4">
@@ -264,14 +319,42 @@ export default function MenuTopBar() {
                   If you wish to save your work and edit it later you can use the menu button and scroll to the buttons
                   labelled import and export chat as JSON.
                 </p>
+                <p>
+                  You can also import a screenshot from a conversation and perform character recognition (this relies on 
+                  google gemini so be careful about the contents of the screenshots you submit!).
+                </p>
               </div>
             </SheetContent>
           </Sheet>
           <hr className="my-2" />
           {/* MISCELLANEOUS SECTION */}
           <div
+            id="importScreenshot"
+            className="flex flex-row cursor-pointer hover:bg-accent hover:text-purple-600 p-3 rounded items-center transitions"
+            onClick={() => screenshotInput.current?.click()}
+          >
+            {!isAwaitingLlmResponse 
+              ? (<><ImageUp className="mr-2 w-4 h-4" /><p>Import chat screenshot</p></>) 
+              : (<><LoaderPinwheel className="mr-2 w-4 h-4 animate-spin" /><p>Import chat screenshot</p></>)
+            }
+            <input
+              ref={screenshotInput}
+              type="file"
+              accept="image/png,image/jpeg,image/webp"
+              hidden
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+
+                handleScreenshot(file);
+                e.currentTarget.value = "";
+              }}
+            />
+
+          </div>
+          <div
             id="importData"
-            className="flex flex-row cursor-pointer hover:bg-accent hover:text-sky-500 p-3 rounded items-center transitions"
+            className="flex flex-row cursor-pointer hover:bg-accent hover:text-sky-600 p-3 rounded items-center transitions"
             onClick={() => fileInputRef.current?.click()}
           >
             <FileUp className="mr-2 w-4 h-4" /><p>Import saved chat JSON</p>
@@ -291,7 +374,7 @@ export default function MenuTopBar() {
           </div>
           <div
             id="exportData"
-            className="flex flex-row cursor-pointer hover:bg-accent hover:text-emerald-500 p-3 rounded items-center transitions"
+            className="flex flex-row cursor-pointer hover:bg-accent hover:text-emerald-600 p-3 rounded items-center transitions"
             onClick={handleExportJSON}
           >
             <FileDown className="mr-2 w-4 h-4" /><p>Save current chat as JSON</p>
@@ -329,7 +412,7 @@ export default function MenuTopBar() {
             id="versionNumber"
             className="flex flex-row cursor-pointer hover:bg-accent p-3 rounded items-center"
           >
-            <Info className="mr-2 w-4 h-4" /><p>V.2.4</p>
+            <Info className="mr-2 w-4 h-4" /><p>V.3.5</p>
           </div>
         </PopoverContent>
       </Popover>
