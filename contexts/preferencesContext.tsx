@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { ChatConversation, ChatMessage } from "@/types/types";
 import { PLACEHOLDER_COLOR } from "@/data/themes";
 
@@ -17,7 +17,7 @@ export interface PreferencesContextType {
   contactName: string;
   setContactName: (name: string) => void;
 
-  layout: "mobile"|"desktop"|"auto";
+  layout: "mobile" | "desktop" | "auto";
   setLayout: (layout: "mobile" | "desktop" | "auto") => void;
 
   profilePicture: string | null;
@@ -28,6 +28,9 @@ export interface PreferencesContextType {
 
   color2: string;
   setColor2: (color2: string) => void;
+
+  theme: "light" | "dark" | "auto";
+  setTheme: (theme: "light" | "dark" | "auto") => void;
 
   conversation: ChatConversation;
   setChatConversation: (conversation: ChatConversation) => void;
@@ -55,6 +58,7 @@ export interface PreferencesSnapshot {
   profilePicture: string | null;
   color1: string;
   color2: string;
+  theme: "light" | "dark" | "auto";
   conversation: ChatConversation;
   showWatermark: boolean;
   version: number;
@@ -104,12 +108,61 @@ export const PreferencesProvider = ({
 
   const [contactName, setContactName] = useState("Anonymous");
   const [profilePicture, setProfilePicture] = useState<string | null>(null);
-  const [layout, setLayout] = useState<"mobile"|"desktop"|"auto">("auto");
+  const [layout, setLayoutState] = useState<"mobile" | "desktop" | "auto">("auto");
+
+  const setLayout = (newLayout: "mobile" | "desktop" | "auto") => {
+    setLayoutState(newLayout);
+    localStorage.setItem("layout-preference", newLayout);
+  };
+
+  useEffect(() => {
+    const savedLayout = localStorage.getItem("layout-preference");
+    if (savedLayout === "mobile" || savedLayout === "desktop" || savedLayout === "auto") {
+      setLayoutState(savedLayout);
+    }
+  }, []);
 
   const [color1, setColor1] = useState(PLACEHOLDER_COLOR);
   const [color2, setColor2] = useState(PLACEHOLDER_COLOR);
+  const [theme, setThemeState] = useState<"light" | "dark" | "auto">("auto");
+
+  const setTheme = (newTheme: "light" | "dark" | "auto") => {
+    setThemeState(newTheme);
+    localStorage.setItem("theme-preference", newTheme);
+  };
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme-preference") as "light" | "dark" | "auto" | null;
+    if (savedTheme) {
+      setThemeState(savedTheme);
+    }
+  }, []);
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    root.classList.remove("light", "dark");
+
+    if (theme === "auto") {
+      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+      root.classList.add(systemTheme);
+
+      const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+      const handleChange = (e: MediaQueryListEvent) => {
+        root.classList.remove("light", "dark");
+        root.classList.add(e.matches ? "dark" : "light");
+      };
+
+      mediaQuery.addEventListener("change", handleChange);
+      return () => mediaQuery.removeEventListener("change", handleChange);
+    } else {
+      root.classList.add(theme);
+    }
+  }, [theme]);
+
   const [conversation, setChatConversation] = useState<ChatMessage[]>(defaultConversation);
-  
+
   const [showWatermark, setShowWatermark] = useState(true);
 
   /**
@@ -132,6 +185,7 @@ export const PreferencesProvider = ({
       profilePicture,
       color1,
       color2,
+      theme,
       conversation,
       showWatermark,
       version: 1,
@@ -179,6 +233,7 @@ export const PreferencesProvider = ({
       setProfilePicture(data.profilePicture ?? null);
       setColor1(data.color1 ?? PLACEHOLDER_COLOR);
       setColor2(data.color2 ?? PLACEHOLDER_COLOR);
+      setTheme(data.theme ?? "auto");
       setChatConversation(normalizeConversation(data.conversation ?? []));
       setShowWatermark(Boolean(data.showWatermark));
     } catch (err) {
@@ -200,6 +255,8 @@ export const PreferencesProvider = ({
         setColor1,
         color2,
         setColor2,
+        theme,
+        setTheme,
         conversation,
         setChatConversation,
         showWatermark,

@@ -23,6 +23,12 @@ import {
   Eye,
   ImageUp,
   LoaderPinwheel,
+  Sun,
+  Moon,
+  Monitor,
+  SwatchBook,
+  Check,
+  X,
 } from "lucide-react";
 
 import Github from "@icons/thirdPartyAppIcons/github_icon.svg"
@@ -52,18 +58,33 @@ import { cn } from "@/lib/utils";
 import { Switch } from "../ui/switch";
 import { Label } from "../ui/label";
 import { toast } from "sonner";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose,
+} from "@/components/ui/dialog";
+import { Button } from "../ui/button";
 
 export default function MenuTopBar() {
   const isMobile = useIsMobile();
 
-  const { 
-    layout, 
-    setLayout, 
-    setChatConversation, 
-    showWatermark, 
-    setShowWatermark, 
-    importFromJSON, 
-    exportToJSON } = usePreferences();
+  const {
+    layout,
+    setLayout,
+    setChatConversation,
+    showWatermark,
+    setShowWatermark,
+    importFromJSON,
+    exportToJSON,
+    theme,
+    color1,
+    setTheme
+  } = usePreferences();
 
   const layouts = ["auto", "mobile", "desktop"];
 
@@ -147,6 +168,31 @@ export default function MenuTopBar() {
     URL.revokeObjectURL(url);
   };
 
+  function returnThemeIcon(type: string) {
+    switch (type) {
+      case "auto":
+        return (
+          <>
+            <Monitor /> Auto
+          </>
+        );
+      case "light":
+        return (
+          <>
+            <Sun /> Light
+          </>
+        );
+      case "dark":
+        return (
+          <>
+            <Moon /> Dark
+          </>
+        );
+      default: 
+        return null;
+    }
+  }
+
   function returnIcon(type: string) {
     switch (type) {
       case "auto":
@@ -167,6 +213,8 @@ export default function MenuTopBar() {
             <Laptop /> Desktop
           </>
         );
+      default:
+        return null;
     }
   }
 
@@ -179,7 +227,12 @@ export default function MenuTopBar() {
         <PopoverContent className="text-xs max-h-[50vh] overflow-scroll">
           {!isMobile && (
             <>
-              <h3>Display</h3>
+              <h3
+                className="font-bold uppercase text-sm"
+                style={{
+                  color: color1
+                }}
+              >Display</h3>
               <div
                 id="layout"
                 className="flex flex-row cursor-pointer p-3 rounded items-center"
@@ -205,7 +258,34 @@ export default function MenuTopBar() {
               <hr />
             </>
           )}
-          <h3 className="mt-2">Theming</h3>
+          <h3
+            className="font-bold uppercase text-sm mt-2"
+            style={{
+              color: color1
+            }}
+          >Theming</h3>
+          <div
+            id="theme"
+            className="flex flex-row cursor-pointer p-3 rounded items-center"
+          >
+            <SwatchBook className="mr-2 w-5 h-5" />
+            <Select value={theme} onValueChange={setTheme}>
+              <SelectTrigger className="w-70 cursor-pointer text-foreground rounded-sm">
+                <SelectValue
+                  placeholder={
+                    theme ? returnThemeIcon(theme) : "Select theme"
+                  }
+                />
+              </SelectTrigger>
+              <SelectContent>
+                {["auto", "light", "dark"].map((value) => (
+                  <SelectItem key={value} value={value}>
+                    {returnThemeIcon(value)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
           <div
             id="color1"
             className="flex flex-row cursor-pointer p-3 rounded items-center"
@@ -220,138 +300,62 @@ export default function MenuTopBar() {
             <p>2.</p>
             <ColorPicker index={2} />
           </div>
-          <hr className="my-2" />
-          <h3 className="mt-2">About</h3>
-          <div
-            id="githubLink"
-            className="flex flex-row cursor-pointer hover:bg-accent p-3 rounded items-center"
-          >
-            <Github className="mr-2 w-4 h-4" />
-            <a href="https://github.com/Florian-cossu/chat_mockup">
-              <span className="underline">&rarr; Chat Mockup on Github</span>
-            </a>
-          </div>
-          {/* HELP CENTER SECTION */}
-          <Sheet>
-            <SheetTrigger
-              id="helpCenter"
-              className="flex flex-row cursor-pointer hover:bg-accent p-3 rounded items-center w-full"
-            >
-              <LifeBuoy className="mr-2 w-4 h-4" />
-              <p>Help Center</p>
-            </SheetTrigger>
-            <SheetContent className="gap-0 p-4 h-full overflow-auto">
-              <SheetHeader>
-                <SheetTitle className="flex flex-row items-center uppercase">
-                  <LifeBuoy className="mr-2 w-8 h-8" />
-                  <p>Welcome to chat mockup</p>
-                </SheetTitle>
-              </SheetHeader>
-              <div className="flex flex-col pl-4 gap-4">
-                <HelpCenterTitle level="h1" text="Presentation" />
-                <p>
-                  This tool is a project created as a hobby to improve my coding
-                  skills.
-                </p>
-                <p>
-                  You can check it&apos;s source code{" "}
-                  <a
-                    href="https://github.com/Florian-cossu/chat_mockup"
-                    className="text-sky-500 underline"
-                  >
-                    on Github.
-                  </a>
-                </p>
-                <HelpCenterTitle level="h1" text="Layout and theming" />
-                <p>This tool offers several customisation options</p>
-                <ul className="list-disc ml-4">
-                  <li>Randomised gradient background</li>
-                  <li>
-                    Randomised notifications icons on the left side of status
-                    bar in mobile layout
-                  </li>
-                  <li>
-                    Customisable gradient via Color .1 and Color .2 in the menu.
-                    Color 1 also affects the color of incoming messages and the
-                    send button
-                  </li>
-                  <li>
-                    On the desktop version (only) you can switch between
-                    windowed and mobile mode. If you use a mobile to visit the
-                    app you&apos;ll be stuck to mobile layout by default.
-                  </li>
-                </ul>
-                <HelpCenterTitle level="h2" text="Conversation customisation" />
-                <p>Customise who you are supposedly talking to by either:</p>
-                <ul className="list-disc ml-4">
-                  <li>
-                    Choosing the contact profile picture by clicking on it. You can either choose
-                    a supported image URL or import from your device.
-                    You&apos;ll be prompted to crop the picture each time.
-                  </li>
-                  <li>
-                    Customising contact username. Click on the username to
-                    update it.
-                  </li>
-                </ul>
-                <HelpCenterTitle level="h1" text="Message in conversation" />
-                <p>The app always starts with a preset conversation. You can open the menu to clear
-                  the conversation or press the send icon while your message input is empty which
-                  will open a pop up at the bottom of which you&apos;ll find a clear conversation button as well.
-                </p>
-                <p>You can also press Ctrl or Cmd + Shift + R to reset the conversation</p>
-                <HelpCenterTitle level="h2" text="Sending custom messages" />
-                <p>
-                  Press on send to send messages for which you&apos;ll be able control several properties.
-                  Please find the detailed option of the popup window below:
-                </p>
-                <ul className="list-disc ml-4">
-                  <li>Message text: the actual content of the message.</li>
-                  <li>Direction: [SENT] (gray background) or [RECEIVED] (color .1 background).</li>
-                  <li>Read status: Only available for [SENT] messages this lets you decide wether the message was read or not.</li>
-                  <li>Date and time of the message: Leave for default (ie. your current one) or define custom one.</li>
-                  <li>Replies to: Lets you choose whether you want your message to be replying to a given message.</li>
-                  <li>Reactions: Lets you define the reaction the message received.</li>
-                  <li>Bubble color override: Lets you add a custom color background to the message you&apos;re about to add. Font contrast will be automatically calculated.</li>
-                </ul>
-                <HelpCenterTitle level="h2" text="Data import and export" />
-                <p>
-                  If you wish to save your work and edit it later you can use the menu button and scroll to the buttons
-                  labelled import and export chat as JSON.
-                </p>
-                <p>
-                  You can also import a screenshot from a conversation and perform character recognition (this relies on 
-                  google gemini so be careful about the contents of the screenshots you submit!).
-                </p>
-              </div>
-            </SheetContent>
-          </Sheet>
+
           <hr className="my-2" />
           {/* MISCELLANEOUS SECTION */}
-          <div
-            id="importScreenshot"
-            className="flex flex-row cursor-pointer hover:bg-accent hover:text-purple-600 p-3 rounded items-center transitions"
-            onClick={() => screenshotInput.current?.click()}
-          >
-            {!isAwaitingLlmResponse 
-              ? (<><ImageUp className="mr-2 w-4 h-4" /><p>Import chat screenshot</p></>) 
-              : (<><LoaderPinwheel className="mr-2 w-4 h-4 animate-spin" /><p>Import chat screenshot</p></>)
-            }
-            <input
-              ref={screenshotInput}
-              type="file"
-              accept="image/png,image/jpeg,image/webp"
-              hidden
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (!file) return;
 
-                handleScreenshot(file);
-                e.currentTarget.value = "";
-              }}
-            />
+          <h3
+            className="font-bold uppercase text-sm mt-2"
+            style={{
+              color: color1
+            }}
+          >Data</h3>
+          <Dialog>
+            <DialogTrigger asChild>
+              <div
+                id="importScreenshot"
+                className="flex flex-row cursor-pointer hover:bg-accent hover:text-purple-600 p-3 rounded items-center transitions"
+              >
+                {!isAwaitingLlmResponse
+                  ? (<><ImageUp className="mr-2 w-4 h-4" /><p>Import chat screenshot</p></>)
+                  : (<><LoaderPinwheel className="mr-2 w-4 h-4 animate-spin" /><p>Import chat screenshot</p></>)
+                }
+              </div>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle className="flex flex-row items-center"><ImageUp className="mr-2 w-6 h-6" />Import screenshot</DialogTitle>
+                <DialogDescription
+                  className="my-2"
+                >
+                  This feature sends your screenshot to Google Gemini for analysis.
+                  <br />
+                  Please ensure NO SENSITIVE PERSONAL INFORMATION is visible.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <DialogClose asChild>
+                  <Button variant="destructive" className="cursor-pointer"><X />Cancel</Button>
+                </DialogClose>
+                <DialogClose asChild>
+                  <Button onClick={() => screenshotInput.current?.click()} className="cursor-pointer bg-emerald-500 hover:bg-emerald-400"><Check />Proceed</Button>
+                </DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+          <input
+            ref={screenshotInput}
+            type="file"
+            accept="image/png,image/jpeg,image/webp"
+            hidden
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (!file) return;
 
-          </div>
+              handleScreenshot(file);
+              e.currentTarget.value = "";
+            }}
+          />
           <div
             id="importData"
             className="flex flex-row cursor-pointer hover:bg-accent hover:text-sky-600 p-3 rounded items-center transitions"
@@ -386,6 +390,128 @@ export default function MenuTopBar() {
           >
             <MessageCircleX className="mr-2 w-4 h-4" /><p>Clear chat</p>
           </div>
+          <hr className="my-2" />
+          {/* ABOUT SECTION */}
+
+          <h3
+            className="font-bold uppercase text-sm mt-2"
+            style={{
+              color: color1
+            }}
+          >About</h3>
+          <div
+            id="githubLink"
+            className="flex flex-row cursor-pointer hover:bg-accent p-3 rounded items-center"
+          >
+            <Github className="mr-2 w-4 h-4" />
+            <a href="https://github.com/Florian-cossu/chat_mockup">
+              <span className="underline">&rarr; Chat Mockup on Github</span>
+            </a>
+          </div>
+          {/* HELP CENTER SECTION */}
+          <Sheet>
+            <SheetTrigger
+              id="helpCenter"
+              className="flex flex-row cursor-pointer hover:bg-accent p-3 rounded items-center w-full"
+            >
+              <LifeBuoy className="mr-2 w-4 h-4" />
+              <p>Help Center</p>
+            </SheetTrigger>
+            <SheetContent className="gap-0 p-4 h-full overflow-auto">
+              <SheetHeader>
+                <SheetTitle className="flex flex-row items-center uppercase bg-accent/60 py-2 px-4 rounded">
+                  <LifeBuoy className="mr-2 w-8 h-8" style={{ color: color1 }} />
+                  <p>Welcome to chat mockup</p>
+                </SheetTitle>
+              </SheetHeader>
+              <div className="flex flex-col pl-4 gap-4">
+                <HelpCenterTitle level="h1" text="Presentation" color={color1} />
+                <p>
+                  This tool is a project created as a hobby to improve my coding
+                  skills.
+                </p>
+                <p>
+                  You can check it&apos;s source code{" "}
+                  <a
+                    href="https://github.com/Florian-cossu/chat_mockup"
+                    className="text-sky-500 underline"
+                  >
+                    on Github.
+                  </a>
+                </p>
+                <HelpCenterTitle level="h1" text="Layout and theming" color={color1} />
+                <p>This tool offers several customisation options</p>
+                <ul className="list-disc ml-4">
+                  <li>Randomised gradient background</li>
+                  <li>
+                    Randomised notifications icons on the left side of status
+                    bar in mobile layout
+                  </li>
+                  <li>
+                    Customisable gradient via Color .1 and Color .2 in the menu.
+                    Color 1 also affects the color of incoming messages and the
+                    send button
+                  </li>
+                  <li>
+                    On the desktop version (only) you can switch between
+                    windowed and mobile mode. If you use a mobile to visit the
+                    app you&apos;ll be stuck to mobile layout by default.
+                  </li>
+                </ul>
+                <HelpCenterTitle level="h2" text="Conversation customisation" color={color1} />
+                <p>Customise who you are supposedly talking to by either:</p>
+                <ul className="list-disc ml-4">
+                  <li>
+                    Choosing the contact profile picture by clicking on it. You can either choose
+                    a supported image URL or import from your device.
+                    You&apos;ll be prompted to crop the picture each time.
+                  </li>
+                  <li>
+                    Customising contact username. Click on the username to
+                    update it.
+                  </li>
+                </ul>
+                <HelpCenterTitle level="h1" text="Message in conversation" color={color1} />
+                <p>The app always starts with a preset conversation. You can open the menu to clear
+                  the conversation or press the send icon while your message input is empty which
+                  will open a pop up at the bottom of which you&apos;ll find a clear conversation button as well.
+                </p>
+                <p>You can also press Ctrl or Cmd + Shift + R to reset the conversation</p>
+                <HelpCenterTitle level="h2" text="Sending custom messages" color={color1} />
+                <p>
+                  Press on send to send messages for which you&apos;ll be able control several properties.
+                  Please find the detailed option of the popup window below:
+                </p>
+                <ul className="list-disc ml-4">
+                  <li>Message text: the actual content of the message.</li>
+                  <li>Direction: [SENT] (gray background) or [RECEIVED] (color .1 background).</li>
+                  <li>Read status: Only available for [SENT] messages this lets you decide wether the message was read or not.</li>
+                  <li>Date and time of the message: Leave for default (ie. your current one) or define custom one.</li>
+                  <li>Replies to: Lets you choose whether you want your message to be replying to a given message.</li>
+                  <li>Reactions: Lets you define the reaction the message received.</li>
+                  <li>Bubble color override: Lets you add a custom color background to the message you&apos;re about to add. Font contrast will be automatically calculated.</li>
+                </ul>
+                <HelpCenterTitle level="h2" text="Data import and export" color={color1} />
+                <p>
+                  If you wish to save your work and edit it later you can use the menu button and scroll to the buttons
+                  labelled import and export chat as JSON.
+                </p>
+                <p>
+                  You can also import a screenshot from a conversation and perform character recognition (this relies on
+                  google gemini so be careful about the contents of the screenshots you submit!).
+                </p>
+              </div>
+            </SheetContent>
+          </Sheet>
+          <div
+            id="versionNumber"
+            className="flex flex-row cursor-pointer hover:bg-accent p-3 rounded items-center"
+          >
+            <Info className="mr-2 w-4 h-4" /><p>V.3.6</p>
+          </div>
+
+          <hr className="my-2" />
+          {/* ABOUT SECTION */}
           <div
             id="showWatermark"
             className="flex flex-row cursor-pointer hover:bg-accent hover:text-amber-400 p-3 rounded items-center transitions gap-2 text-xs font-normal"
@@ -408,12 +534,6 @@ export default function MenuTopBar() {
               className="cursor-pointer data-[state=checked]:bg-amber-400"
             />
           </div>
-          <div
-            id="versionNumber"
-            className="flex flex-row cursor-pointer hover:bg-accent p-3 rounded items-center"
-          >
-            <Info className="mr-2 w-4 h-4" /><p>V.3.5</p>
-          </div>
         </PopoverContent>
       </Popover>
     </>
@@ -423,20 +543,48 @@ export default function MenuTopBar() {
 export function HelpCenterTitle({
   level,
   text,
+  color,
 }: {
   level: "h1" | "h2" | "h3";
   text: string;
+  color?: string;
 }) {
   const Tag = level;
 
-  const style =
-    level === "h1"
-      ? "text-xl text-sky-300 uppercase"
-      : level === "h2"
-      ? "text-lg text-sky-500"
-      : level === "h3"
-      ? "text-lg text-sky-600 italic"
-      : "text-base text-sky-700";
+  const levelStyles = {
+    h1: "text-xl uppercase",
+    h2: "text-lg",
+    h3: "text-lg italic",
+  };
 
-  return <Tag className={cn(style, "font-bold")}>{text}</Tag>;
+  const defaultColorStyles = {
+    h1: "text-sky-300",
+    h2: "text-sky-500",
+    h3: "text-sky-600",
+  };
+
+  const dynamicStyle = color
+    ? {
+        color: color,
+        filter:
+          level === "h1"
+            ? "brightness(1.2)"
+            : level === "h3"
+            ? "brightness(0.7)"
+            : "none",
+      }
+    : {};
+
+  return (
+    <Tag
+      className={cn(
+        "font-bold",
+        levelStyles[level],
+        !color && defaultColorStyles[level]
+      )}
+      style={dynamicStyle}
+    >
+      {text}
+    </Tag>
+  );
 }
